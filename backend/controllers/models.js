@@ -65,6 +65,20 @@ modelsCtrl.like = (req, res, next) => {
 });
 validateRequest(req, next, schema);}
 
+// TODO Création
+modelsCtrl.todoCreate = (req, res, next) => {
+    const schema = Joi.object({
+    firstName: Joi.string().required(),
+    lastName: Joi.string().required(),
+    service: Joi.string().required(),
+    email: Joi.string().email().required(),
+    password: Joi.string().min(6).required(),
+    confirmPassword: Joi.string().valid(Joi.ref('password')).required(),
+    profilPicture: Joi.link(),
+    birthday: Joi.date(),
+});
+validateRequest(req, next, schema);}
+
 /* Fonction: Validation du controlleur */
 function validateRequest(req, next, schema) {
     const options = { 
