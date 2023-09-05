@@ -40,7 +40,6 @@ exports.getByUserId = (req, res, next) => {
             }],
         order: [['createdAt', 'DESC']]
     })
-    // .then((posts) => res.posts.posts)
     .then((posts) => res.status(200).json({posts}))
 .catch(next);
 }
@@ -91,7 +90,6 @@ exports.postLike = (req, res, next) => {
     findLikeTable(likeTable)
         .then((like) => {
             if (!like) {
-                console.log('reqboy:', likeTable);
                 db.Likes.create(likeTable)
                 .then(() => res.status(200).json({message : 'like ajouté'}))
                 .then(next)
@@ -109,7 +107,7 @@ exports.postLike = (req, res, next) => {
 async function getPostById(params){
     const post = await db.Posts.findByPk(params.id)
     if(!post) {
-        return res.status(401).json('non autorisé')
+        return res.status(401).json("Cette publication n'existe pas")
         } else {return post}
 } 
 exports.updateOne = (req, res, next) => {
