@@ -7,6 +7,7 @@ import Profile from './pages/Profile';
 import Trombinoscope from './pages/Trombinoscope';
 import PrivateRoutes from './utils/PrivateRoute';
 import Categories from './pages/Categories';
+import TodoList from './pages/TodoList';
 
 const App = () => {
   const [feed, updateFeed] = useState(true)   
@@ -30,6 +31,7 @@ const App = () => {
           <Route path='/categories' element={<Categories 
                         feed={feed} 
                         updateFeed={updateFeed}/>} />
+          <Route path='/todolist' element={<TodoList/>}/>
           <Route path='*' element={<Navigate to="/" replace/>} />
         </Route>
       </Routes>

@@ -58,26 +58,42 @@ validateRequest(req, next, schema);}
 
 // Gestion like
 modelsCtrl.like = (req, res, next) => {
-    console.log(req.body);
     const schema = Joi.object({
         PostId: Joi.number().required(),
         LikeDislike: Joi.boolean().required()
 });
 validateRequest(req, next, schema);}
 
-// TODO Création
+// TODO 
+    // Création de la liste
 modelsCtrl.todoCreate = (req, res, next) => {
     const schema = Joi.object({
-    firstName: Joi.string().required(),
-    lastName: Joi.string().required(),
-    service: Joi.string().required(),
-    email: Joi.string().email().required(),
-    password: Joi.string().min(6).required(),
-    confirmPassword: Joi.string().valid(Joi.ref('password')).required(),
-    profilPicture: Joi.link(),
-    birthday: Joi.date(),
+        title: Joi.string().required(),
+        visibility: Joi.string().required()        
 });
 validateRequest(req, next, schema);}
+// Modification de la liste
+modelsCtrl.todoUpdate = (req, res, next) => {
+    const schema = Joi.object({
+        title: Joi.string(),
+        visibility: Joi.string()        
+});
+validateRequest(req, next, schema);}
+
+    // Création d'un élément de la liste
+modelsCtrl.elementCreate = (req, res, next) => {
+    const schema = Joi.object({
+        // TodoListId: Joi.number().required(),
+        description: Joi.string().required()
+});
+validateRequest(req, next, schema);}
+    // Validation/Dévalidation d'un élément
+modelsCtrl.validateElement = (req, res, next) => {
+    const schema = Joi.object({
+        validate: Joi.boolean(),
+});
+validateRequest(req, next, schema);}
+
 
 /* Fonction: Validation du controlleur */
 function validateRequest(req, next, schema) {

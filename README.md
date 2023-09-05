@@ -52,7 +52,7 @@ Si une autre configuration est entrée, les adresses des images seront incorrect
 Une base de donnée existante a été envoyée, différents posts sont disponible avec des interactions entre utilisateurs afin de voir le comportement des différentes fonctionnalités.
 
 ## Utilisateurs 
-afin de réaliser des tests, vous pouvez utliser un des utilisateurs suivants :
+afin de réaliser des tests, vous pouvez utliser un des utilisateurs suivants (si vous avez le fichier de BDD):
 (les regex sur les mots de passe ont été rajoutés après la création de ces comptes)
 * admin: 
     - _mail_: admin@groupomania.fr
@@ -63,6 +63,14 @@ afin de réaliser des tests, vous pouvez utliser un des utilisateurs suivants :
 _/!\ Le token d'identification est réglé pour durer 24h, votre session sera active tant que vous ne cliquez pas sur "se déconnecter"_
 
 ## Versions 
+
+### v1.1.0 - Ajouts des outils
+* Réorganisation de la navigation
+* Ajout de la section Outils
+* Outil - Todo list, optique collaboration :
+    * Créer des listes de tâches, 
+    * Modifier, supprimer, valider. 
+    * Partager.     
 
 ### v1.0.0 - Corrections et déploiement sécurité 
 * Contrôle des données utilisateurs (front & back)

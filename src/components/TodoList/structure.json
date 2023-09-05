@@ -1,0 +1,36 @@
+[
+    {
+    "listID" :"1",
+    "titre de la liste": "Ma premiere liste",
+    "author": "Matthieu Langlade",
+    "visibility": "private",
+    "elements":[
+        {
+        "titre": "element1",
+        "fait": false},
+        {
+        "titre": "element2",
+        "fait": true},
+        {
+        "titre": "element3 à faire",
+        "fait": true}
+    ]
+    },
+    {
+    "listID" :"2",
+    "titre de la liste": "Ma seconde liste",
+    "author": "Georges Boll",
+    "visibility": "public",
+    "elements":[
+        {
+        "titre": "element1",
+        "fait": false},
+        {
+        "titre": "element2",
+        "fait": true},
+        {
+        "titre": "element3",
+        "fait": true}
+    ]
+    }
+]
