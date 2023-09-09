@@ -1,6 +1,13 @@
-[
-    "Comptabilité" ,
-    "Ressources humaines",
-    "Développement",
-    "Juridique"
-]
+{
+    "services" : [
+        "Tout le monde",
+        "Comptabilité" ,
+        "Ressources humaines",
+        "Développement",
+        "Juridique"
+    ],
+    "visibility" : [
+        "Privée",        
+        "Public"
+    ]
+}

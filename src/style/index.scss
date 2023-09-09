@@ -93,6 +93,32 @@ button {
         // color: black
     }
 }
+select {
+    margin: 0px;
+    color: $color-1;
+    width: 100%;
+    height: 40px;
+    border-radius: 5px;
+    font-size: 18px;
+    border: 1px solid $color-3;
+    &:focus {
+        border: 1px solid $color-1;
+        outline: 1px solid $color-1;
+        + .input-icon {
+            border-color: $color-1;
+            i {
+            color: $color-1;
+        }
+        + label {
+            color: $color-1;
+            border-color: $color-1;
+        }
+    }
+    }
+    option:not(:checked) {
+        color: $color-3;
+    }
+}
 // Login / Signup
 #login {
     height: 100vh;
@@ -208,33 +234,16 @@ button {
             height: 50px;
             line-height: 50px;
             margin: 8px 0px;
-            font-size: 1.5rem;
+            font-size: 1.2rem;
             text-align: left;
             color: $color-3;
         }
         select {
-            color: $color-3;
-            width: 100%;
-            height: 66px;
-            border-radius: 5px;
-            font-size: 18px;
-            padding: 5px 10px 5px 80px;
-            border: 1px solid $color-3;
-            &:focus {
-                border: 1px solid $color-1;
-                outline: 1px solid $color-1;
-                + .input-icon {
-                    border-color: $color-1;
-                    i {
-                    color: $color-1;
-                }
-                + label {
-                    color: $color-1;
-                    border-color: $color-1;
-                }
-            }
-            }
+            height: 65px;
+            padding: 20px;
+            text-align: center;
         }
+        
         .input-image {
             display: none;
         }
@@ -944,7 +953,6 @@ button {
         padding-bottom: 10px;
         select {
             text-align: center;
-            margin-left: 20px;
             font-size: 1.5rem;
         }
     }
@@ -1189,6 +1197,14 @@ button {
             align-items: center;
             gap: 10px;
             margin-bottom: 10px;
+            .validate-element {
+                font-size: 30px;
+                color: $color-1;
+                &:hover {
+                    color: $color-4;
+                    cursor: pointer;
+                }
+            }
         }
         .list-descriptif {
             flex-grow: 1;

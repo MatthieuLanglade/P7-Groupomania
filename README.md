@@ -70,7 +70,8 @@ _/!\ Le token d'identification est réglé pour durer 24h, votre session sera ac
 * Outil - Todo list, optique collaboration :
     * Créer des listes de tâches, 
     * Modifier, supprimer, valider. 
-    * Partager.     
+    * Partager. 
+* Corrections et optimisations entre les échanges API
 
 ### v1.0.0 - Corrections et déploiement sécurité 
 * Contrôle des données utilisateurs (front & back)

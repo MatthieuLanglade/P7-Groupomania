@@ -67,6 +67,7 @@ validateRequest(req, next, schema);}
 // TODO 
     // Création de la liste
 modelsCtrl.todoCreate = (req, res, next) => {
+    console.log('REQBODY--------------',req.body)
     const schema = Joi.object({
         title: Joi.string().required(),
         visibility: Joi.string().required()        

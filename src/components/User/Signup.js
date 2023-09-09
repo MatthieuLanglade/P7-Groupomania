@@ -1,7 +1,7 @@
 import React from 'react';
 import { useReducer } from 'react';
 import formReducerConnect from '../../reducer/formReducerConnect';
-import services from '../../config.json'
+import config from '../../config.json'
 
 
 const Singup = ({isActive, setIsActive, updateUser, setUpdateUser, feed, updateFeed}) => {
@@ -201,7 +201,7 @@ let listRegex = {
                         value={formState.form.service} 
                         onChange={(e) => handleTextChange(e)}>
                         <option value=""></option>
-                        {services.map((service, index) => 
+                        {config.services.slice(1).map((service, index) => 
                         (<option key={index} value={service} >{service}</option>))}
                     </select>
                     <div className="input-icon"><i className="fa fa-briefcase"></i></div>

@@ -105,14 +105,14 @@ exports.createElement = (req, res, next) => {
     /* 3.4 Validation Element */
 exports.validateElement = (req, res, next) => {
     // Récupère les infos de l'élèment concerné
-    getTableById(req.params, db.Elements)
+    getTableById(req.params.id, db.Elements)
     .then((element) => {
-        if (!element) {res.status(401).json({message : "Cette Todolist n'existe pas"})}
+        if (!element) {res.status(401).json({message : "Cet Element n'existe pas"})}
         else {
         // Récupère les infos de la TodoList concernée
         getTableById(element.TodoListId, db.TodoList)
         .then((todo) => {
-            if (!todo) {res.status(401).json({message : "Cet Element n'existe pas"})}
+            if (!todo) {res.status(401).json({message : "Cette Todolist n'existe pas"})}
             else {
             if(todo.dataValues.UserId != req.auth.userId) {res.status(401).json('non autorisé')}
             else {

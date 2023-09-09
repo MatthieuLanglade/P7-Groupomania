@@ -10,8 +10,6 @@ async function testImage(params) {
     else {return newPost = params.body}
 }
 exports.post = (req, res, next) => {
-    console.log('file', req.file)
-    console.log('body', req.body)
     testImage(req)
         .then((newPost) =>{
             db.Posts.create({...newPost, 'UserId' : req.auth.userId})

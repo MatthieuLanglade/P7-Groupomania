@@ -53,6 +53,33 @@ button:hover {
   background-color: #FDC101;
 }
 
+select {
+  margin: 0px;
+  color: #FD2D01;
+  width: 100%;
+  height: 40px;
+  border-radius: 5px;
+  font-size: 18px;
+  border: 1px solid #4E5166;
+}
+select:focus {
+  border: 1px solid #FD2D01;
+  outline: 1px solid #FD2D01;
+}
+select:focus + .input-icon {
+  border-color: #FD2D01;
+}
+select:focus + .input-icon i {
+  color: #FD2D01;
+}
+select:focus + .input-icon + label {
+  color: #FD2D01;
+  border-color: #FD2D01;
+}
+select option:not(:checked) {
+  color: #4E5166;
+}
+
 #login {
   height: 100vh;
   display: flex;
@@ -173,29 +200,6 @@ button:hover {
   font-size: 1.5rem;
   text-align: left;
   color: #4E5166;
-}
-.login-container .input-group select {
-  color: #4E5166;
-  width: 100%;
-  height: 66px;
-  border-radius: 5px;
-  font-size: 18px;
-  padding: 5px 10px 5px 80px;
-  border: 1px solid #4E5166;
-}
-.login-container .input-group select:focus {
-  border: 1px solid #FD2D01;
-  outline: 1px solid #FD2D01;
-}
-.login-container .input-group select:focus + .input-icon {
-  border-color: #FD2D01;
-}
-.login-container .input-group select:focus + .input-icon i {
-  color: #FD2D01;
-}
-.login-container .input-group select:focus + .input-icon + label {
-  color: #FD2D01;
-  border-color: #FD2D01;
 }
 .login-container .input-group .input-image {
   display: none;
@@ -917,7 +921,6 @@ button:hover {
 }
 #publish #infos-publish select {
   text-align: center;
-  margin-left: 20px;
   font-size: 1.5rem;
 }
 #publish textarea {
@@ -1162,6 +1165,14 @@ button:hover {
   align-items: center;
   gap: 10px;
   margin-bottom: 10px;
+}
+#todolist .list-elements .list-element .validate-element {
+  font-size: 30px;
+  color: #FD2D01;
+}
+#todolist .list-elements .list-element .validate-element:hover {
+  color: #FDC101;
+  cursor: pointer;
 }
 #todolist .list-elements .list-descriptif {
   flex-grow: 1;

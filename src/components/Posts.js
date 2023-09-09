@@ -23,7 +23,7 @@ const Posts = ({feed, updateFeed, activePostUpdate, setActivePostUpdate, service
 
     // Fonction + useEffect récupérer Posts
     useEffect(() => {
-        
+        fetchPosts()   
         async function fetchPosts() {
         // setDataLoading(true)
         try {
@@ -36,11 +36,8 @@ const Posts = ({feed, updateFeed, activePostUpdate, setActivePostUpdate, service
             
             setPostsList(respPostsList)
         } catch (err) {console.log(err)} 
-        finally {
-            updateFeed(false)
-        }
-        }
-        fetchPosts()      
+        finally {updateFeed(false)}
+        }   
     }, [feed])
     
     // Fonction Vérifier si Like
