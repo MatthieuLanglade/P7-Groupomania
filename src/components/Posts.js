@@ -91,7 +91,6 @@ const Posts = ({feed, updateFeed, activePostUpdate, setActivePostUpdate, service
         };
         fetch(`http://localhost:4000/api/posts/${postIdUpdate}`, requestOptions)
             .then((res) => res.json())
-            .then((data) => {console.log(data)})
             .catch((err) => err)
             .finally(() => {
                 //Désactive l'update & MAJ du feed

@@ -63,8 +63,23 @@ afin de réaliser des tests, vous pouvez utliser un des utilisateurs suivants :
 _/!\ Le token d'identification est réglé pour durer 24h, votre session sera active tant que vous ne cliquez pas sur "se déconnecter"_
 
 ## Versions 
+## Les versions après la v1.0.0 sont des améliorations non présentées lors de la soutenance OC P7.
+### A faire
+* limitation tailles des images
+* Correction sur fonctionnalités
 
-### v1.0.0 - Corrections et déploiement sécurité 
+### A venir 
+* Ajout commentaires, 
+* Page administration :
+    - gestion privilèges,
+    - modification plus effective
+    - gestion des services (ajout, modification, suppression)
+* Affichage des posts populaire de la semaine 
+* Rétrospective des images utilisateur.
+* Recherche
+* Page à propos (explications/notice, contact support)
+
+### v1.0.0 - VERSION SOUTENANCE - Corrections et déploiement sécurité 
 * Contrôle des données utilisateurs (front & back)
 * Mise en place environnement 
 * Protection des en-têtes
