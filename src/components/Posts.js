@@ -23,7 +23,7 @@ const Posts = ({feed, updateFeed, activePostUpdate, setActivePostUpdate, service
 
     // Fonction + useEffect récupérer Posts
     useEffect(() => {
-        
+        fetchPosts()   
         async function fetchPosts() {
         // setDataLoading(true)
         try {
@@ -36,11 +36,8 @@ const Posts = ({feed, updateFeed, activePostUpdate, setActivePostUpdate, service
             
             setPostsList(respPostsList)
         } catch (err) {console.log(err)} 
-        finally {
-            updateFeed(false)
-        }
-        }
-        fetchPosts()      
+        finally {updateFeed(false)}
+        }   
     }, [feed])
     
     // Fonction Vérifier si Like
@@ -148,9 +145,19 @@ const Posts = ({feed, updateFeed, activePostUpdate, setActivePostUpdate, service
             'unite' : 'h'
         },
         {
-            'dureeMax' : 259200000000,
+            'dureeMax' : 2592000,
             'diviseur' : 86400,
             'unite' : 'j'
+        },
+        {
+            'dureeMax' : 31536000,
+            'diviseur' : 2592000,
+            'unite' : ' mois'
+        },
+        {
+            'dureeMax' : 31536000000,
+            'diviseur' : 31536000,
+            'unite' : ' an'
         },
         ]
     for (date of dateValues) {
@@ -168,6 +175,7 @@ const Posts = ({feed, updateFeed, activePostUpdate, setActivePostUpdate, service
   } 
   // Array filtré
     const postListToShowFilter = listFilter(postListToShow)
+    
     return (
         <div className='postsList'>            
             {postListToShowFilter

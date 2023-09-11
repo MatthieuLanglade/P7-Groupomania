@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import services from '../config.json'
+import config from '../config.json'
 
 const Publish = ({feed, updateFeed}) => {
     //Auth
@@ -20,17 +20,15 @@ const Publish = ({feed, updateFeed}) => {
             'userId' : activeUser,
             "description" : postValue,
             "service": serviceValue,
-            "image" : imagesValue}
-        const formData = new FormData();
-        for (let i in post) {
-            formData.append(i, post[i])
+            "image" : imagesValue
         }
         const requestOptions = {
             method: 'POST',
-            body: formData,
+            body: JSON.stringify(post),
             headers: {
+                "Content-Type": "application/json",
                 'Authorization': `token ${token}`}
-        };
+        }
         fetch('http://localhost:4000/api/posts', requestOptions)
             .then((res) => res.json())
             .then((data) => {
@@ -64,8 +62,7 @@ const Publish = ({feed, updateFeed}) => {
                     id="service"
                     value={serviceValue}
                     onChange={(e) => setServiceValue(e.target.value)}>
-                    <option value="Tout le monde">Tout le monde</option>
-                    {services.map((service, index) => (
+                    {config.services.map((service, index) => (
                     <option key={index} value={service} >{service}</option>
                     ))}
                 </select>

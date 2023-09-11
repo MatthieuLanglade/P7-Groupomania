@@ -1,11 +1,14 @@
+// Dépendances
 const express = require('express');
 const router = express.Router();
 const auth = require('../middleware/auth')
 
+// Modèles
 const postsCtrl = require('../controllers/posts');
 const modelsCtrl = require('../controllers/models');
 const multer = require('../middleware/multerPost-config')
 
+// Routes
 router.post(
     '/', 
     auth,

@@ -3,10 +3,10 @@ import Events from '../components/Events';
 import Navigation from '../components/Navigation';
 import Posts from '../components/Posts';
 import UserSumUp from '../components/User/UserSumUp';
-import services from '../config.json'
+import config from '../config.json'
 
 const Categories = ({feed, updateFeed}) => {
-    const [serviceValue, setServiceValue] = useState(services[0])
+    const [serviceValue, setServiceValue] = useState("")
     return (
         <div >
             <div className="main-container">
@@ -17,8 +17,7 @@ const Categories = ({feed, updateFeed}) => {
                 <div id="filtre">
                     <label htmlFor="service">Filtrer par service :</label>
                     <select name="service" id="service" value={serviceValue} onChange={(e) => setServiceValue(e.target.value)}>
-                        <option value="">Sélectionner un service</option>
-                        {services.map((service, index) => (<option key={index} value={service} >{service}</option>))}
+                        {config.services.map((service, index) => (<option key={index} value={service} >{service}</option>))}
                     </select>
                 </div>
                     {/* <h1>Liste des utilisateurs :</h1> */}

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { NavLink } from 'react-router-dom';
-import services from '../../config.json'
+import config from '../../config.json'
 
 const Users = () => {
     const [serviceValue, setServiceValue] = useState('')
@@ -34,7 +34,8 @@ const groupBy = (array, key) => {
   };
 //  Filtre si State
   const listFilter = (array) => {
-    if (serviceValue !== null) {
+    console.log(serviceValue)
+    if (serviceValue !== null && serviceValue !== config.services[0]) {
         return Object.keys(array).filter((service) => service.includes(serviceValue))
     } else {return Object.keys(array)}
   } 
@@ -48,8 +49,7 @@ const groupBy = (array, key) => {
             <div id="filtre">
                 <label htmlFor="service">Filtrer par service :</label>
                 <select name="service" id="service" value={serviceValue} onChange={(e) => setServiceValue(e.target.value)}>
-                        <option value="">Sélectionner un service</option>
-                    {services.map((service, index) => (<option key={index} value={service} >{service}</option>))}
+                    {config.services.map((service, index) => (<option key={index} value={service} >{service}</option>))}
                 </select>
             </div>
             {
