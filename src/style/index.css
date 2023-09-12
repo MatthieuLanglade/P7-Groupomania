@@ -197,9 +197,14 @@ select option:not(:checked) {
   height: 50px;
   line-height: 50px;
   margin: 8px 0px;
-  font-size: 1.5rem;
+  font-size: 1.2rem;
   text-align: left;
   color: #4E5166;
+}
+.login-container .input-group select {
+  height: 65px;
+  padding: 20px;
+  text-align: center;
 }
 .login-container .input-group .input-image {
   display: none;
@@ -1174,8 +1179,27 @@ select option:not(:checked) {
   color: #FDC101;
   cursor: pointer;
 }
+#todolist .list-elements .list-element .delete-element {
+  font-size: 30px;
+  color: #FDC101;
+}
+#todolist .list-elements .list-element .delete-element:hover {
+  color: #FD2D01;
+  cursor: pointer;
+}
 #todolist .list-elements .list-descriptif {
+  border: 2px solid #FFFFFF;
+  border-radius: 10px;
+  min-height: 44px;
+  display: flex;
+  align-items: center;
   flex-grow: 1;
+  padding-left: 5px;
+  overflow-wrap: anywhere;
+}
+#todolist .list-elements .list-descriptif:hover {
+  border-color: #4E5166;
+  cursor: pointer;
 }
 #todolist .list-elements .list-descriptif.validate {
   -webkit-text-decoration: line-through #FDC101;

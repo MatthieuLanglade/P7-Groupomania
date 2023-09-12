@@ -22,19 +22,28 @@ router.put(
 router.delete(
     '/:id',
     auth,
-    todoCtrl.deleteTodo
-)
+    todoCtrl.deleteTodo)
 router.get(
     '/',
     auth,
     todoCtrl.getTodoByUserId
-)
+    )
     // ELEMENT
 router.post(
     '/:id/element',
     auth,
     modelsCtrl.elementCreate,
     todoCtrl.createElement)
+router.delete(
+    '/:id/element/:id',
+    auth,
+    todoCtrl.deleteElement
+)
+router.put(
+    '/:id/element/:id',
+    auth,
+    todoCtrl.updateElement
+)
 
     // VALIDATION
 router.post(

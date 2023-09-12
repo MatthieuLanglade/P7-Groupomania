@@ -1,7 +1,7 @@
 import Events from '../components/Events';
 import Navigation from '../components/Navigation';
 import UserSumUp from '../components/User/UserSumUp';
-import CreateTodo from '../components/TodoList/CreateTodo';
+import ShowTodoList from '../components/TodoList/ShowTodoList'
 
 const TodoList = () => {
     return (
@@ -11,7 +11,7 @@ const TodoList = () => {
                     <Navigation />
                 </div>
                 <div className="content-container">
-                    <CreateTodo/>
+                    <ShowTodoList />
                 </div>
                 <div className="right-container">
                     {/* <Search /> */}

@@ -79,7 +79,6 @@ async function initialize() {
     })
     db.User.hasMany(db.TodoList, {as: 'TodoList'})
 
-
     // Sync les modèles avec la DB
     // await sequelize.sync({ force: true });
     await sequelize.sync({ alter: true });

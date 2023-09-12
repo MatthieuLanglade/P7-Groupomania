@@ -1,4 +1,5 @@
 const db = require('../middleware/db')
+const { param } = require('../routes/todolist')
 
 /* 1. Fonctions de recherche */
     /* 1.1 Récupérer TABLE par ID  */
@@ -71,9 +72,14 @@ exports.getTodoByUserId = (req, res, next) => {
                 }],
                 as: 'ElementStatut'
             }],
-            as : 'Element'
+            as : 'Element',
         }],
-        order: [['createdAt', 'DESC']]})
+        order: [
+            [{model: db.Elements, as: 'Element'}, {model: db.ElementStatut, as: 'ElemenStatut'}, 'validate', 'ASC'],
+            ['createdAt', 'DESC'],
+            [{model: db.Elements, as: 'Element'}, 'createdAt', 'ASC']
+        ]
+    })
     .then((todo) => res.status(201).json({todo}))
     .catch(next)
 }
@@ -99,8 +105,55 @@ exports.createElement = (req, res, next) => {
     .catch(next)
 }
 /* 3.2 Modification Element */
+exports.updateElement = (req, res, next) => {
+    // Récupère élément dans la base
+    db.Elements.findByPk(
+        req.params.id,
+        {include: {
+            model: db.TodoList,
+            as: 'TodoList'}
+        }
+    )
+    .then((element) => {
+        if (!element) {res.status(401).json({message : "Cet Element n'existe pas."})}
+        else {
+            // Vérifie si Element appartient au USER logé
+            if (element.TodoList.UserId != req.auth.userId) {res.status(401).json('Non autorisé')}
+            else {
+                // Modifie l'element
+                Object.assign(element, req.body)
+                element.save()
+                .then(() => res.status(200).json({message: 'Element modifié'}))
+                .catch(next)
+            }
+        }
+    })
+}
 
-/* 3.3 Suppression Element */
+    /* 3.3 Suppression Element */
+exports.deleteElement = (req, res, next) => {
+    // Récupère Element dans la base
+    db.Elements.findByPk(
+        req.params.id,
+        {include: {
+            model: db.TodoList,
+            as: 'TodoList'}
+        }
+    )
+    .then((element) => {
+        if (!element) {res.status(401).json({message : "Cet Element n'existe pas."})}
+        else {
+            // Vérifie si Element appartient au USER logé
+            if (element.TodoList.UserId != req.auth.userId) {res.status(401).json('non autorisé')}
+            else {
+                // Supprime la TODO
+                element.destroy()
+                .then(() => res.status(200).json({message: 'Element supprimé.'}))
+                .catch(next)
+            }
+        }
+    })
+}
 
     /* 3.4 Validation Element */
 exports.validateElement = (req, res, next) => {

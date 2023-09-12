@@ -6,6 +6,7 @@ import Posts from '../components/Posts';
 import DeleteUser from '../components/User/DeleteUser';
 import ProfileSumUp from '../components/User/ProfileSumUp';
 import UserSumUp from '../components/User/UserSumUp';
+import ShowTodoList from '../components/TodoList/ShowTodoList';
 
 const Profile = ({feed, updateFeed, activePostUpdate, setActivePostUpdate}) => {
     const [profileId, setProfileId] = useState('')
@@ -39,6 +40,7 @@ const Profile = ({feed, updateFeed, activePostUpdate, setActivePostUpdate}) => {
                         feed={feed} 
                         updateFeed={updateFeed}/>
                     <DeleteUser />
+                    <ShowTodoList />
                 </div>    
             </div>
         </div>
