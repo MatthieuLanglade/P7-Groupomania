@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import CreateTodo from './CreateTodo'
 import CreateElement from './CreateElement'
+import { DateFormat } from '../../utils/Formats'
 
 function ShowTodoList() {
     // States 
@@ -8,7 +9,9 @@ function ShowTodoList() {
     const [listTodoList, setListTodoList] = useState([]) // Stockage des listes utilisateur
     const [todoUpdate, setTodoUpdate] = useState(true) // MAJ de la liste 
     const [elementHover, setElementHover] = useState('') // Hover d'un élément de liste (par id)
+    // Détection du mode édition
     const [elementUpdateAllow, setElementUpdateAllow] = useState('') // Autorise la modification d'un élément (par id)
+    const [todoUpdateAllow, setTodoUpdateAllow ] = useState('') // Autorise la modification d'une TODO (par id)
 
     // Constante identifications
     let token = localStorage.getItem('token') // Token utilisateur [req.auth]
@@ -70,6 +73,17 @@ function ShowTodoList() {
         .catch((err) => err)
         .finally(setTodoUpdate(true))
     }
+
+    // Compte le nombre d'élément validé de la liste
+    function countValidateElement(todo) {
+        let validateCount = 0
+        for (const elementNumber in todo.Element) {
+            // console.log(todo.Element[elementNumber].ElementStatut[0]);
+            if (todo.Element[elementNumber].ElementStatut[0]) {validateCount ++}
+        }
+        return validateCount
+    }
+
   return (
     <div id='todolist'>
         <CreateTodo
@@ -78,17 +92,31 @@ function ShowTodoList() {
             token={token}
         />
         <div id='lists'>
-            <h2 id='my-list'>Mes listes</h2> {/* ID a supprimer */}
+            <h2 id='my-list'>Mes listes</h2>
+            {console.log(listTodoList)}
             {listTodoList.todo && listTodoList.todo.map((todo) => (
-            <div key={todo.id} className='list'>
+            todoUpdateAllow == todo.id 
+            ? <CreateTodo
+                todoUpdate={todoUpdate}
+                setTodoUpdate={setTodoUpdate}
+                token={token}
+                todoUpdateAllow = {todoUpdateAllow}
+                setTodoUpdateAllow = {setTodoUpdateAllow}
+                value = {todo}
+             />
+            : <div 
+                key={todo.id} 
+                className={`list${todo.Element.length > 0 & countValidateElement(todo) === todo.Element.length ? ' completed-list' : ''}`}>
                 <div className='list-info'>
                     <div className='list-title-zone'>
-                        <h3 className='list-title'>{todo.title}  <i className="fa-solid fa-pen-to-square"></i></h3>
-                        <div className='list-info-complement'>
-                            <div className='list-date'>Créé: {todo.createdAt}</div>
-                            <div className='list-author'>Par: {todo.UserId}</div>
+                        <h3 className='list-title'>{todo.title} validation -  {countValidateElement(todo)}/{todo.Element.length}   <i className="fa-solid fa-pen-to-square" onClick={() => setTodoUpdateAllow(todo.id)}></i></h3>
+                        { <div className='list-info-complement'>
+                            {console.log(countValidateElement(todo))}
+                            <div className='list-date'>Créé {DateFormat(todo.createdAt)}</div>
+                            <div className='list-author'>Par: {todo.User.firstname} {todo.User.lastName}</div>
                             <div className='list-share'>Visibilté: {todo.visibility}</div>
-                        </div> 
+                        </div>
+                        }
                     </div>
                     <div className='list-visibility'>
                         {!listVisibility.includes(todo.id) &&

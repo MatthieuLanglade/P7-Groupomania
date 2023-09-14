@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { NavLink } from 'react-router-dom';
-import services from '../config.json'
+import {DateFormat} from '../utils/Formats'
 
 const Posts = ({feed, updateFeed, activePostUpdate, setActivePostUpdate, serviceValue}) => {
     // Constante Params de page
@@ -122,51 +122,6 @@ const Posts = ({feed, updateFeed, activePostUpdate, setActivePostUpdate, service
     // Tri la liste de posts s'il y a un userId
     let postListToShow = userId ? ( postsList.filter((posts) => posts.UserId === userId)) : postsList
     
-    // Gestion de la date de création du post
-    const dateJour = Date.now()
-    const newDate = (date) => {
-    const dateFormat = new Date(date)
-    const differenceMilli = (dateJour - dateFormat) / 1000
-    let dateRendu = 0
-    const dateValues = [
-        {
-            'dureeMax' : 60,
-            'diviseur' : 1,
-            'unite' : 's'
-        },
-        {
-            'dureeMax' : 3600,
-            'diviseur' : 60,
-            'unite' : 'm'
-        },
-        {
-            'dureeMax' : 86400,
-            'diviseur' : 3600,
-            'unite' : 'h'
-        },
-        {
-            'dureeMax' : 2592000,
-            'diviseur' : 86400,
-            'unite' : 'j'
-        },
-        {
-            'dureeMax' : 31536000,
-            'diviseur' : 2592000,
-            'unite' : ' mois'
-        },
-        {
-            'dureeMax' : 31536000000,
-            'diviseur' : 31536000,
-            'unite' : ' an'
-        },
-        ]
-    for (date of dateValues) {
-        if (differenceMilli < date.dureeMax) {
-            dateRendu = ~~(differenceMilli/date.diviseur)
-            return (`il y a ${dateRendu}${date.unite}`)
-            break}
-    }
-    }
     // Filtre par service si State
     const listFilter = (array) => {
     if (serviceValue !== null) {
@@ -182,13 +137,13 @@ const Posts = ({feed, updateFeed, activePostUpdate, setActivePostUpdate, service
                 .slice(0, rangeValue)
                 .map((e) => (
                     <div key={e.id} className="post">
-                        <div className="profil-pic">
+                        <div className="profil-pic"> 
                         <img src={e.User.profilPicture}  alt={"Photo de " + e.User.lastName} />
                         </div>
                         <div className="post-info">
                             <div className="post-header">
-                            <h4 className="author" ><NavLink to={"/profile/?id="+e.UserId}> {e.User.firstName} {e.User.lastName}</NavLink></h4>
-                            <div className='date'>- {newDate(e.createdAt)}</div>
+                            <h4 className="author" ><NavLink to={"/profile/?id="+e.UserId}>{e.User.firstName} {e.User.lastName}</NavLink></h4>
+                            <div className='date'>- {DateFormat(e.createdAt)}</div>
                             <div className='category'> publié dans ▶ <span className='service'>{e.service}</span></div>
                             {((activeUser == e.UserId) || admin === 'true') && 
                             <i 
@@ -223,15 +178,14 @@ const Posts = ({feed, updateFeed, activePostUpdate, setActivePostUpdate, service
 
                             {e.images && <img src={e.images} alt="" />}
                             {updateImagesValue && e.id === postIdUpdate && <img src={URL.createObjectURL(updateImagesValue)} alt="" />}
-                            {e.images && activePostUpdate && e.id === postIdUpdate && 
-                            <button onClick={()=>setUpdateImagesValue(null)}>Supprimer image</button>}
                         </div>
                         {activePostUpdate && e.id === postIdUpdate && 
                         <div className="update-options">
+                            <button className='cancel-update' onClick={() => setActivePostUpdate(!activePostUpdate)}><i className="fa-solid fa-ban"></i> Annuler</button>
+                            {e.images && activePostUpdate && e.id === postIdUpdate && <button className='cancel-update' onClick={()=>setUpdateImagesValue(null)}><i className="fa-solid fa-trash-can"></i>  Supprimer image</button>}
                             <label htmlFor='image' >
                                 <input type='file' id='image' className='input-image' onChange={(e) => setUpdateImagesValue(e.target.files[0])}/>
                             <i className="fa-regular fa-image"></i>Ajoutez une image</label>
-                            <button id='cancel-update' onClick={() => setActivePostUpdate(!activePostUpdate)}>Annuler</button>
                             <button onClick={(e) => handlePostUpdate(e)}>Mettre à jour votre publication</button>
                         </div>}
                         <div className="interaction">  

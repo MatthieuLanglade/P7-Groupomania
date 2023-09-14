@@ -45,7 +45,7 @@ function CreateElement({todoUpdate, setTodoUpdate, todo, token, elementId, eleme
 <div className='list-element' key='0'>
     <div className='checkbox'><i className="fa-solid fa-check"></i></div>
     <textarea 
-        className='list-descriptif'
+        className='list-descriptif create-element'
         placeholder='Entrez une nouvelle tâche à faire...' 
         id={todo.id}
         ref={textareaRef}

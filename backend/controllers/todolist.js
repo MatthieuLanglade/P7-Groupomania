@@ -14,12 +14,12 @@ async function findValidatetable(params) {
 }
 
 /*  2. Gestion TODO LIST */
-    // 2.1 Création de la TODO LIST
+    /* 2.1 Création de la TODO LIST */
 exports.createTodo = (req, res, next) => {
     db.TodoList.create({...req.body, 'UserId': req.auth.userId})
     .then(() => res.status(200).json({message: 'TODOLIST créé'}))
     .catch(next)}
-    // 2.2 Modification de la TODO LIST
+    /* 2.2 Modification de la TODO LIST */
 exports.updateTodo = (req, res, next) => {
     // Récupère TODO dans la base
     getTableById(req.params.id, db.TodoList) 
@@ -38,7 +38,7 @@ exports.updateTodo = (req, res, next) => {
         }
     })
 } 
-    // 2.3 Suppression de la TODO LIST
+    /* 2.3 Suppression de la TODO LIST */
 exports.deleteTodo = (req, res, next) => {
     // Récupère TODO dans la base
     getTableById(req.params.id, db.TodoList)
@@ -57,7 +57,7 @@ exports.deleteTodo = (req, res, next) => {
     })
 
 }
-    // 2.4 Affichage de la TODO LIST par USER ID
+    /* 2.4 Affichage de la TODO LIST complète par USER ID */
 exports.getTodoByUserId = (req, res, next) => {
     db.TodoList.findAll({
         include: [
@@ -65,14 +65,14 @@ exports.getTodoByUserId = (req, res, next) => {
             model: db.Elements, 
             include: [{
                 model: db.ElementStatut,
-                include: [{
-                    model: db.User,
-                    as: 'User',
-                    attributes: ['lastName', 'firstname']
-                }],
                 as: 'ElementStatut'
             }],
             as : 'Element',
+        },
+        {
+            model: db.User,
+            as: 'User',
+            attributes: ['lastName', 'firstname']
         }],
         order: [
             [{model: db.Elements, as: 'Element'}, {model: db.ElementStatut, as: 'ElemenStatut'}, 'validate', 'ASC'],

@@ -85,7 +85,7 @@ button {
     border-radius: 5px;
     background-color: $color-1;
     color: $color-0;
-    margin: 0px;
+    margin: 0px 10px;
     &:hover {
         // background-color: darken($color-1, 10%);
     border: 3px solid $color-4;
@@ -612,10 +612,12 @@ select {
         }
     }
 }
-#cancel-update {
+.cancel-update {
     background-color: $color-3;
+    border-color: $color-3;
     &:hover {
-        background-color: lighten($color-3, 10%);
+        background-color: lighten($color-1, 10%);
+        border-color: lighten($color-1, 10%);
     }
 }        
 #picture-list {
@@ -660,6 +662,7 @@ select {
             margin-right: 10px;
             width: 100%;
             display: flex;
+            gap: 5px;
             flex-direction: row;
             flex-wrap: wrap;
             justify-content:space-between;
@@ -783,7 +786,7 @@ select {
             display: flex;
             justify-content: right;
             margin-top: 10px;
-            gap: 20px;
+            // gap: 20px;
         
         label {
             cursor: pointer;
@@ -792,6 +795,7 @@ select {
             border-radius: 3px;
             background-color: #e4e4e4;
             color: $color-3;
+            text-align: center;
             i {
                 margin: 0px 10px;
             }
@@ -1156,6 +1160,9 @@ select {
         gap: 10px;
         padding: 10px;
     }
+    .completed-list {
+        border-left-color: $color-4;
+    }
     .list-info {
         display: flex;
         align-items: center;
@@ -1230,6 +1237,9 @@ select {
             &.validate{
                 text-decoration: line-through $color-4;
             }
+        }
+        .create-element {
+                border-color: $color-2;
         }
     }
 }

@@ -67,7 +67,12 @@ _/!\ Le token d'identification est réglé pour durer 24h, votre session sera ac
 * Restructuration en compososant (Création, affichage)
 * Intégration modification, suppression.
 * Ajout du composant ShowTodoList sur le profile utilisateur.
-### v1.1.0 - Ajouts des outils
+* Mise en forme de l'entête de liste + édition.
+* Harmonisation des classes button.
+* Ajout d'indicateur visuel pour la complétion de la liste.
+* Rajoute de fonction de formatage de contenu (date).
+
+### v1.1.0 - Ajouts des outils - 1. Todo List
 * Réorganisation de la navigation
 * Ajout de la section Outils
 * Outil - Todo list, optique collaboration :

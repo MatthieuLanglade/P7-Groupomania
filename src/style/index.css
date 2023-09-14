@@ -46,7 +46,7 @@ button {
   border-radius: 5px;
   background-color: #FD2D01;
   color: #FFFFFF;
-  margin: 0px;
+  margin: 0px 10px;
 }
 button:hover {
   border: 3px solid #FDC101;
@@ -597,11 +597,13 @@ select option:not(:checked) {
   cursor: pointer;
 }
 
-#cancel-update {
+.cancel-update {
   background-color: #4E5166;
+  border-color: #4E5166;
 }
-#cancel-update:hover {
-  background-color: #646883;
+.cancel-update:hover {
+  background-color: #fe5633;
+  border-color: #fe5633;
 }
 
 #picture-list {
@@ -653,6 +655,7 @@ select option:not(:checked) {
   margin-right: 10px;
   width: 100%;
   display: flex;
+  gap: 5px;
   flex-direction: row;
   flex-wrap: wrap;
   justify-content: space-between;
@@ -767,7 +770,6 @@ select option:not(:checked) {
   display: flex;
   justify-content: right;
   margin-top: 10px;
-  gap: 20px;
 }
 .post .update-options label {
   cursor: pointer;
@@ -776,6 +778,7 @@ select option:not(:checked) {
   border-radius: 3px;
   background-color: #e4e4e4;
   color: #4E5166;
+  text-align: center;
 }
 .post .update-options label i {
   margin: 0px 10px;
@@ -1128,6 +1131,9 @@ select option:not(:checked) {
   gap: 10px;
   padding: 10px;
 }
+#todolist .completed-list {
+  border-left-color: #FDC101;
+}
 #todolist .list-info {
   display: flex;
   align-items: center;
@@ -1204,4 +1210,7 @@ select option:not(:checked) {
 #todolist .list-elements .list-descriptif.validate {
   -webkit-text-decoration: line-through #FDC101;
           text-decoration: line-through #FDC101;
+}
+#todolist .list-elements .create-element {
+  border-color: #FFD7D7;
 }/*# sourceMappingURL=index.css.map */
