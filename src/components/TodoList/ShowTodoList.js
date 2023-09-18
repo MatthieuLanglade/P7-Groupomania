@@ -1,20 +1,16 @@
 import React, { useState, useEffect } from 'react'
-import CreateTodo from './CreateTodo'
 import CreateElement from './CreateElement'
 import { DateFormat } from '../../utils/Formats'
+import CreateTodo from './CreateTodo'
 
-function ShowTodoList() {
+function ShowTodoList({feed, updateFeed, token} ) {
     // States 
     const [listVisibility, setListVisibility] = useState([]) // Affichage du détail des listes
     const [listTodoList, setListTodoList] = useState([]) // Stockage des listes utilisateur
-    const [todoUpdate, setTodoUpdate] = useState(true) // MAJ de la liste 
     const [elementHover, setElementHover] = useState('') // Hover d'un élément de liste (par id)
     // Détection du mode édition
     const [elementUpdateAllow, setElementUpdateAllow] = useState('') // Autorise la modification d'un élément (par id)
     const [todoUpdateAllow, setTodoUpdateAllow ] = useState('') // Autorise la modification d'une TODO (par id)
-
-    // Constante identifications
-    let token = localStorage.getItem('token') // Token utilisateur [req.auth]
 
     // Fonction Afficher/Masquer les listes
     const showListDetails = (listID) => {
@@ -32,7 +28,6 @@ function ShowTodoList() {
     useEffect(() => {
         fetchTodoList()
         async function fetchTodoList() {
-            let token = localStorage.getItem('token')
             try {
                 const response = await fetch('http://localhost:4000/api/todolist', 
                 {
@@ -42,9 +37,9 @@ function ShowTodoList() {
                 const respTodoList = await response.json()
                 setListTodoList(respTodoList)
             } catch (err){console.log(err)}
-            finally{setTodoUpdate(false)}
+            finally{updateFeed(false)}
         }
-    }, [todoUpdate])
+    }, [feed])
 
     // Valide un élément d'une liste
     function validateElement(todoId, elementId) {
@@ -58,7 +53,7 @@ function ShowTodoList() {
         fetch(`http://localhost:4000/api/todolist/${todoId}/element/${elementId}/validate`, requestOptions)
         .then((res) => res.json())
         .catch((err) => err)
-        .finally(setTodoUpdate(true))
+        .finally(() => updateFeed(true))
     } 
     // Supprime un élément d'une liste
     function deleteElement(todoId, elementId) {
@@ -71,108 +66,98 @@ function ShowTodoList() {
         fetch(`http://localhost:4000/api/todolist/${todoId}/element/${elementId}`,requestOptions)
         .then((res) => res.json())
         .catch((err) => err)
-        .finally(setTodoUpdate(true))
+        .finally(() => updateFeed(true))
     }
 
     // Compte le nombre d'élément validé de la liste
     function countValidateElement(todo) {
         let validateCount = 0
         for (const elementNumber in todo.Element) {
-            // console.log(todo.Element[elementNumber].ElementStatut[0]);
             if (todo.Element[elementNumber].ElementStatut[0]) {validateCount ++}
         }
         return validateCount
     }
 
   return (
-    <div id='todolist'>
-        <CreateTodo
-            todoUpdate={todoUpdate}
-            setTodoUpdate={setTodoUpdate}
+<div id='lists'>
+        <h2 id='my-list'>Mes listes</h2>
+        {listTodoList.todo && listTodoList.todo.map((todo) => (
+        todoUpdateAllow == todo.id 
+        ? <CreateTodo
+            feed={feed}
+            updateFeed={updateFeed}
             token={token}
-        />
-        <div id='lists'>
-            <h2 id='my-list'>Mes listes</h2>
-            {console.log(listTodoList)}
-            {listTodoList.todo && listTodoList.todo.map((todo) => (
-            todoUpdateAllow == todo.id 
-            ? <CreateTodo
-                todoUpdate={todoUpdate}
-                setTodoUpdate={setTodoUpdate}
-                token={token}
-                todoUpdateAllow = {todoUpdateAllow}
-                setTodoUpdateAllow = {setTodoUpdateAllow}
-                value = {todo}
-             />
-            : <div 
-                key={todo.id} 
-                className={`list${todo.Element.length > 0 & countValidateElement(todo) === todo.Element.length ? ' completed-list' : ''}`}>
-                <div className='list-info'>
-                    <div className='list-title-zone'>
-                        <h3 className='list-title'>{todo.title} validation -  {countValidateElement(todo)}/{todo.Element.length}   <i className="fa-solid fa-pen-to-square" onClick={() => setTodoUpdateAllow(todo.id)}></i></h3>
-                        { <div className='list-info-complement'>
-                            {console.log(countValidateElement(todo))}
-                            <div className='list-date'>Créé {DateFormat(todo.createdAt)}</div>
-                            <div className='list-author'>Par: {todo.User.firstname} {todo.User.lastName}</div>
-                            <div className='list-share'>Visibilté: {todo.visibility}</div>
-                        </div>
-                        }
+            todoUpdateAllow = {todoUpdateAllow}
+            setTodoUpdateAllow = {setTodoUpdateAllow}
+            value = {todo}
+            />
+        : <div 
+            key={todo.id} 
+            className={`list${todo.Element.length > 0 & countValidateElement(todo) === todo.Element.length ? ' completed-list' : ''}`}>
+            <div className='list-info'>
+                <div className='list-title-zone'>
+                    <h3 className='list-title'>{todo.title} validation -  {countValidateElement(todo)}/{todo.Element.length}   <i className="fa-solid fa-pen-to-square" onClick={() => setTodoUpdateAllow(todo.id)}></i></h3>
+                    { <div className='list-info-complement'>
+                        <div className='list-date'>Créé {DateFormat(todo.createdAt)}</div>
+                        <div className='list-author'>Par: {todo.User.firstname} {todo.User.lastName}</div>
+                        <div className='list-share'>Visibilté: {todo.visibility}</div>
                     </div>
-                    <div className='list-visibility'>
-                        {!listVisibility.includes(todo.id) &&
-                        <i className="fa-solid fa-arrow-down" onClick={() => showListDetails(todo.id)}></i>
-                        }
-                        {listVisibility.includes(todo.id) &&
-                        <i className="fa-solid fa-arrow-up" onClick={() => hideListDetails(todo.id)}></i>
-                        }
-                    </div>
+                    }
                 </div>
-                {listVisibility.includes(todo.id) && 
-                <div className='list-elements'>
-                    {todo.Element[0] && todo.Element.map((element) => (
-                        elementUpdateAllow == element.id
-                        ? <CreateElement 
-                            todoUpdate={todoUpdate}
-                            setTodoUpdate={setTodoUpdate}
-                            todo={todo}
-                            elementId={element.id}
-                            elementDescription={element.description}
-                            token={token}
-                            setElementUpdateAllow={setElementUpdateAllow}
-                            elementUpdateAllow={elementUpdateAllow}/> 
-                        :<div 
-                            key={element.id} 
-                            className='list-element'
-                            onMouseEnter={() => setElementHover(element.id)}
-                            onMouseLeave={() => setElementHover('')}>
-                            <div 
-                                className={`checkbox ${ element.ElementStatut[0] && 'validate'}`}
-                                onClick={() =>(validateElement(todo.id, element.id)) }>
-                                <i className="fa-solid fa-check"></i>
-                            </div>
-                            <div 
-                                className={`list-descriptif ${element.ElementStatut[0] && 'validate'}`}
-                                onClick={() => setElementUpdateAllow(element.id)}> 
-                                {element.description}
-                                </div>
-                            {elementHover === element.id &&
-                            <div className='delete-element'onClick={() => deleteElement(todo.id, element.id)}>
-                                <i className="fa-solid fa-trash-can"></i>
-                            </div>}
-                        </div>
-                    ))}
-                    <CreateElement 
-                        todoUpdate={todoUpdate}
-                        setTodoUpdate={setTodoUpdate}
-                        todo={todo}
-                        token={token}
-                        elementId={''}
-                    />
-                </div>}
+                <div className='list-visibility'>
+                    {!listVisibility.includes(todo.id) &&
+                    <i className="fa-solid fa-arrow-down" onClick={() => showListDetails(todo.id)}></i>
+                    }
+                    {listVisibility.includes(todo.id) &&
+                    <i className="fa-solid fa-arrow-up" onClick={() => hideListDetails(todo.id)}></i>
+                    }
+                </div>
             </div>
+            {listVisibility.includes(todo.id) && 
+            <div className='list-elements'>
+                {todo.Element[0] && todo.Element.map((element) => (
+                    elementUpdateAllow == element.id
+                    ? <CreateElement 
+                        feed={feed}
+                        updateFeed={updateFeed}
+                        todo={todo}
+                        elementId={element.id}
+                        elementDescription={element.description}
+                        token={token}
+                        setElementUpdateAllow={setElementUpdateAllow}
+                        elementUpdateAllow={elementUpdateAllow}/> 
+                    :<div 
+                        key={element.id} 
+                        className='list-element'
+                        onMouseEnter={() => setElementHover(element.id)}
+                        onMouseLeave={() => setElementHover('')}>
+                        <div 
+                            className={`checkbox ${ element.ElementStatut[0] && 'validate'}`}
+                            onClick={() =>(validateElement(todo.id, element.id)) }>
+                            <i className="fa-solid fa-check"></i>
+                        </div>
+                        <div 
+                            className={`list-descriptif ${element.ElementStatut[0] && 'validate'}`}
+                            onClick={() => setElementUpdateAllow(element.id)}> 
+                            {element.description}
+                            </div>
+                        {elementHover === element.id &&
+                        <div className='delete-element'onClick={() => deleteElement(todo.id, element.id)}>
+                            <i className="fa-solid fa-trash-can"></i>
+                        </div>}
+                    </div>
                 ))}
+                <CreateElement 
+                    feed={feed}
+                    updateFeed={updateFeed}
+                    todo={todo}
+                    token={token}
+                    elementId={''}
+                />
+            </div>}
         </div>
-    </div>
+            ))}
+</div>
   )
 }
 

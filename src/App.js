@@ -7,11 +7,14 @@ import Profile from './pages/Profile';
 import Trombinoscope from './pages/Trombinoscope';
 import PrivateRoutes from './utils/PrivateRoute';
 import Categories from './pages/Categories';
-import TodoList from './pages/TodoList';
+import TodoList from './pages//Tools/TodoList';
+import Tools from './pages/Tools/Tools';
 
 const App = () => {
   const [feed, updateFeed] = useState(true)   
   const [activePostUpdate, setActivePostUpdate] = useState(false)
+  // Constante identifications
+  const token = localStorage.getItem('token') // Token utilisateur [req.auth]
   return (
     <BrowserRouter>
       <Routes>
@@ -31,7 +34,10 @@ const App = () => {
           <Route path='/categories' element={<Categories 
                         feed={feed} 
                         updateFeed={updateFeed}/>} />
-          <Route path='/todolist' element={<TodoList/>}/>
+          <Route path='/outils' element={<Tools />} />
+          <Route path='/todolist' element={<TodoList
+                        feed={feed} 
+                        updateFeed={updateFeed}/>}/>
           <Route path='*' element={<Navigate to="/" replace/>} />
         </Route>
       </Routes>

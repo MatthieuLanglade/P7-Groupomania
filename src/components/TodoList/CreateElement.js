@@ -1,10 +1,9 @@
 import React, { useState, useRef, useEffect} from 'react'
 
 
-function CreateElement({todoUpdate, setTodoUpdate, todo, token, elementId, elementDescription, setElementUpdateAllow, elementUpdateAllow}) {
+function CreateElement({feed, updateFeed, todo, token, elementId, elementDescription, setElementUpdateAllow, elementUpdateAllow}) {
     // Déclaration pour gestion du form
     const textareaRef = useRef(null)
-    // const [updateElementValue, setUpdateElementValue ] = useState({0: ''})
     const [updateElementValue, setUpdateElementValue ] = useState({0: ''})
     // Constante de modification 
     const modifValues = {target :{id : todo.id, value: elementDescription}}
@@ -23,7 +22,6 @@ function CreateElement({todoUpdate, setTodoUpdate, todo, token, elementId, eleme
 
     // Création d'un élément
     function handleElementCreate(todoId, update) {
-        console.log(todoId)
         const method = update ? 'PUT' : 'POST'
         let requestOptions = {
             method: method,
@@ -37,12 +35,12 @@ function CreateElement({todoUpdate, setTodoUpdate, todo, token, elementId, eleme
         .catch((err) => err)
         .finally(() => {
             setUpdateElementValue({...updateElementValue, [todoId]: ''})
-            setTodoUpdate(true)
-            setElementUpdateAllow('')})
+            updateFeed(true)
+            update && setElementUpdateAllow('')})
     }
 
   return (
-<div className='list-element' key='0'>
+<div className='list-element'>
     <div className='checkbox'><i className="fa-solid fa-check"></i></div>
     <textarea 
         className='list-descriptif create-element'

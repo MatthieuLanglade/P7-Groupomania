@@ -1,11 +1,13 @@
 import React, { useState, useRef, useEffect} from 'react'
 import config from '../../config.json'
 
-const CreateTodo = ({setTodoUpdate, todoUpdate, token, todoUpdateAllow, setTodoUpdateAllow, value}) => {
+const CreateTodo = ({updateFeed, feed, token, todoUpdateAllow, setTodoUpdateAllow, value}) => {
     // Déclaration pour gestion du form
     const textareaRef = useRef(null)
     const [updateTitleValue, setUpdateTitleValue ] = useState("")
     const [visibilytyValue, setVisibilityValue] = useState(config.visibility[0])
+    // Constante identifications
+    token = localStorage.getItem('token') // Token utilisateur [req.auth]
     
     // Initialise les valeurs en édition
     useEffect(() => {
@@ -32,7 +34,7 @@ const CreateTodo = ({setTodoUpdate, todoUpdate, token, todoUpdateAllow, setTodoU
             .then((res) => res.json())
             .catch((err) => err)
             .finally(() => {
-                setTodoUpdate(true)
+                updateFeed(true)
                 setTodoUpdateAllow('')})
     }
 
@@ -49,7 +51,7 @@ const CreateTodo = ({setTodoUpdate, todoUpdate, token, todoUpdateAllow, setTodoU
                 .then((res) => res.json())
                 .catch((err) => err)
                 .finally(() => {
-                    setTodoUpdate(true)
+                    updateFeed(true)
                     setTodoUpdateAllow('')})
         }
     }

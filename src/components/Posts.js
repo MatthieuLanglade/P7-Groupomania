@@ -65,7 +65,7 @@ const Posts = ({feed, updateFeed, activePostUpdate, setActivePostUpdate, service
         fetch(`http://localhost:4000/api/posts/${likePost.PostId}/postLike`, requestOptions)
             .then((res) => res.json())
             .catch((err) => err)
-            .finally(updateFeed(true))
+            .finally(() => updateFeed(true))
         }
     
 
@@ -107,7 +107,7 @@ const Posts = ({feed, updateFeed, activePostUpdate, setActivePostUpdate, service
         fetch(`http://localhost:4000/api/posts/${postIdUpdate}`, requestOptions)
             .then((res) => res.json())
             .catch((err) => err)
-            .finally(updateFeed(true))
+            .finally(() => updateFeed(true))
     }
 
     // Gestion de l'augmentation de la taille du textarea
