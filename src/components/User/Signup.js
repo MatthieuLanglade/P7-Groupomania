@@ -235,7 +235,7 @@ let listRegex = {
                 
                 <div className="input-group">
                     <label htmlFor='image' className='label-image'>Choisir une photo de profil</label>
-                    <div className="input-icon"><i className="fa fa-briefcase"></i></div>
+                    <div className="input-icon"><i className="fa fa-image"></i></div>
                     <input 
                         type='file' 
                         id='image' 

@@ -63,6 +63,11 @@ afin de réaliser des tests, vous pouvez utliser un des utilisateurs suivants (s
 _/!\ Le token d'identification est réglé pour durer 24h, votre session sera active tant que vous ne cliquez pas sur "se déconnecter"_
 
 ## Versions 
+
+## v1.1.2 - Restructuration CSS / SCSS
+* Refactoring du CSS et organisation en 7-1
+*  
+
 ### v1.1.1 - Correctifs TodoList
 * Restructuration en compososant (Création, affichage)
 * Intégration modification, suppression.

@@ -1050,7 +1050,7 @@ select option:not(:checked) {
   cursor: pointer;
 }
 
-#todolist #create-list {
+#create-list {
   background-color: #FFFFFF;
   border: 1px solid #e4e4e4;
   border-top: 5px solid #FD2D01;
@@ -1058,13 +1058,14 @@ select option:not(:checked) {
   text-align: center;
   padding: 10px;
 }
-#todolist #create-list .list-title-zone {
+#create-list .list-title-zone {
   width: 100%;
 }
-#todolist #create-list .validate-list i {
+#create-list .validate-list i {
   margin: 0 10px;
 }
-#todolist #my-list {
+
+#my-list {
   background-color: #FFFFFF;
   border: 1px solid #e4e4e4;
   border-top: 5px solid #FD2D01;
@@ -1073,34 +1074,36 @@ select option:not(:checked) {
   padding: 10px;
   margin: 20px 0px 0px 0px;
 }
-#todolist .checkbox {
+
+.checkbox {
   max-width: 44px;
   padding: 5px;
   text-align: center;
   border: 2px solid #FD2D01;
   border-radius: 10px;
 }
-#todolist .checkbox i {
+.checkbox i {
   opacity: 0;
   color: #FD2D01;
   font-size: 30px;
   cursor: pointer;
 }
-#todolist .checkbox.validate {
+.checkbox.validate {
   border: 2px solid #FDC101;
 }
-#todolist .checkbox.validate i {
+.checkbox.validate i {
   opacity: 1;
   color: #FDC101;
 }
-#todolist .checkbox:hover {
+.checkbox:hover {
   cursor: pointer;
 }
-#todolist .checkbox:hover i {
+.checkbox:hover i {
   color: #FDC101;
   opacity: 0.4;
 }
-#todolist textarea {
+
+textarea {
   min-height: 44px;
   max-height: 400px;
   border-radius: 5px;
@@ -1111,16 +1114,18 @@ select option:not(:checked) {
   resize: none;
   border-color: #4E5166;
 }
-#todolist textarea:is(:focus, :valid) {
+textarea:is(:focus, :valid) {
   border-color: #FD2D01;
   border-width: 2px;
 }
-#todolist #lists {
+
+#lists {
   display: flex;
   flex-direction: column;
   gap: 20px;
 }
-#todolist .list {
+
+.list {
   background-color: #FFFFFF;
   border: 1px solid #e4e4e4;
   box-shadow: 0 2px #e4e4e4;
@@ -1131,69 +1136,72 @@ select option:not(:checked) {
   gap: 10px;
   padding: 10px;
 }
-#todolist .completed-list {
+
+.completed-list {
   border-left-color: #FDC101;
 }
-#todolist .list-info {
+
+.list-info {
   display: flex;
   align-items: center;
   flex-direction: row;
   margin-bottom: 5px;
 }
-#todolist .list-info .list-title-zone {
+.list-info .list-title-zone {
   width: calc(100% - 30px);
   display: flex;
   flex-direction: column;
 }
-#todolist .list-info .list-title-zone i {
+.list-info .list-title-zone i {
   color: #FD2D01;
 }
-#todolist .list-info .list-title-zone i:hover {
+.list-info .list-title-zone i:hover {
   cursor: pointer;
   opacity: 0.6;
 }
-#todolist .list-info .list-title-zone .list-title {
+.list-info .list-title-zone .list-title {
   margin: 0px;
 }
-#todolist .list-info .list-info-complement {
+.list-info .list-info-complement {
   width: calc(100% - 30px);
 }
-#todolist .list-info .list-visibility {
+.list-info .list-visibility {
   font-size: 30px;
   color: #FD2D01;
 }
-#todolist .list-info .list-visibility:hover {
+.list-info .list-visibility:hover {
   cursor: pointer;
   opacity: 0.4;
 }
-#todolist .list-elements {
+
+.list-elements {
   border-top: 1px solid #e4e4e4;
   box-shadow: 0px -2px #e4e4e4;
   padding-top: 10px;
 }
-#todolist .list-elements .list-element {
+.list-elements .list-element {
   display: flex;
   align-items: center;
   gap: 10px;
   margin-bottom: 10px;
 }
-#todolist .list-elements .list-element .validate-element {
+.list-elements .list-element .validate-element {
   font-size: 30px;
   color: #FD2D01;
 }
-#todolist .list-elements .list-element .validate-element:hover {
+.list-elements .list-element .validate-element:hover {
   color: #FDC101;
   cursor: pointer;
 }
-#todolist .list-elements .list-element .delete-element {
+.list-elements .list-element .delete-element {
   font-size: 30px;
   color: #FDC101;
 }
-#todolist .list-elements .list-element .delete-element:hover {
+.list-elements .list-element .delete-element:hover {
   color: #FD2D01;
   cursor: pointer;
 }
-#todolist .list-elements .list-descriptif {
+.list-elements .list-descriptif {
   border: 2px solid #FFFFFF;
   border-radius: 10px;
   min-height: 44px;
@@ -1203,14 +1211,14 @@ select option:not(:checked) {
   padding-left: 5px;
   overflow-wrap: anywhere;
 }
-#todolist .list-elements .list-descriptif:hover {
+.list-elements .list-descriptif:hover {
   border-color: #4E5166;
   cursor: pointer;
 }
-#todolist .list-elements .list-descriptif.validate {
+.list-elements .list-descriptif.validate {
   -webkit-text-decoration: line-through #FDC101;
           text-decoration: line-through #FDC101;
 }
-#todolist .list-elements .create-element {
+.list-elements .create-element {
   border-color: #FFD7D7;
 }/*# sourceMappingURL=index.css.map */
