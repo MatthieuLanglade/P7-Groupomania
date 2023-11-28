@@ -1,16 +1,47 @@
-import React from 'react'
+import React, { useState } from 'react'
 
 function ShowPlanning() {
-    const identifieSamedi = () => {
-        
+    // States 
+        // Date
+    const [anneeValue,setAnneeValue] = useState('')
+    const [moisValue, setMoisValue] = useState('')
+    const [monthValue, setMonthValue] = useState('')
+        // Service
+    const [serviceValue, setServiceValue] = useState('')
+    const [jourNuitValue, setJourNuitValue] = useState('')
+
+    // Corespondance Dates 
+    const correspondance = {
+        "Janvier" : 0,
+        "Février" : 1,
+        "Mars" : 2,
+        "Avril" : 3,
+        "Mai" : 4,
+        "Juin" : 5,
+        "Juillet" : 6,
+        "Août" : 7,
+        "Septembre" : 8,
+        "Octobre" : 9,
+        "Novembre" : 10,
+        "Décembre" : 11
     }
+
+    // Formules sur Date
+    const premierDuMois = new Date(anneeValue, monthValue, 1)
+    const dernierDuMois = new Date(anneeValue, monthValue + 1, 0)
+    const nombreDeJour = dernierDuMois.getUTCDate()
+
+    // Fonction de Renvoi du numéro du jour
+    const numeroJour = (jour) => {
+        const dateJour = new Date(anneeValue, monthValue, jour)
+        const dateDay = dateJour.getDay()
+        switch (dateDay) {
+            case 5 : return 'Sat'
+            case 6 : return 'Sun' // A rajouter: le test du férié.
+        }
+    }
+
     const annee = [2019,2020,2021,2022,2023,2024,2025]
-    const mois = [
-        "Janvier",
-        "Février", 
-        "Mars", 
-        "Avril", 
-    ]
     const services = [
         "Urgences", 
         "USLD",
@@ -46,28 +77,55 @@ function ShowPlanning() {
             nom: "Mosk",
             prénom: "Franck"
         },
+        {
+            id: 4, 
+            nom: "Mosk",
+            prénom: "Franck"
+        },
+        {
+            id: 5, 
+            nom: "Mosk",
+            prénom: "Franck"
+        },
+        {
+            id: 6, 
+            nom: "Mosk",
+            prénom: "Franck"
+        },
     ]
-    const jours = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30]
+    const jours = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31]
+
 
   return (
     <div id='choice-planning'>
         <div id='selection'>
-            <select id='annee'>
+            <select 
+                id='annee'
+                onChange={(e) => setAnneeValue(e.target.value)}>
             {annee.map((annee) => (
                 <option value={annee}>{annee}</option>
             ))}
             </select>
-            <select id='mois'>
-            {mois.map((mois) => (
-                <option value={mois}>{mois}</option>
+            <select 
+                id='mois'
+                value={moisValue}
+                onChange={(e) => (
+                    setMoisValue(e.target.value),
+                    setMonthValue(correspondance[e.target.value]))}>
+            {Object.keys(correspondance).map((mois) => (
+                <option value={mois} >{mois}</option>
             ))}
             </select>
-            <select id='services'>
+            <select 
+                id='services'
+                onChange={(e) => setServiceValue(e.target.value)}>
             {services.map((services) => (
                 <option value={services}>{services}</option>
             ))}
             </select>
-            <select id='jourNuit'>
+            <select 
+                id='jourNuit'
+                onChange={(e) => setJourNuitValue(e.target.value)}>
             {jourNuit.map((jourNuit) => (
                 <option value={jourNuit}>{jourNuit}</option>
             ))}
@@ -82,13 +140,15 @@ function ShowPlanning() {
             <label class="tgl-btn" data-tg-off="Heures sup" data-tg-on="Heures sup" for="cb4"></label>
         </div>
         <div className='mois-planning'>
-            <h3>Avril 2019 - USLD - Nuit</h3>
+            <h3>{moisValue} {anneeValue} - {serviceValue} - {jourNuitValue}</h3>
             <table>
                 <thead>
                     <tr>
                         <th >Nom / Jour</th>
-                        {jours.map((jour) => (
-                            <th key={jour}>{jour}</th>
+                        {jours
+                            .slice(0, nombreDeJour + 1)
+                            .map((jour) => (
+                            <th key={jour} className={numeroJour(jour)}>{jour}</th>
                         )) }
                     </tr>
                 </thead>
@@ -96,10 +156,51 @@ function ShowPlanning() {
                     {agents.map((agent) => (
                         <tr key={agent.id}>
                             <td>{agent.prénom +" "+ agent.nom}</td>
-                        {jours.map((jour) => (
-                            <td key={jour} className='table-a-cocher'>
+                        {jours
+                            .slice(0, nombreDeJour + 1)
+                            .map((jour) => (
+                            <td key={jour} className={`table-a-cocher ${numeroJour(jour)}`}>
                             </td>
                         )) }
+                        </tr>
+                    ))}
+                </tbody>
+            </table>
+
+            {/* <button>Valider planning</button> */}
+            
+            <h3>Statistiques</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th></th>
+                        <th colSpan='5'>{moisValue}</th>
+                        <th colSpan='5'>{anneeValue}</th>
+                    </tr>
+                    <tr>
+                        <th >Nom</th>
+                        <th>Nombre de gardes</th>
+                        <th>CM restants</th>
+                        <th>RH restants</th>
+                        <th>Heures Sup réalisées</th>
+                        <th>Heures Sup payées</th>
+                        <th>Nombre de gardes</th>
+                        <th>CM restants</th>
+                        <th>RH restants</th>
+                        <th>Heures Sup réalisées</th>
+                        <th>Heures Sup payées</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {agents.map((agent) => (
+                        <tr key={agent.id}>
+                            <td>{agent.prénom +" "+ agent.nom}</td>
+                        {/* {jours
+                            .slice(0, nombreDeJour + 1)
+                            .map((jour) => (
+                            <td key={jour} className={`table-a-cocher ${numeroJour(jour)}`}>
+                            </td>
+                        )) } */}
                         </tr>
                     ))}
                 </tbody>

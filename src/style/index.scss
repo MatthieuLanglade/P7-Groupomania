@@ -1040,6 +1040,9 @@
         width: 100%;
         border: 1px solid black;
         border-collapse: collapse;
+        thead {
+            background-color: lighten($color-3, 50%);
+        }
         tr {
             z-index: 1;
             &:hover {
@@ -1050,6 +1053,12 @@
             border: 1px solid black;
             min-width: 25px;
             min-height: 25px;
+            + .Sat {
+                background-color: lighten($color-2, 35%);
+            }
+            + .Sun {
+                background-color: lighten($color-2, 30%);
+            }
             &:hover {
                 background-color: $color-1;
             }
@@ -1057,17 +1066,17 @@
         td, th {
             position: relative;
           }
-        td:hover::after, th:hover::after {
-            content: "";
-            position: absolute;
-            background-color: $color-1;
-            left: 0;
-            top: -5000px;
-            height: 10000px;
-            width: 100%;
-            z-index: 0;
-            opacity: 0.4;
-        }
+        // td:hover::after, th:hover::after {
+        //     content: "";
+        //     position: absolute;
+        //     background-color: $color-1;
+        //     left: 0;
+        //     top: -5000px;
+        //     height: 10000px;
+        //     width: 100%;
+        //     z-index: 0;
+        //     opacity: 0.4;
+        // }
         .table-a-cocher {
             cursor: pointer;
         }
