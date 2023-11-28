@@ -1,361 +1,30 @@
-@font-face {
-    font-family: "lato-light";
-    src: url(../assets/fonts/Lato-Light.ttf);
-  }
+// Importation 
+// 1. Utils
+@import "./utils/variables";
+@import "./utils/fonctions";
+@import "./utils/mixins";
+@import "./utils/placeholders";
 
-@font-face {
-    font-family: "lato-normal";
-    src: url(../assets/fonts/Lato-Medium.ttf);
-  }
+// 2. Vendors - Feuille de style
 
-@font-face {
-    font-family: "lato-bold";
-    src: url(../assets/fonts/Lato-Black.ttf);
-}
-@mixin boxtoplign {
-    background-color: $color-0;
-    border: 1px solid #e4e4e4;
-    border-top: 5px solid $color-1 ;
-    box-shadow: 0 2px #e4e4e4;
-    text-align: center;
-    padding: 10px;
-}
-@mixin boxleftlign {
-    background-color: $color-0;
-    border: 1px solid #e4e4e4;
-    box-shadow: 0 2px #e4e4e4;
-    border-left: 3px solid $color-1;
-}
-@mixin verticalCenter {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-$color-0: #FFFFFF;
-$color-1: #FD2D01;
-$color-2: #FFD7D7;
-$color-3: #4E5166;
-$color-4: #FDC101;
 
-$breakpoints : (
-    mobile: 720px,
-    tablette: 1024px
-);
+// 3. Base
+@import "./base/fonts";
+@import "./base/base";
+@import "./base/elements";
+@import "./base/titres";
 
-@mixin mobile-only {
-    @media screen and (max-width: map-get($breakpoints, mobile)){
-        @content;
-    }
-}
+// 4. Composants
 
-@mixin tab-only {
-    @media screen and (max-width: map-get($breakpoints, tablette)){
-        @content;
-    }
-}
 
-* {
-    font-family: lato-normal;
-    box-sizing: border-box;
-}
-h1 {
-    font-family: lato-bold;
-    text-align: center;
-}
-h2 {
-    margin: 10px 0;
-}
-a {
-    text-decoration: none;
-    &:visited {
-        color: black;
-    }
-}
-body {
-    background-color: rgb(242, 242, 242);
-    max-width: 1200px;
-    margin: auto;
-}
-button {
-    cursor: pointer;
-    border: none;
-    font-size: 20px;
-    padding: 10px;
-    border: 3px solid $color-1;
-    border-radius: 5px;
-    background-color: $color-1;
-    color: $color-0;
-    margin: 0px 10px;
-    &:hover {
-        border: 3px solid $color-4;
-        background-color: $color-4;
-    }
-}
-select {
-    margin: 0px;
-    color: $color-1;
-    width: 100%;
-    height: 40px;
-    border-radius: 5px;
-    font-size: 18px;
-    border: 1px solid $color-3;
-    &:focus {
-        border: 1px solid $color-1;
-        outline: 1px solid $color-1;
-        + .input-icon {
-            border-color: $color-1;
-            i {
-            color: $color-1;
-        }
-        + label {
-            color: $color-1;
-            border-color: $color-1;
-        }
-    }
-    }
-    option:not(:checked) {
-        color: $color-3;
-    }
-}
-// Login / Signup
-#login {
-    height: 100vh;
-    display: flex;
-    align-items: center;
-}
-.login-container {
-    #update-info {
-        color: $color-1;
-        font-weight: bold;
-    }
-    padding: 10px 30px 20px 30px;
-    margin: 0px auto;
-    background-color: #fff;
-    border-radius: 10px;
-    box-shadow: 0px 3px 10px -2px rgba(0, 0, 0, 0.2);
-    text-align: center;
-    @include mobile-only()  {
-    }
-    .logo {
-        @include verticalCenter();
-        gap: 20px;
-        img {
-        height: 60px}
-        h3 {
-            width: auto;
-            font-size: 2rem;
-            color: $color-1;
-        }
-    }
-    .connect-choice {
-        display: flex;
-        flex-direction: row;
-        gap: 20px;
-        justify-content: center;
-        h1 {
-            i {
-                padding-right: 10px;
-                margin-right: 10px;
-                border-right: 3px solid $color-3;
-            }
-            color: $color-3;
-            font-size: 28px;
-            padding: 10px;
-            &:hover {
-                color: $color-2;
-                cursor: pointer;
-                i {
-                    border-right: 3px solid $color-2;
-                }
-            }
-        }
-        .Active {
-            color: $color-1;
-            border-bottom: $color-1 3px solid;
-            i {
-                border-right: 3px solid $color-1;
-            }
-        }
-    }
-    .connect {
-        h2 {
-            text-align: left;
-            color: $color-1;
-        }
-    }
-    .input-group {
-        position: relative;
-        margin-bottom: 10px;
-        display: flex;
-        * {
-            outline: none;
-        }
-        .input-icon {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 66px;
-            height: 50px;
-            line-height: 50px;
-            margin: 8px 0px;
-            font-size: 1.5rem;
-            text-align: center;
-            border-right: 1px solid $color-3;
-            color: $color-3;
-            i {
-                padding: 0px 20px;
-            }
-        }
-        input {
-            width: 100%;
-            border-radius: 5px;
-            font-size: 1.5rem;
-            padding: 20px 20px 20px 80px;
-            border: 1px solid $color-3;
-            &:focus {
-                outline: none;
-                border: 1px solid $color-1;
-                outline: 1px solid $color-1;
-                + .input-icon {
-                    border-color: $color-1;
-                    i {
-                    color: $color-1;
-                }}
-            }   
-        }
-        .service {
-            position: absolute;
-            top: 0;
-            left: 80px;
-            width: 1px;
-            white-space: nowrap;
-            height: 50px;
-            line-height: 50px;
-            margin: 8px 0px;
-            font-size: 1.2rem;
-            text-align: left;
-            color: $color-3;
-        }
-        select {
-            height: 65px;
-            padding: 20px;
-            text-align: center;
-        }
-        
-        .input-image {
-            display: none;
-        }
-        .label-image {
-            color: $color-3;
-            text-align: left;
-            cursor: pointer;
-            width: 100%;
-            height: 66px;
-            border-radius: 5px;
-            font-size: 18px;
-            padding: 20px 0px 20px 80px;
-            border: 1px solid $color-3;
-            &:hover {
-                color: $color-1;
-                border-color: $color-1;
-                background-color: $color-2;
-                + .input-icon {
-                    border-color: $color-1;
-                    i {
-                    color: $color-1;
-                    }
-                }
-            }
-        }
-        fieldset {
-            input {
-                width: 30px;
-                height: 30px;
-            }
-            input[type=checkbox]{
-                accent-color: $color-1;
-            }
-            label {
-                display: flex;
-                text-align: center;
-                align-items: center;
-                gap: 20px
-            }
-            display: flex;
-            text-align: center;
-            align-items: center;;
-            color: $color-3;
-            width: 100%;
-            height: 66px;
-            border-radius: 5px;
-            font-size: 18px;
-            border: 1px solid $color-3;
-        }
-    }
-    .profil-sum {
-        background-color: lighten($color-2, 5%);
-        border: 1px solid $color-1;
-        border-radius: 20px;
-        box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
-        padding: 10px;
-        display: flex;
-        align-items: center;
-        gap: 20px;
-        #image {
-            width: 40%;
+// 5. Layout
 
-        }
-        img {
-            border-radius: 50%;
-            box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
-        }
-        #infos {
-            width: 60%;
-            font-size: 18px;
-            i {
-                font-size: 16px;
-                color: $color-1;
-                margin-right: 20px;
-            }
-            div {
-                margin: 10px;
-            }
-        }
-        button {
-            font-size: 15px;
-            padding: 5px;
-        }
-    }
-    // button {
-    //     background-color: $color-1;
-    //     border: 0px;
-    //     border-radius: 10px;
-    //     font-size: 28px;
-    //     margin-top: 10px;
-    //     padding: 10px;
-    //     font-family: lato-normal;
-    //     color: $color-0;
-    //     &:hover {
-    //         cursor: pointer;
-    //         background-color: darken($color-1, 10%);
-    //         box-shadow: 0px 3px 10px -2px rgba(0, 0, 0, 0.2);
-    //     }
-    // }
-    .Submit {
-        display: flex;
-        flex-direction: column;
-        * {width: auto;}
-    }
-}
-.errorInput input {
-    background-color: $color-2;
-}
-.error {
-    color: $color-1;
-    width: 488px;
-    padding: 5px;
-    margin-bottom: 10px;
-}
+
+// 6. Pages
+@import './pages/connect';
+
+// 7. Thèmes
+
 // Home
     // Nav + logo
 .top-container {
@@ -428,18 +97,24 @@ select {
                     }
                 }
             }
-            .logout li{
-                border: 1px solid $color-0;
-                border-radius: 10px;
-                background-color:$color-1;
-                color: $color-0;
-                &:hover {
-                    // background-color: darken($color-1,20%);
-                    background-color: #e4e4e4;
-                    color: black;
-                    font-weight: bold;
+            .logout {
+                display: none;
+                @include mobile-only() {
+                    display: block;
                 }
-            }
+                li {
+                    border: 1px solid $color-0;
+                    border-radius: 10px;
+                    background-color:$color-1;
+                    color: $color-0;
+                    &:hover {
+                        // background-color: darken($color-1,20%);
+                        background-color: #e4e4e4;
+                        color: black;
+                        font-weight: bold;
+                    }
+                }
+        }
             .sous-menu {
                 position: absolute;
                 top: 100%;
@@ -920,7 +595,7 @@ select {
         width: 60%;
         color: $color-0;
         text-align: center;
-        font-size: 1.2rem;
+        font-size: 1.8rem;
     }
     .sumProfilPicture-bot {
         align-self: flex-end;
@@ -1239,3 +914,162 @@ select {
                 border-color: $color-2;
         }
     }
+// Test sur planning
+#choice-planning {
+    @include boxtoplign;
+}
+#selection {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+    flex-direction: row;
+}
+#filtre-planning {
+    margin-top: 20px;
+    display: flex;
+    gap: 20px;
+}
+// Theme Checkbox
+.tgl {
+    display: none;
+    
+    // add default box-sizing for this scope
+    &,
+    &:after,
+    &:before,
+    & *,
+    & *:after,
+    & *:before,
+    & + .tgl-btn {
+      box-sizing: border-box;
+      &::selection {
+        background: none;
+      }
+    }
+    
+    + .tgl-btn {
+      outline: 0;
+      display: block;
+      width: 10em;
+      height: 2em;
+      position: relative;
+      cursor: pointer;
+      user-select: none;
+      &:after,
+      &:before {
+        position: relative;
+        display: block;
+        content: "";
+        width: 50%;
+        height: 100%;
+      }
+      
+      &:after {
+        left: 0;
+      }
+      
+      &:before {
+        display: none;
+      }
+    }
+    
+    &:checked + .tgl-btn:after {
+      left: 50%;
+    }
+  }
+
+.tgl-skewed {
+    + .tgl-btn {
+      overflow: hidden;
+      transform: skew(-10deg);
+      backface-visibility: hidden;
+      transition: all .2s ease;
+      font-family: sans-serif;
+      background: $color-3;
+      &:after,
+      &:before {
+        transform: skew(10deg);
+        display: inline-block;
+        transition: all .2s ease;
+        width: 100%;
+        text-align: center;
+        position: absolute;
+        line-height: 2em;
+        font-weight: bold;
+        color: #fff;
+        text-shadow: 0 1px 0 rgba(0,0,0,.4);
+      }
+      
+      &:after {
+        left: 100%;
+        content: attr(data-tg-on);
+      }
+      
+      &:before {
+        left: 0;
+        content: attr(data-tg-off);
+      }
+      
+      &:active {
+        background: #888;
+        &:before {
+          left: -10%;
+        }
+      }
+    }
+    
+    &:checked + .tgl-btn {
+      background: $color-2;
+      &:before {
+        left: -100%;
+      }
+  
+      &:after {
+        left: 0;
+      }
+  
+      &:active:after {
+        left: 10%;
+      }
+    }
+  }
+
+.mois-planning {
+    table{
+        overflow: hidden;
+        width: 100%;
+        border: 1px solid black;
+        border-collapse: collapse;
+        tr {
+            z-index: 1;
+            &:hover {
+                background-color: rgba($color-1, 0.2);
+            }
+        }
+        td, th {
+            border: 1px solid black;
+            min-width: 25px;
+            min-height: 25px;
+            &:hover {
+                background-color: $color-1;
+            }
+        }
+        td, th {
+            position: relative;
+          }
+        td:hover::after, th:hover::after {
+            content: "";
+            position: absolute;
+            background-color: $color-1;
+            left: 0;
+            top: -5000px;
+            height: 10000px;
+            width: 100%;
+            z-index: 0;
+            opacity: 0.4;
+        }
+        .table-a-cocher {
+            cursor: pointer;
+        }
+    }
+}

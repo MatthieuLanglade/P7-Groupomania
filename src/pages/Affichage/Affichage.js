@@ -2,9 +2,8 @@ import { NavLink } from 'react-router-dom';
 import Events from '../../components/Events';
 import Navigation from '../../components/Navigation';
 import UserSumUp from '../../components/User/UserSumUp';
-import { useState } from 'react';
 
-const TodoList = () => {
+const Affichage = () => {
     return (
         <div >
             <div className="main-container">
@@ -16,11 +15,19 @@ const TodoList = () => {
                     <h2>Mes outils</h2>
                         <div className='service'>
                             <div className='users'>
-                                <NavLink to='/outils/todolist' >
+                                <NavLink to='/affichage/categories' >
                                 <div className='user'>
                                 <img src="./images/logo/icon-left-font-monochrome-white.png" alt="" />
                                 <h4>
-                                     TodoList
+                                     Afficher par service
+                                </h4>
+                                </div>
+                                </NavLink>
+                                <NavLink to='/affichage/trombinoscope' >
+                                <div className='user'>
+                                <img src="./images/logo/icon-left-font-monochrome-white.png" alt="" />
+                                <h4>
+                                     Afficher le trombinoscope
                                 </h4>
                                 </div>
                                 </NavLink>
@@ -38,4 +45,4 @@ const TodoList = () => {
     );
 };
 
-export default TodoList;
+export default Affichage;

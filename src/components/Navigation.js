@@ -24,24 +24,42 @@ const Navigation = () => {
             'link': `/profile/?id=${activeUser}`,
             'titre' : "Profile",
             'ico' : "fa-solid fa-user",
+            'sousMenu' :[
+            {
+                'ordre' : 1,
+                'link': `/profile/?id=${activeUser}`,
+                'titre' : "Mon Profile",
+                'ico' : "fa-solid fa-user",
+                'action' : ''
+            },
+            {
+                'ordre' : 2,
+                'link': `/`,
+                'titre' : "Déconnection",
+                'ico' : "fa-solid fa-power-off",
+                'action' : 'logOut'
+            },
+        ]
         },
         {
             'ordre' : 3,
-            'link' : 'categories',
+            'link' : '/affichage',
             'titre': 'Affichage',
             'ico' : "fa-solid fa-briefcase",
             'sousMenu' :[
             {
                 'ordre' : 3,
-                'link': "/categories",
+                'link': "/affichage/categories",
                 'titre' : "Service",
                 'ico' : "fa-solid fa-briefcase",
+                'action' : ''
             },
             {
                 'ordre' : 5,
-                'link': "/trombinoscope",
+                'link': "/affichage/trombinoscope",
                 'titre' : "Trombinoscope",
-                'ico' : "fa-solid fa-book-open-reader"
+                'ico' : "fa-solid fa-book-open-reader",
+                'action' : ''
             },
             ]
         },
@@ -53,16 +71,32 @@ const Navigation = () => {
             'sousMenu' : [
                 {
                     'ordre' : 1,
-                    'link': "/todolist",
+                    'link': "/outils/todolist",
                     'titre' : "Todo List",
                     'ico' : "fa-solid fa-book-open-reader",
+                    'action' : ''
                 },
                 {
                     'ordre' : 2,
-                    'link': "/Pomodoro",
+                    'link': "/outils/pomodoro",
                     'titre' : "Pomodoro",
                     'ico' : "fa-solid fa-book-open-reader",
-                }
+                    'action' : ''
+                },
+                {
+                    'ordre' : 3,
+                    'link': "/outils/planning",
+                    'titre' : "Planning",
+                    'ico' : "fa-solid fa-book-open-reader",
+                    'action' : ''
+                },
+                {
+                    'ordre' : 4,
+                    'link': "/outils/remplacement",
+                    'titre' : "Remplacement",
+                    'ico' : "fa-solid fa-book-open-reader",
+                    'action' : ''
+                },
             ]
         },
     ]
@@ -90,7 +124,9 @@ const Navigation = () => {
                                     .map((navDeux) => (
                                         <NavLink
                                         key={navDeux.ordre}
-                                        to={navDeux.link}>
+                                        to={navDeux.link}
+                                        onClick={() => navDeux.action == 'logOut' ? logOut() : undefined}
+                                        >
                                             <li><i className={navDeux.ico}></i><span>{navDeux.titre}</span></li>
                                         </NavLink>
                                     ))}

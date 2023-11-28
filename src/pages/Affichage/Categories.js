@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
-import Events from '../components/Events';
-import Navigation from '../components/Navigation';
-import Posts from '../components/Posts';
-import UserSumUp from '../components/User/UserSumUp';
-import config from '../config.json'
+import Events from '../../components/Events';
+import Navigation from '../../components/Navigation';
+import Posts from '../../components/Posts';
+import UserSumUp from '../../components/User/UserSumUp';
+import config from '../../config.json'
 
 const Categories = ({feed, updateFeed}) => {
     const [serviceValue, setServiceValue] = useState("")

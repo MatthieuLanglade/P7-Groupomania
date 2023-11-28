@@ -34,6 +34,13 @@ const formReducerConnect = (state, action) => {
                     ...state.form,
                     date: state.states.checked ? null : ''}
             }
+        case "TOGGLE PASSWORD" :
+            return {
+                ...state,
+                states : {
+                    ...state.states,
+                    showPassword: !state.states.showPassword}
+            }
         case "NEW FILE" :
             return {
                 ...state, 
@@ -44,7 +51,8 @@ const formReducerConnect = (state, action) => {
         case "DELETE FILE" :
             return {
                 ...state,
-                files: null
+                files: {
+                    profilPicture: null}
             };
 
         default : 

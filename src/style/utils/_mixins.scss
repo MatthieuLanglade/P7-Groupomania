@@ -1,0 +1,36 @@
+
+// Formatage Box de contenu
+@mixin boxtoplign {
+    background-color: $color-0;
+    border: 1px solid #e4e4e4;
+    border-top: 5px solid $color-1 ;
+    box-shadow: 0 2px #e4e4e4;
+    text-align: center;
+    padding: 10px;
+}
+
+@mixin boxleftlign {
+    background-color: $color-0;
+    border: 1px solid #e4e4e4;
+    box-shadow: 0 2px #e4e4e4;
+    border-left: 3px solid $color-1;
+}
+
+@mixin verticalCenter {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+// Fonctions Mobile/Tablette
+@mixin mobile-only {
+    @media screen and (max-width: map-get($breakpoints, mobile)){
+        @content;
+    }
+}
+
+@mixin tab-only {
+    @media screen and (max-width: map-get($breakpoints, tablette)){
+        @content;
+    }
+}

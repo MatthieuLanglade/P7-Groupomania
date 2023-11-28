@@ -1,7 +1,7 @@
-import Events from '../components/Events';
-import Navigation from '../components/Navigation';
-import Users from '../components/User/Users'
-import UserSumUp from '../components/User/UserSumUp';
+import Events from '../../components/Events';
+import Navigation from '../../components/Navigation';
+import Users from '../../components/User/Users'
+import UserSumUp from '../../components/User/UserSumUp';
 
 const Trombinoscope = () => {
     return (

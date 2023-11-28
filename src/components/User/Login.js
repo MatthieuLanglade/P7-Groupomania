@@ -94,7 +94,7 @@ let listRegex = {
                         placeholder='Rentrez votre email'
                         value={formState.form.email} 
                         onChange={(e) => handleTextChange(e)}/>
-                    <div className="input-icon"><i className="fa fa-user"></i></div>
+                    <div className="icon icon--input"><i className="fa fa-user"></i></div>
                 </div>
                 {!formState.regex.email && <div className='error'>{listRegex.email.text}</div> }
                 <div className="input-group">
@@ -105,7 +105,7 @@ let listRegex = {
                         placeholder='Rentrez votre mot de passe' 
                         value={formState.form.password}
                         onChange={(e) => handleTextChange(e)}/>
-                    <div className="input-icon"><i className="fa fa-key"></i></div>
+                    <div className="icon icon--input"><i className="fa fa-key"></i></div>
                 </div>
                 {!formState.regex.password && <div className='error'>{listRegex.password.text}</div> }
                 <button 

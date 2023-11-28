@@ -33,6 +33,7 @@ const Singup = ({isActive, setIsActive, updateUser, setUpdateUser, feed, updateF
         states : {
             checked: false,
             redirectToReferrer: false,
+            showPassword: false,
         }
     }
     const [formState, dispatch] = useReducer(formReducerConnect, initialFormState)
@@ -120,12 +121,12 @@ let listRegex = {
         },
     password:
         {'label': "password",
-        'regexTest' : /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$ %^&*-]).{8,}$/,
+        'regexTest' : /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$ %^&*-:,;]).{8,}$/,
         'text' : "Merci de choisir un mot de passe avec minimum: 8 caractères, 1 majuscule, 1 minuscule, 1 chiffre et 1 caractère sépcial"
         },
     confirmPassword:
         {'label': "confirmPassword",
-        'regexTest' : /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$ %^&*-]).{8,}$/,
+        'regexTest' : /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$ %^&*-,;]).{8,}$/,
         'text' : "Vos mots de passe ne correspondent pas"
         },
     birthday:
@@ -139,62 +140,65 @@ let listRegex = {
             <form>
             {updateUser && <span id='update-info'>🚨 Renseignez uniquement les informations à mettre à jour</span>}
                 <h2>Mon compte :</h2>
-                <div className={`input-group ${!formState.regex.email ? "errorInput" :""}`}>
+                <div className={`input-group ${!formState.regex.email && formState.form.email != ''? "errorInput" :""}`}>
                     <input 
                         type="email" 
                         name='email' 
                         id='email' 
                         placeholder='Rentrez votre email' 
                         onChange={(e) => handleTextChange(e)}/>
-                    <div className="input-icon"><i className="fa fa-envelope"></i></div>
+                    <div className="icon icon--input"><i className="fa fa-envelope"></i></div>
                 </div>
-                {!formState.regex.email && <div className='error'>{listRegex.email.text}</div> }
+                {!formState.regex.email && formState.form.email != '' && <div className='error'>{listRegex.email.text}</div> }
                 
-                <div className={`input-group ${!formState.regex.password ? "errorInput" :""}`}>
+                <div className={`input-group ${!formState.regex.password && formState.form.password != '' ? "errorInput" :""}`}>
                     <input 
-                        type="password" 
+                        type={formState.states.showPassword ? "text" : "password"} 
                         name='password' 
                         id='password' 
                         placeholder='Rentrez votre mot de passe' 
                         onChange={(e) => handleTextChange(e)}/>
-                    <div className="input-icon"><i className="fa fa-key"></i></div>
+                    <div className="icon icon--input"><i className="fa fa-key"></i></div>
+                    <div className="icon icon--show"
+                    onClick={() => dispatch({type: "TOGGLE PASSWORD"})}>
+                    <i className={`fa ${formState.states.showPassword ? 'fa-eye' : 'fa-eye-slash'}`}></i></div>
                 </div>
-                {!formState.regex.password && <div className='error'>{listRegex.password.text}</div> }
+                {!formState.regex.password && formState.form.password != '' && <div className='error'>{listRegex.password.text}</div> }
 
-                <div className={`input-group ${(!formState.regex.password || formState.form.confirmPassword != formState.form.password) ? "errorInput" :""}`}>
+                <div className={`input-group ${(!formState.regex.password || formState.form.confirmPassword != formState.form.password) && formState.form.confirmPassword != ''? "errorInput" :""}`}>
                     <input 
                     type="password" 
                     name='confirmPassword' 
                     id='confirmPassword' 
                     placeholder='Confirmez votre mot de passe' 
                     onChange={(e) => handleTextChange(e)}/>
-                    <div className="input-icon"><i className="fa fa-key"></i></div>
+                    <div className="icon icon--input"><i className="fa fa-key"></i></div>
                 </div>
-                {(!formState.regex.confirmPassword || formState.form.confirmPassword != formState.form.password)&& <div className='error'>{listRegex.confirmPassword.text}</div> }
+                {(!formState.regex.confirmPassword || formState.form.confirmPassword != formState.form.password) && formState.form.confirmPassword != '' && <div className='error'>{listRegex.confirmPassword.text}</div> }
                 
                 <h2>Mes informations :</h2>
-                <div className={`input-group ${!formState.regex.firstName ? "errorInput" :""}`}>
+                <div className={`input-group ${!formState.regex.firstName && formState.form.firstName != '' ? "errorInput" :""}`}>
                     <input 
                         type="text" 
                         name='firstName' 
                         id='prenom' 
                         placeholder='Rentrez votre prénom:' 
                         onChange={(e) => handleTextChange(e)} />
-                    <div className="input-icon"><i className="fa fa-user"></i></div>
+                    <div className="icon icon--input"><i className="fa fa-user"></i></div>
                 </div>
-                {!formState.regex.firstName && <div className='error'>{listRegex.firstName.text}</div> }
+                {!formState.regex.firstName && formState.form.firstName != '' && <div className='error'>{listRegex.firstName.text}</div> }
                 
-                <div className={`input-group ${!formState.regex.lastName ? "errorInput" :""}`}>
+                <div className={`input-group ${!formState.regex.lastName && formState.form.lastName != '' ? "errorInput" :""}`}>
                     <input type="text" 
                         name='lastName' 
                         id='nom' 
                         placeholder='Rentrez votre Nom:' 
                         onChange={(e) => handleTextChange(e)}/>
-                    <div className="input-icon"><i className="fa fa-user"></i></div>
+                    <div className="icon icon--input"><i className="fa fa-user"></i></div>
                 </div>
-                {!formState.regex.lastName && <div className='error'>{listRegex.lastName.text}</div> }
+                {!formState.regex.lastName && formState.form.lastName != '' && <div className='error'>{listRegex.lastName.text}</div> }
                 
-                <div className={`input-group ${!formState.regex.service ? "errorInput" :""}`}>
+                <div className={`input-group ${!formState.regex.service && formState.form.service != '' ? "errorInput" :""}`}>
                     <select 
                         name="service" 
                         id="service" 
@@ -204,10 +208,10 @@ let listRegex = {
                         {config.services.slice(1).map((service, index) => 
                         (<option key={index} value={service} >{service}</option>))}
                     </select>
-                    <div className="input-icon"><i className="fa fa-briefcase"></i></div>
+                    <div className="icon icon--input"><i className="fa fa-briefcase"></i></div>
                     {!formState.form.service && <label className='service' htmlFor="service">Votre service :</label>}
                 </div>
-                {!formState.regex.service && <div className='error'>{listRegex.service.text}</div> }
+                {!formState.regex.service && formState.form.service != '' && <div className='error'>{listRegex.service.text}</div> }
                 
                 <div className="input-group">
                     <fieldset>
@@ -229,13 +233,13 @@ let listRegex = {
                         name="birthday"
                         className='date' 
                         onChange={(e) => handleTextChange(e)}/>
-                    <div className="input-icon"><i className="fa fa-cake-candles"></i></div>
+                    <div className="icon icon--input"><i className="fa fa-cake-candles"></i></div>
                 </div>)}
-                {!formState.regex.birthday && <div className='error'>{listRegex.birthday.text}</div> }
+                {!formState.regex.birthday && formState.form.birthday != '' && <div className='error'>{listRegex.birthday.text}</div> }
                 
                 <div className="input-group">
                     <label htmlFor='image' className='label-image'>Choisir une photo de profil</label>
-                    <div className="input-icon"><i className="fa fa-image"></i></div>
+                    <div className="icon icon--input"><i className="fa fa-image"></i></div>
                     <input 
                         type='file' 
                         id='image' 
@@ -257,11 +261,11 @@ let listRegex = {
                     <div id="infos">
                     {(formState.form.firstName || formState.form.lastName )&& <div id="name"><i className="fa fa-user"></i> {formState.form.firstName} {formState.form.lastName}</div>}
                         {formState.form.service && <div id="service"><i className="fa fa-briefcase"></i> {formState.form.service}</div>}
-                        {formState.form.date && <div id="birthdate"><i className="fa-solid fa-cake-candles"></i> {formState.form.date}</div>}
+                        {formState.form.birthday && <div id="birthdate"><i className="fa-solid fa-cake-candles"></i> {formState.form.birthday}</div>}
                     </div>
                 </div>
                 )}
-                <div className='Submit'>
+                <div className='submit'>
                     {updateUser && <button id='cancel-update' onClick={() => setUpdateUser(null)}>Annuler</button>}
                     <button onClick={(e) => handleSubmit(e)}>{updateUser ? 'Modifier mes infos' : 'Créer un compte'}</button>
                 </div>

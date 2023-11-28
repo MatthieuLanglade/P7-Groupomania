@@ -34,7 +34,6 @@ const groupBy = (array, key) => {
   };
 //  Filtre si State
   const listFilter = (array) => {
-    console.log(serviceValue)
     if (serviceValue !== null && serviceValue !== config.services[0]) {
         return Object.keys(array).filter((service) => service.includes(serviceValue))
     } else {return Object.keys(array)}

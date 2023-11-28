@@ -64,9 +64,13 @@ _/!\ Le token d'identification est réglé pour durer 24h, votre session sera ac
 
 ## Versions 
 
+## v1.2.0 - Outil Planning
+* Fonction planning avec rôle (gestionnaire, demandeur)
+
 ## v1.1.2 - Restructuration CSS / SCSS
 * Refactoring du CSS et organisation en 7-1
-*  
+* Modification légère sur la gestion Regex du signup
+* Modification Navigation, Organisation des pages et structure de permalink
 
 ### v1.1.1 - Correctifs TodoList
 * Restructuration en compososant (Création, affichage)

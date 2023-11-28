@@ -1,0 +1,219 @@
+// Login / Signup
+#login {
+    height: 100vh;
+    @include verticalCenter; 
+}
+.login-container {
+    width: 600px;
+    min-height: 400px;
+    padding: 20px 30px;
+    margin: auto;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0px 3px 10px -2px rgba(0, 0, 0, 0.2);
+    text-align: center;
+    @include mobile-only()  {
+        min-height: 100%;
+        min-width: 100%;
+    }
+    .logo {
+        @include verticalCenter();
+        gap: 20px;
+        img {
+        height: 60px}
+        h3 {
+            font-size: 2rem;
+            color: $color-1;
+        }
+    }
+    #update-info {
+        color: $color-1;
+        font-weight: bold;
+    }
+    .connect-choice {
+        display: flex;
+        flex-direction: row;
+        gap: 20px;
+        justify-content: center;
+        h1 {
+            i {
+                padding-right: 10px;
+                margin-right: 10px;
+                border-right: 3px solid $color-3;
+            }
+            color: $color-3;
+            font-size: 28px;
+            padding: 10px;
+            &:hover {
+                color: $color-2;
+                cursor: pointer;
+                i {
+                    border-right: 3px solid $color-2;
+                }
+            }
+        }
+        .Active {
+            color: $color-1;
+            border-bottom: $color-1 3px solid;
+            i {
+                border-right: 3px solid $color-1;
+            }
+        }
+    }
+    .connect {
+        h2 {
+            text-align: left;
+            color: $color-1;
+        }
+    }
+    .input-group {
+        position: relative;
+        margin-bottom: 10px;
+        display: flex;
+        * {
+            outline: none;
+        }
+        .icon {
+            position: absolute;
+            top: 0;
+            width: 66px;
+            height: 50px;
+            line-height: 50px;
+            margin: 8px 0px;
+            font-size: 1.5rem;
+            text-align: center;
+            color: $color-3;
+            i {
+                padding: 0px 20px;
+            }
+            &--show {
+                right: 0;
+                &:hover{
+                    cursor: pointer;
+                    opacity: 0.8;
+                }
+            }
+            &--input {
+                left: 0;
+                border-right: 1px solid $color-3;
+            }
+        }
+        .service {
+            position: absolute;
+            top: 0;
+            left: 80px;
+            width: 1px;
+            white-space: nowrap;
+            height: 50px;
+            line-height: 50px;
+            margin: 8px 0px;
+            font-size: 1.2rem;
+            text-align: left;
+            color: $color-3;
+        }
+        select {
+            height: 65px;
+            padding: 20px;
+            text-align: center;
+        }
+        
+        .input-image {
+            display: none;
+        }
+        .label-image {
+            color: $color-3;
+            text-align: left;
+            cursor: pointer;
+            width: 100%;
+            height: 66px;
+            border-radius: 5px;
+            font-size: 18px;
+            padding: 20px 0px 20px 80px;
+            border: 1px solid $color-3;
+            &:hover {
+                color: $color-1;
+                border-color: $color-1;
+                background-color: $color-2;
+                + .input-icon {
+                    border-color: $color-1;
+                    i {
+                    color: $color-1;
+                    }
+                }
+            }
+        }
+        fieldset {
+            input {
+                width: 30px;
+                height: 30px;
+            }
+            input[type=checkbox]{
+                accent-color: $color-1;
+            }
+            label {
+                display: flex;
+                text-align: center;
+                align-items: center;
+                gap: 20px
+            }
+            display: flex;
+            text-align: center;
+            align-items: center;;
+            color: $color-3;
+            width: 100%;
+            height: 66px;
+            border-radius: 5px;
+            font-size: 18px;
+            border: 1px solid $color-3;
+        }
+    }
+    .profil-sum {
+        background-color: lighten($color-2, 5%);
+        // background-color: $color-2;
+        border: 1px solid $color-1;
+        border-radius: 20px;
+        box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+        padding: 10px;
+        display: flex;
+        align-items: center;
+        gap: 20px;
+        #image {
+            width: 40%;
+        }
+        img {
+            border-radius: 50%;
+            aspect-ratio: 1 / 1;
+            box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
+        }
+        #infos {
+            width: 60%;
+            font-size: 18px;
+            i {
+                font-size: 16px;
+                color: $color-1;
+                margin-right: 20px;
+            }
+            div {
+                margin: 10px;
+            }
+        }
+        button {
+            margin-top: 5px;
+            padding: 5px;
+        }
+    }
+    .submit {
+        margin-top: 20px;
+        display: flex;
+        flex-direction: column;
+    }
+}
+
+.errorInput input {
+    background-color: $color-2;
+}
+.error {
+    color: $color-1;
+    padding: 5px;
+    margin-bottom: 10px;
+}
