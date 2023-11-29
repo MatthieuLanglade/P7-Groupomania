@@ -9,6 +9,10 @@ function ShowPlanning() {
         // Service
     const [serviceValue, setServiceValue] = useState('')
     const [jourNuitValue, setJourNuitValue] = useState('')
+        // Affichage
+    const [showGardes, setShowGardes] = useState(true)
+    const [showCongesDemandes, setShowCongesDemandes] = useState(false)
+    const [showHeuresSup, setShowHeuresSup] = useState(false)
 
     // Corespondance Dates 
     const correspondance = {
@@ -35,9 +39,11 @@ function ShowPlanning() {
     const numeroJour = (jour) => {
         const dateJour = new Date(anneeValue, monthValue, jour)
         const dateDay = dateJour.getDay()
+        // A rajouter: le test du férié.
         switch (dateDay) {
-            case 5 : return 'Sat'
-            case 6 : return 'Sun' // A rajouter: le test du férié.
+            case 6 : return 'leg-Sat'
+            case 0 : return 'leg-Sun' 
+            default : return ''
         }
     }
 
@@ -132,11 +138,11 @@ function ShowPlanning() {
             </select>
         </div>
         <div id='filtre-planning' className='gardes'>
-            <input class="tgl tgl-skewed" id="cb3" type="checkbox"/>
+            <input class="tgl tgl-skewed" id="cb3" type="checkbox" checked={showGardes} onChange={() => setShowGardes(!showGardes)}/>
             <label class="tgl-btn" data-tg-off="Gardes" data-tg-on="Gardes" for="cb3"></label>
-            <input class="tgl tgl-skewed" id="cb5" type="checkbox"/>
+            <input class="tgl tgl-skewed" id="cb5" type="checkbox" checked={showCongesDemandes} onChange={() => setShowCongesDemandes(!showCongesDemandes)}/>
             <label class="tgl-btn" data-tg-off="Congés demandés" data-tg-on="Congés demandés" for="cb5"></label>
-            <input class="tgl tgl-skewed" id="cb4" type="checkbox"/>
+            <input class="tgl tgl-skewed" id="cb4" type="checkbox" hecked={showHeuresSup} onChange={() => setShowHeuresSup(!showHeuresSup)}/>
             <label class="tgl-btn" data-tg-off="Heures sup" data-tg-on="Heures sup" for="cb4"></label>
         </div>
         <div className='mois-planning'>
@@ -145,6 +151,7 @@ function ShowPlanning() {
                 <thead>
                     <tr>
                         <th >Nom / Jour</th>
+                        <th>Type</th>
                         {jours
                             .slice(0, nombreDeJour + 1)
                             .map((jour) => (
@@ -155,17 +162,48 @@ function ShowPlanning() {
                 <tbody>
                     {agents.map((agent) => (
                         <tr key={agent.id}>
-                            <td>{agent.prénom +" "+ agent.nom}</td>
-                        {jours
-                            .slice(0, nombreDeJour + 1)
-                            .map((jour) => (
-                            <td key={jour} className={`table-a-cocher ${numeroJour(jour)}`}>
-                            </td>
-                        )) }
+                            <td>{agent.prénom +" "+ agent.nom}</td> 
+                            {showGardes && <td>Garde</td>}
+                            {showGardes && jours
+                                .slice(0, nombreDeJour + 1)
+                                .map((jour) => (
+                                    <td key={jour} className={`table-a-cocher ${numeroJour(jour)}`}>
+                                </td>))}
                         </tr>
                     ))}
                 </tbody>
             </table>
+            <h3>Légendes</h3>
+            <div id='legende'>
+            <table>
+                <tr>
+                    <td className='leg-Sat legende'></td>
+                    <td>Samedi</td>
+                </tr>
+                <tr>
+                    <td className='leg-Sun legende'></td>
+                    <td>Dimanche</td>
+                </tr>
+                <tr>
+                    <td className='leg-Fer legende'></td>
+                    <td>Férié</td>
+                </tr>
+            </table>
+            <table>
+                <tr>
+                    <td className='leg-Gar legende'></td>
+                    <td>Garde</td>
+                </tr>
+                <tr>
+                    <td className='leg-HrS legende'></td>
+                    <td>Heures Sup</td>
+                </tr>
+                <tr>
+                    <td className='leg-CoM legende'></td>
+                    <td>Congé maladie</td>
+                </tr>
+            </table>
+            </div>
 
             {/* <button>Valider planning</button> */}
             

@@ -1033,7 +1033,6 @@
       }
     }
   }
-
 .mois-planning {
     table{
         overflow: hidden;
@@ -1049,36 +1048,51 @@
                 background-color: rgba($color-1, 0.2);
             }
         }
+        // Couleurs légende
+        .leg-Sat {
+            background-color: lighten($color-2, 35%);
+        }
+        .leg-Sun {
+            background-color: lighten($color-2, 30%);
+        }
+        .leg-Fer {
+            background-color: lighten($color-2, 10%);
+        }
+        .leg-Gar {
+            background-color: lighten($color-4, 5%);
+        }
+        .leg-HrS {
+            background-color: lighten($color-4, 30%);
+        }
+        .leg-CoM {
+            background-color: lighten($color-1, 5%);
+        }
         td, th {
             border: 1px solid black;
             min-width: 25px;
             min-height: 25px;
-            + .Sat {
-                background-color: lighten($color-2, 35%);
-            }
-            + .Sun {
-                background-color: lighten($color-2, 30%);
-            }
+        }
+        .table-a-cocher {
+            cursor: pointer;
             &:hover {
                 background-color: $color-1;
             }
         }
-        td, th {
-            position: relative;
-          }
-        // td:hover::after, th:hover::after {
-        //     content: "";
-        //     position: absolute;
-        //     background-color: $color-1;
-        //     left: 0;
-        //     top: -5000px;
-        //     height: 10000px;
-        //     width: 100%;
-        //     z-index: 0;
-        //     opacity: 0.4;
-        // }
-        .table-a-cocher {
-            cursor: pointer;
+    }
+    #legende {
+        display: flex;
+        gap: 20px;
+        table {
+            text-align: left;
+            width: auto;
         }
+        td {
+            padding: 0px 10px;
+        } 
+        .legende {
+            width: 30px;
+            height: 30px;
+        }
+    
     }
 }

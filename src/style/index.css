@@ -1356,11 +1356,29 @@ textarea:is(:focus, :valid) {
   left: 10%;
 }
 
+.mois-planning #legende {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+}
+.mois-planning #legende p {
+  text-align: left;
+  width: 90%;
+  margin: 0px;
+}
+.mois-planning #legende .legende {
+  width: 10%;
+  aspect-ratio: 1;
+}
 .mois-planning table {
   overflow: hidden;
   width: 100%;
   border: 1px solid black;
   border-collapse: collapse;
+}
+.mois-planning table thead {
+  background-color: #d5d6df;
 }
 .mois-planning table tr {
   z-index: 1;
@@ -1373,22 +1391,17 @@ textarea:is(:focus, :valid) {
   min-width: 25px;
   min-height: 25px;
 }
+.mois-planning table td + .Sat, .mois-planning table th + .Sat {
+  background-color: #d2ecf8;
+}
+.mois-planning table td + .Sun, .mois-planning table th + .Sun {
+  background-color: #bce2f4;
+}
 .mois-planning table td:hover, .mois-planning table th:hover {
   background-color: #00A29C;
 }
 .mois-planning table td, .mois-planning table th {
   position: relative;
-}
-.mois-planning table td:hover::after, .mois-planning table th:hover::after {
-  content: "";
-  position: absolute;
-  background-color: #00A29C;
-  left: 0;
-  top: -5000px;
-  height: 10000px;
-  width: 100%;
-  z-index: 0;
-  opacity: 0.4;
 }
 .mois-planning table .table-a-cocher {
   cursor: pointer;
