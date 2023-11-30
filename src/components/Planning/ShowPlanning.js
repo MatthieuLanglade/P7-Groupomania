@@ -161,15 +161,41 @@ function ShowPlanning() {
                 </thead>
                 <tbody>
                     {agents.map((agent) => (
+                        <>
+                        {/* Affichage des Gardes */
+                        showGardes && 
                         <tr key={agent.id}>
-                            <td>{agent.prénom +" "+ agent.nom}</td> 
-                            {showGardes && <td>Garde</td>}
-                            {showGardes && jours
+                            <td rowSpan={showGardes + showCongesDemandes + showHeuresSup}>{agent.prénom +" "+ agent.nom}</td> 
+                            <td>Garde</td>
+                            {jours
                                 .slice(0, nombreDeJour + 1)
                                 .map((jour) => (
                                     <td key={jour} className={`table-a-cocher ${numeroJour(jour)}`}>
                                 </td>))}
-                        </tr>
+                        </tr>}
+
+                        {/* Affichage des Congés */
+                        showCongesDemandes && 
+                        <tr key={agent.id}>
+                            <td>Congés</td>
+                            {jours
+                                .slice(0, nombreDeJour + 1)
+                                .map((jour) => (
+                                    <td key={jour} className={`table-a-cocher ${numeroJour(jour)}`}>
+                                </td>))}
+                        </tr>}
+
+                        {/* Affichage des Heures Sup */
+                        showHeuresSup && 
+                        <tr key={agent.id}>
+                            <td>Hr Sup</td>
+                            {jours
+                                .slice(0, nombreDeJour + 1)
+                                .map((jour) => (
+                                    <td key={jour} className={`table-a-cocher ${numeroJour(jour)}`}>
+                                </td>))}
+                        </tr>}
+                        </>
                     ))}
                 </tbody>
             </table>
@@ -192,11 +218,11 @@ function ShowPlanning() {
             <table>
                 <tr>
                     <td className='leg-Gar legende'></td>
-                    <td>Garde</td>
+                    <td>Garde validée</td>
                 </tr>
                 <tr>
                     <td className='leg-HrS legende'></td>
-                    <td>Heures Sup</td>
+                    <td>Garde sélectionnée</td>
                 </tr>
                 <tr>
                     <td className='leg-CoM legende'></td>
