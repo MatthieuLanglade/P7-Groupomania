@@ -44,7 +44,6 @@ router.put(
     auth,
     todoCtrl.updateElement
 )
-
     // VALIDATION
 router.post(
     '/:id/element/:id/validate',

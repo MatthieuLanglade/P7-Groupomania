@@ -2,6 +2,7 @@ const express = require('express');
 const userRoutes = require('./routes/user')
 const postsRoutes = require('./routes/posts')
 const todoRoutes = require('./routes/todolist')
+const configPlanningRoutes = require('./routes/configPlanning')
 const path = require('path')
 const app = express();
 var helmet = require('helmet');
@@ -24,5 +25,6 @@ var helmet = require('helmet');
   app.use('/api/posts', postsRoutes);
   app.use('/images', express.static(path.join(__dirname, 'images')));
   app.use('/api/todolist', todoRoutes);
+  app.use('/api/configPlanning/', configPlanningRoutes);
 
 module.exports = app;

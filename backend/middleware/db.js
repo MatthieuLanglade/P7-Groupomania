@@ -23,7 +23,11 @@ async function initialize() {
     db.TodoList = require('../models/Todolist/todolist')(sequelize);
     db.Elements = require('../models/Todolist/elements')(sequelize);
     db.ElementStatut = require('../models/Todolist/elementStatut')(sequelize);
- 
+    db.Services = require('../models/ConfigPlanning/services')(sequelize)
+    db.Postes = require('../models/ConfigPlanning/postes')(sequelize)
+    db.Equipes = require('../models/ConfigPlanning/equipes')(sequelize)
+    db.PosteService = require('../models/ConfigPlanning/PosteService')(sequelize)
+    
     // Création  des relations 
         // User -> Posts
     db.Posts.belongsTo(db.User, {
@@ -40,14 +44,14 @@ async function initialize() {
     })
     db.Posts.hasMany(db.Likes, {as: 'Likes'})
         
-    // Likes -> User
+        // Likes -> User
     db.Likes.belongsTo(db.User, {
         foreignKey :'UserId',
         as: 'User',
         onDelete : 'CASCADE'})
     db.User.hasMany(db.Likes, {as: 'Likes',})
 
-    // ElementStatut -> Elements
+        // ElementStatut -> Elements
     db.ElementStatut.belongsTo(db.Elements, {
         foreignKey :{name: 'ElementId', allowNull: false},
         as: 'Element',
@@ -55,7 +59,7 @@ async function initialize() {
     })
     db.Elements.hasMany(db.ElementStatut, {as: 'ElementStatut'})
 
-    // ElementStatut -> User
+        // ElementStatut -> User
     db.ElementStatut.belongsTo(db.User, {
         foreignKey :{name: 'UserId', allowNull: false},
         as: 'User',
@@ -63,7 +67,7 @@ async function initialize() {
     })
     db.User.hasMany(db.ElementStatut, {as: 'ElementStatut'})
     
-    // Elements -> Todolist
+        // Elements -> Todolist
     db.Elements.belongsTo(db.TodoList, {
         foreignKey: {name: 'TodoListId', allowNull: false},
         as: 'TodoList',
@@ -71,13 +75,28 @@ async function initialize() {
     })
     db.TodoList.hasMany(db.Elements, {as: 'Element'})
     
-    // TodoList -> User
+        // TodoList -> User
     db.TodoList.belongsTo(db.User, {
         foreignKey: {name: 'UserId', allowNull: false},
         as: 'User',
         onDelete: 'CASCADE'
     })
     db.User.hasMany(db.TodoList, {as: 'TodoList'})
+
+        // PosteService -> Postes
+    db.PosteService.belongsTo(db.Postes, {
+        foreignKey: {name: 'posteid', allowNull: false},
+        as: 'Postes',
+        onDelete: 'CASCADE'}
+        )
+    db.Postes.hasMany(db.PosteService, {as: 'PosteService'})
+        // PosteService -> Services
+    db.PosteService.belongsTo(db.Services, {
+        foreignKey: {name: 'serviceid', allowNull: false},
+        as: 'Services',
+        onDelete: 'CASCADE'}
+        )
+    db.Services.hasMany(db.PosteService, {as: 'PosteService'})
 
     // Sync les modèles avec la DB
     // await sequelize.sync({ force: true });

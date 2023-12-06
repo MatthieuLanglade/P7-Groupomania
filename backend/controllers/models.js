@@ -1,7 +1,8 @@
 const modelsCtrl = {}
 const Joi = require('joi');
 
-// Signup utilisateur
+/* 1. Utilisateurs */
+    /* 1.1 SignUp Utilisateur */
 modelsCtrl.signup = (req, res, next) => {
     const schema = Joi.object({
     firstName: Joi.string().required(),
@@ -15,7 +16,7 @@ modelsCtrl.signup = (req, res, next) => {
 });
 validateRequest(req, next, schema);}
 
-// Modification utilisateur
+    /* 1.2 Modification Utilisateur */
 modelsCtrl.putUser = (req, res, next) => {
     const schema = Joi.object({
     firstName: Joi.string(),
@@ -29,7 +30,7 @@ modelsCtrl.putUser = (req, res, next) => {
 });
 validateRequest(req, next, schema);}
 
-// Login utilisateur
+    /* 1.3 Login Utilisateur */
 modelsCtrl.login = (req, res, next) => {
     const schema = Joi.object({
         email: Joi.string().email().required(),
@@ -37,7 +38,9 @@ modelsCtrl.login = (req, res, next) => {
     });
 validateRequest(req, next, schema);}
 
-// Post publication
+
+/* 2. Posts */
+    /* 2.1 Post Publication */
 modelsCtrl.post = (req, res, next) => {
     const schema = Joi.object({
         userId: Joi.number().required(),
@@ -47,7 +50,7 @@ modelsCtrl.post = (req, res, next) => {
 });
 validateRequest(req, next, schema);}
 
-// Modification publication
+    /* 2.2 Post Modification */
 modelsCtrl.putPost = (req, res, next) => {
     const schema = Joi.object({
         description: Joi.string(),
@@ -56,7 +59,7 @@ modelsCtrl.putPost = (req, res, next) => {
 });
 validateRequest(req, next, schema);}
 
-// Gestion like
+    /* 2.3 Création/Suppression de like */
 modelsCtrl.like = (req, res, next) => {
     const schema = Joi.object({
         PostId: Joi.number().required(),
@@ -64,15 +67,16 @@ modelsCtrl.like = (req, res, next) => {
 });
 validateRequest(req, next, schema);}
 
-// TODO 
-    // Création de la liste
+/* 3. TODOLIST */
+    /* 3.1 TODO Création */
 modelsCtrl.todoCreate = (req, res, next) => {
     const schema = Joi.object({
         title: Joi.string().required(),
         visibility: Joi.string().required()        
 });
 validateRequest(req, next, schema);}
-// Modification de la liste
+
+    /* 3.2 TODO Modification */
 modelsCtrl.todoUpdate = (req, res, next) => {
     const schema = Joi.object({
         title: Joi.string(),
@@ -80,18 +84,43 @@ modelsCtrl.todoUpdate = (req, res, next) => {
 });
 validateRequest(req, next, schema);}
 
-    // Création d'un élément de la liste
+    /* 3.3 TODO - Element Création */
 modelsCtrl.elementCreate = (req, res, next) => {
     const schema = Joi.object({
         description: Joi.string().required()
 });
 validateRequest(req, next, schema);}
-    // Validation/Dévalidation d'un élément
+
+    /* 3.4 TODO - Element Validation */
 modelsCtrl.validateElement = (req, res, next) => {
     const schema = Joi.object({
         validate: Joi.boolean(),
 });
 validateRequest(req, next, schema);}
+
+/* 4. Gestion du Planning */ 
+    /* Planning - Création des Services */
+    modelsCtrl.servicesCreate = (req, res, next) => {
+        const schema = Joi.object({
+        nomService: Joi.string().required(),
+    });
+    validateRequest(req, next, schema);}
+
+    /* Planning - Création des Postes */
+    modelsCtrl.postesCreate = (req, res, next) => {
+        const schema = Joi.object({
+        nomPoste: Joi.string().required(),
+    });
+    validateRequest(req, next, schema);}
+
+    /* Planning - Création des Equipes */
+    modelsCtrl.equipesCreate = (req, res, next) => {
+        const schema = Joi.object({
+        nomEquipe: Joi.string().required(),
+    });
+    validateRequest(req, next, schema);}
+
+    /* Planning - Gestion infos Agent */
 
 
 /* Fonction: Validation du controlleur */
