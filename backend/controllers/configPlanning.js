@@ -41,6 +41,23 @@ exports.updrateServices = (req, res, next) => {
     })
 }
 
+/* 2.4 Récupéreation de la liste des services */
+exports.getAllServices = (req, res, next) => {
+    db.Services.findAll({
+        include:
+            {model: db.PosteService,
+                include: {
+                    model: db.Postes,
+                    as: 'Postes',
+                    attributes: ['id', 'nomPoste']
+                },
+            as: 'PosteService',
+            attributes: ['id']},
+        attributes: ['id', 'nomService']
+        })
+    .then((services) => res.status(200).json({services}))
+}
+
 /* 3. Poste */
  /* 3.1 Création de Poste */
 exports.createPoste = (req, res, next) => {
@@ -78,7 +95,6 @@ exports.updatePoste = (req, res, next) => {
 
  /* 3.4 Association Poste - Service */
  exports.associatePoste = (req, res, next) => {
-    console.log(req.params, req.body);
     db.PosteService.create(req.params)
     .then(() => res.status(200).json({message: 'Association effectuée'}))
     .catch(next)

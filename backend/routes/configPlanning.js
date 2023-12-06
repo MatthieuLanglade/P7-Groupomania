@@ -39,6 +39,10 @@ router.delete(
     '/postes/:id',
     configPlanningCtrl.deleteServices
 )
+router.get(
+    '/services/',
+    configPlanningCtrl.getAllServices
+)
     /* Associer un poste à un service */ 
 router.post(
     '/services/:serviceid/postes/:posteid',
