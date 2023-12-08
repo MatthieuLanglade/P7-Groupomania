@@ -11,6 +11,8 @@ import TodoList from './pages//Tools/TodoList';
 import Tools from './pages/Tools/Tools';
 import Affichage from './pages/Affichage/Affichage'
 import Planning from './pages/Tools/Planning';
+import Administration from './pages/Administration/Administration';
+import AdminPlanning from './pages/Administration/AdminPlanning';
 
 const App = () => {
   const [feed, updateFeed] = useState(true)   
@@ -52,6 +54,11 @@ const App = () => {
           <Route path='/outils/planning' element={<Planning
                         feed={feed} 
                         updateFeed={updateFeed}/>}/>
+
+          {/*  Administration */}
+          <Route path='/admin' element={<Administration />} />
+          <Route path='/admin/planning' element={<AdminPlanning />} />
+
           <Route path='*' element={<Navigate to="/" replace/>} />
         </Route>
       </Routes>

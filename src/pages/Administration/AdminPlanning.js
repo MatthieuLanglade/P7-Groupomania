@@ -1,21 +1,16 @@
-import React from 'react'
-import Events from '../../components/Events';
 import Navigation from '../../components/Navigation';
-import UserSumUp from '../../components/User/UserSumUp';
-import ShowPlanning from '../../components/Planning/ShowPlanning';
-import { NavLink } from 'react-router-dom';
+import React, { useEffect, useState } from 'react'
+import HandleAdminPlanning from '../../components/Planning/HandleAdminPlanning';
 
-function Planning() {
-  return (
+function AdminPlanning() {
+    return (
     <div >
         <div className="main-container">
             <div className="top-container">
                 <Navigation />
             </div>
             <div className="content-container">
-                <div id='planning'>
-                <ShowPlanning />
-                </div>
+                <HandleAdminPlanning />
             </div>
             {/* <div className="right-container"> */}
                 {/* <Search /> */}
@@ -27,4 +22,4 @@ function Planning() {
   )
 }
 
-export default Planning
+export default AdminPlanning

@@ -43,9 +43,13 @@ router.get(
     '/services/',
     configPlanningCtrl.getAllServices
 )
+router.get(
+    '/postes/',
+    configPlanningCtrl.getAllPostes
+)
     /* Associer un poste à un service */ 
 router.post(
-    '/services/:serviceid/postes/:posteid',
+    '/services/:ServiceId/postes/:PosteId',
     configPlanningCtrl.associatePoste
 )
 module.exports  = router;

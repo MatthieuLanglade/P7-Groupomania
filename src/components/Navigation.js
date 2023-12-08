@@ -137,9 +137,9 @@ const Navigation = () => {
                     ))
                 }
                 {/* Pour intégration panneau administration */}
-                {/* {admin === 'true' && <NavLink to='/admin' >
+                {admin === 'true' && <NavLink to='/admin' >
                 <li ><i className='fa-solid fa-screwdriver-wrench'></i><span>Administration</span></li>
-                </NavLink>} */}
+                </NavLink>}
                 <NavLink to='/' className='logout' onClick={() => logOut()}>
                 <li ><i className='fa-solid fa-power-off'></i><span>Déconnection</span></li>
                 </NavLink>

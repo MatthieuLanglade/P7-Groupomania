@@ -95,8 +95,14 @@ exports.updatePoste = (req, res, next) => {
 
  /* 3.4 Association Poste - Service */
  exports.associatePoste = (req, res, next) => {
+    console.log(req.params)
     db.PosteService.create(req.params)
-    .then(() => res.status(200).json({message: 'Association effectuée'}))
+    .then((done) => res.status(200).json({message: 'Association effectuée', done}))
     .catch(next)
 }
 
+ /* 3.5 Récupération liste des postes */
+exports.getAllPostes = (req, res, next) => {
+    db.Postes.findAll({attributes: ['id','nomPoste']})
+    .then((postes) => res.status(200).json({postes}))
+}

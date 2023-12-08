@@ -85,14 +85,14 @@ async function initialize() {
 
         // PosteService -> Postes
     db.PosteService.belongsTo(db.Postes, {
-        foreignKey: {name: 'posteid', allowNull: false},
+        foreignKey: {name: 'PosteId', allowNull: false},
         as: 'Postes',
         onDelete: 'CASCADE'}
         )
     db.Postes.hasMany(db.PosteService, {as: 'PosteService'})
         // PosteService -> Services
     db.PosteService.belongsTo(db.Services, {
-        foreignKey: {name: 'serviceid', allowNull: false},
+        foreignKey: {name: 'ServiceId', allowNull: false},
         as: 'Services',
         onDelete: 'CASCADE'}
         )

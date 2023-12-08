@@ -64,6 +64,13 @@ _/!\ Le token d'identification est réglé pour durer 24h, votre session sera ac
 
 ## Versions 
 
+## v1.2.1 - Gestion Administrations des agents
+* En logique avec le planning, gestion des :
+    - Services
+    - Postes
+    - Equipes
+* Rajout d'une partie Administration pour le rôle admin.
+
 ## v1.2.0 - Outil Planning
 * Fonction planning avec rôle (gestionnaire, demandeur)
 
