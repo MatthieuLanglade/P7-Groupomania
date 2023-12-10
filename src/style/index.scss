@@ -1099,83 +1099,94 @@
 
 // Gestion de la config Planning
 #config-planning {
-    @include boxtoplign;
-    #config-list {
+    text-align: left;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    .block-config {
+        @include boxtoplign;
+    }
+    h3 {
+        padding: 10px 0px;
         text-align: left;
-        ul {
-            list-style: none;
-            padding: 0px;
-        }
-        li { 
-            margin: 5px;
-            width: auto;
-            padding: 5px;
-        }
-        .list-service {
-            border: 1px solid black;
-            border-radius: 5px;
-            h3 {
-                margin: 0px;
-            }
-        }
-        .ajout-poste , .ajout-service {
-            @include verticalCenter;
-            justify-content: left;
-            gap: 10px;
-        }
-        .ajout-service {
-            textarea {
-                width: 100%
-            }
-        }
-        .nouveau-poste {
-            color: $color-4;
-        }
-        .list-poste {
-            @include verticalCenter;
-            justify-content: left;
-            width: auto;
-            height: 30px;
-        }
-        textarea{
-            width: 60%;
-        }
-        .validate-choice {
-            @include verticalCenter;
-            width: 40px;
-            height: 40px;
-            border: 2px solid $color-1;
-            background-color: lighten($color-1, 5%);
-            color: white;
-            border-radius: 5px;
-            font-size: 25px;
-            &:hover {
-                cursor: pointer;
-                border: 2px solid $color-4;
-                background-color: lighten($color-4, 5%);
-            }
-        }
-        .delete-poste {
-            &:hover {
-                cursor: pointer;
-                background-color: rgba(255, 0, 0, 1);
-            }
-            display: none;
-            background-color: rgba(255, 0, 0, 0.8);
-            border: 1px solid red;
-            border-radius: 5px;
-            padding: 5px;
-            margin-left: 15px;
-            color: white;
-            width: auto;
-            i {margin-right: 5px;}
-        }
-        .display {
-            display: block;
-        }
-        select{
-            width: auto;
+        margin: 0px;
+    }
+    .block-ajout {
+        @include boxleftlign;
+    }
+}
+#config-list {
+    ul {
+        list-style: none;
+        padding: 0px;
+        margin: 0px;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+    }
+    li { 
+        width: auto;
+        padding: 5px;
+    }
+    .list-service {
+        @include boxleftlign;
+    }
+    .ajout-poste , .ajout-service {
+        @include verticalCenter;
+        justify-content: left;
+        gap: 10px;
+    }
+    .ajout-service {
+        textarea {
+            width: 100%
         }
     }
-
+    .nouveau-poste {
+        color: $color-4;
+    }
+    .list-poste {
+        @include verticalCenter;
+        justify-content: left;
+        width: auto;
+        height: 30px;
+    }
+    textarea{
+        width: 60%;
+    }
+    .validate-choice {
+        @include verticalCenter;
+        width: 40px;
+        height: 40px;
+        border: 2px solid $color-1;
+        background-color: lighten($color-1, 5%);
+        color: white;
+        border-radius: 5px;
+        font-size: 25px;
+        &:hover {
+            cursor: pointer;
+            border: 2px solid $color-4;
+            background-color: lighten($color-4, 5%);
+        }
+    }
+    .delete-poste {
+        &:hover {
+            cursor: pointer;
+            background-color: rgba(255, 0, 0, 1);
+        }
+        display: none;
+        background-color: rgba(255, 0, 0, 0.8);
+        border: 1px solid red;
+        border-radius: 5px;
+        padding: 5px;
+        margin-left: 15px;
+        color: white;
+        width: auto;
+        i {margin-right: 5px;}
+    }
+    .display {
+        display: block;
+    }
+    select{
+        width: auto;
+    }
 }

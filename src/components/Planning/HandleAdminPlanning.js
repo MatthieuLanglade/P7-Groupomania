@@ -66,22 +66,18 @@ function HandleAdminPlanning() {
     // Gérer Nouveau 
   return (
     <div id='config-planning'>
-        <h2>Gestion de l'organigramme des équipes.</h2>
+        <div className='block-config'>
+        <h2>Association Service - Poste - Equipe</h2>
+        </div>
         <div id='config-list'>
         <ul>
-        <li className='ajout-service'>
-            <div className='validate-choice'><i className="fa-solid fa-check"></i></div>
-            <textarea
-                placeholder='Ajouter un service'
-            ></textarea>
-        </li>
         {configPlanning.map((service, index) => (
             <li 
             className='list-service' 
             key={service.id}>
                     <h3>{index+1}. {service.nomService}</h3>
                 <ul>
-                    <li className='ajout-poste' >
+                    <li className='ajout-poste'>
                         <div 
                         className='validate-choice'
                         onClick={() => handlePosteService(service.id)}
@@ -89,7 +85,7 @@ function HandleAdminPlanning() {
                         <label for='poste-select'></label>
                         <select id='poste-select' 
                         onChange={(e) => setSelectedPoste([...selectedPoste.filter(f => f.serviceId !== service.id), {'posteId':e.target.value, 'serviceId': service.id}])}>
-                            <option value=''>--Sélectionner un poste--</option>
+                            <option value=''>-- Sélectionner un poste --</option>
                         {postesList
                             .filter(poste => !listPostesUtilise(service).includes(poste.id))
                             .map((poste) => (
@@ -126,6 +122,21 @@ function HandleAdminPlanning() {
             </li>
         ))}
         </ul>
+        </div>
+
+        <div className='block-config'>
+        <h2>Créer Service - Poste - Equipe</h2>
+        </div>
+        <div className='block-ajout'>
+        <h3>Créer Service</h3>
+            <ul>
+            <li className='ajout-service'>
+                <div className='validate-choice'><i className="fa-solid fa-check"></i></div>
+                <textarea
+                    placeholder='Ajouter un service'
+                ></textarea>
+            </li>
+            </ul>
         </div>
     </div>
   )
