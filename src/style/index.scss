@@ -1104,42 +1104,117 @@
     flex-direction: column;
     gap: 20px;
     .block-config {
-        @include boxtoplign;
+        @include boxtoplign;;
+    }
+    .block-ajout {
+        @include boxleftlign;
+        padding: 10px;
     }
     h3 {
         padding: 10px 0px;
         text-align: left;
         margin: 0px;
     }
-    .block-ajout {
-        @include boxleftlign;
-    }
-}
-#config-list {
     ul {
         list-style: none;
         padding: 0px;
         margin: 0px;
         display: flex;
         flex-direction: column;
-        gap: 10px;
+        // gap: 10px;
     }
     li { 
         width: auto;
-        padding: 5px;
+        padding: 10px 5px;
     }
-    .list-service {
-        @include boxleftlign;
+}
+// Gestion Block 
+.ajout-element {
+    @include verticalCenter;
+    justify-content: left;
+    gap: 10px;
+    &:hover {
+        .element-hidden {
+            width: 40px;
+            transition: .4s;
+            i {
+                font-size: 25px;
+                transform: rotate(0deg);
+                transition: .4s;
+            }
+            &:hover {
+                border-radius: 50%;
+                transform: rotate(45deg) scale(1.4);
+                transition: .4s;
+                i{
+                    transform: rotate(-45deg);
+                    transition: .4s;
+                }
+            }
+        }
     }
-    .ajout-poste , .ajout-service {
+    input {
+        flex-grow: 1;
+        font-size: 1.2em;
+        padding: 10px;
+        &:focus{
+            background-color: rgba($color-1, 0.2)
+        }
+    }
+    .element-list {
         @include verticalCenter;
         justify-content: left;
-        gap: 10px;
+        padding: 10px;
+        flex-grow: 1;
+        border: 1px solid $color-1;
+        height: 40px;
+        border-radius: 5px;
+        font-size: 1.2em;
     }
-    .ajout-service {
-        textarea {
-            width: 100%
+    .button-choice {
+        @include verticalCenter;
+        width: 40px;
+        height: 40px;
+        border-radius: 5px;
+        color: white;
+        font-size: 25px;
+        &:hover {
+            cursor: pointer;
         }
+    }
+    .element-hidden {
+        width: 10px;
+        i {
+            transform: rotate(-90deg);
+            font-size: 0;
+        }
+    }
+    .edit-choice {
+        border: 2px solid $color-4;
+        background-color: rgba($color-4, 0.7);
+        &:hover {
+            background-color: rgba($color-4, 1);
+        }
+    }
+    .delete-choice {
+        border: 2px solid rgba(255, 0, 0, 1);
+        background-color: rgba(255, 0, 0, .6);
+        &:hover {
+            background-color: rgba(255, 0, 0, .8);
+        }
+    }
+    .validate-choice {
+        border: 2px solid $color-1;
+        background-color: rgba($color-1, 0.7);
+        &:hover {
+            background-color: rgba($color-1, 1);
+        }
+    }
+}
+
+#config-list {
+    .list-service {
+        @include boxleftlign;
     }
     .nouveau-poste {
         color: $color-4;
@@ -1151,22 +1226,7 @@
         height: 30px;
     }
     textarea{
-        width: 60%;
-    }
-    .validate-choice {
-        @include verticalCenter;
-        width: 40px;
-        height: 40px;
-        border: 2px solid $color-1;
-        background-color: lighten($color-1, 5%);
-        color: white;
-        border-radius: 5px;
-        font-size: 25px;
-        &:hover {
-            cursor: pointer;
-            border: 2px solid $color-4;
-            background-color: lighten($color-4, 5%);
-        }
+        width: 100%;
     }
     .delete-poste {
         &:hover {
@@ -1174,8 +1234,8 @@
             background-color: rgba(255, 0, 0, 1);
         }
         display: none;
-        background-color: rgba(255, 0, 0, 0.8);
-        border: 1px solid red;
+        background-color: rgba(255, 0, 0, 0.7);
+        border: 1px solid rgba(255, 0, 0, 1);
         border-radius: 5px;
         padding: 5px;
         margin-left: 15px;

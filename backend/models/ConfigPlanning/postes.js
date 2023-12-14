@@ -4,7 +4,7 @@ module.exports = model;
 
 function model(sequelize) {
     const attributes = {
-        nomPoste : { type: DataTypes.TEXT, allowNull: false },
+        nom : { type: DataTypes.TEXT, allowNull: false },
     };
     const options = {
         onDelete: 'CASCADE',

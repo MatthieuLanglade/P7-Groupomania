@@ -102,21 +102,21 @@ validateRequest(req, next, schema);}
     /* Planning - Création des Services */
     modelsCtrl.servicesCreate = (req, res, next) => {
         const schema = Joi.object({
-        nomService: Joi.string().required(),
+        nom: Joi.string().required(),
     });
     validateRequest(req, next, schema);}
 
     /* Planning - Création des Postes */
     modelsCtrl.postesCreate = (req, res, next) => {
         const schema = Joi.object({
-        nomPoste: Joi.string().required(),
+        nom: Joi.string().required(),
     });
     validateRequest(req, next, schema);}
 
     /* Planning - Création des Equipes */
     modelsCtrl.equipesCreate = (req, res, next) => {
         const schema = Joi.object({
-        nomEquipe: Joi.string().required(),
+        nom: Joi.string().required(),
     });
     validateRequest(req, next, schema);}
 

@@ -37,7 +37,7 @@ router.put(
 )
 router.delete(
     '/postes/:id',
-    configPlanningCtrl.deleteServices
+    configPlanningCtrl.deletePoste
 )
 router.get(
     '/services/',
@@ -52,4 +52,9 @@ router.post(
     '/services/:ServiceId/postes/:PosteId',
     configPlanningCtrl.associatePoste
 )
+router.delete(
+    '/services/:ServiceId/postes/:PosteId',
+    configPlanningCtrl.deleteAssociatePoste
+)
+
 module.exports  = router;
