@@ -2,13 +2,15 @@ import React, { useEffect, useState } from 'react'
 
 function HandleAdminPlanning() {
     //States 
-    const [serviceCreateValue, setServiceCreateValue] = useState('')
-    const [posteCreateValue, setPosteCreateValue] = useState('')
-    const [configPlanning, setConfigPlanning] = useState([])
-    const [postesList, setPostesList] = useState([])
-    const [hoverPoste, setHoverPoste] = useState('')
-    const [selectedPoste,setSelectedPoste] = useState([])
-    const [feed, updateFeed] = useState(true)
+    const [configPlanning, setConfigPlanning] = useState([]) // Données config
+    const [postesList, setPostesList] = useState([]) // Données Postes
+    const [serviceCreateValue, setServiceCreateValue] = useState('') // Input Création Service
+    const [posteCreateValue, setPosteCreateValue] = useState('') //  Input Création Poste 
+    const [hoverPoste, setHoverPoste] = useState('') // Hover pour suppression Association Poste-service
+    const [selectedPoste,setSelectedPoste] = useState([]) // Select Association Poste-Service
+    const [selectedEdit, setSelectedEdit] = useState('') // Choix de l'input édité
+    const [selectedEditValue, setSelectedEditValue] = useState('') // Value de l'input édité
+    const [feed, updateFeed] = useState(true) // MAJ DOM
 
     // Fetch Config Planning
     useEffect(() => {
@@ -51,7 +53,7 @@ function HandleAdminPlanning() {
     // Gérer Association Poste-Service
     const handlePosteService = (idATester) => {
         // Récupèration PosteId
-        const posteId = selectedPoste.filter(f => f.serviceId == idATester)[0].posteId
+        const posteId = selectedPoste.filter(f => f.serviceId === idATester)[0].posteId
         // Vérification du format de posteId
         if(isNumeric(parseFloat(posteId))) {
         // Options Fetch
@@ -98,7 +100,7 @@ function HandleAdminPlanning() {
             .catch((err) => err) 
     }
     // Gérer Nouveau 
-    const handleCreate = (action, type, nom) => {
+    const handleCreate = (action, type, nom, id = '') => {
         const body = {
             "nom": nom
         }
@@ -111,9 +113,15 @@ function HandleAdminPlanning() {
                 // 'Authorization': `token ${token}`
             }
         }
-        fetch(`http://localhost:4000/api/configPlanning/${type}/`, requestOptions)
+        fetch(`http://localhost:4000/api/configPlanning/${type}/${id}`, requestOptions)
             .then((res) => res.json())
-            .finally(() => updateFeed(true))
+            .finally(() => {
+                setServiceCreateValue('')
+                setPosteCreateValue('')
+                setSelectedEdit('')
+                setSelectedEditValue('')
+                updateFeed(true)
+            })
             .catch((err) => err) 
         }
 
@@ -175,25 +183,52 @@ return (
         {/* AJOUTER UN SERVICE */}
         <ul>
         <li className='ajout-element'>
+        {selectedEdit !== '' ||
             <div 
-                className='validate-choice button-choice'
-                onClick={() => handleCreate('POST', 'services', serviceCreateValue)}><i className="fa-solid fa-plus"></i></div>
+                className='validate-choice button-choice' 
+                onClick={() => handleCreate('POST', 'services', serviceCreateValue)}>
+            <i className="fa-solid fa-check"></i></div>}
             <input
+            className={selectedEdit ? 'grey-input' : ''}
+                value={serviceCreateValue}
                 placeholder='Ajouter un Service'
                 onChange={(e) => setServiceCreateValue(e.target.value)}/>
         </li>
         {/* LISTE DES SERVICES */}
         {configPlanning.map((service, index) => (
-            <li key={index} className='ajout-element'>
-                {<div className='validate-choice button-choice'>
-                    <i className="fa-solid fa-plus"></i></div>}
-                <div className='element-list'>{service.nom}</div>
-                <div className='edit-choice button-choice element-hidden'>
-                    <i className="fa-solid fa-pen-to-square"></i></div>
-                <div className='delete-choice button-choice element-hidden'
-                    onClick={() => handleDelete('services', service.id)}>
-                    <i className="fa-solid fa-trash"></i></div>
-            </li>
+        <li key={index} className='ajout-element'>
+            {selectedEdit.service === service.id 
+
+            ? (<>
+            {/* MODIFICATION DU SERVICE */}
+            <div className='validate-choice button-choice'
+                onClick={() => handleCreate('PUT', 'services', selectedEditValue, selectedEdit.service)}>
+            <i className="fa-solid fa-check"></i>
+            </div>
+            <input 
+                value={selectedEditValue}
+                onChange={(e) => setSelectedEditValue(e.target.value)}
+                autoFocus/>
+            <div className='delete-choice button-choice'
+                onClick={() => {setSelectedEdit(''); setSelectedEditValue('')}}>
+            <i className="fa-solid fa-ban"></i>
+            </div>
+            </>)
+
+            : (<>
+            {/* AFFICHAGE DU SERVICE */}
+            <div className='element-list'>{service.nom}</div>
+            <div className='edit-choice button-choice element-hidden' 
+                onClick={() => {
+                    setSelectedEdit({'service': service.id})
+                    setSelectedEditValue(service.nom)}}>
+            <i className="fa-solid fa-pen-to-square"></i>
+            </div>
+            <div className='delete-choice button-choice element-hidden'
+                onClick={() => handleDelete('services', service.id)}>
+                <i className="fa-solid fa-trash"></i></div>
+                </>)}
+        </li>
         ))}
         </ul>
     </div>
@@ -202,28 +237,53 @@ return (
         {/* AJOUTER UN POSTE */}
         <ul>
         <li className='ajout-element'>
+        {selectedEdit !== '' ||
             <div 
                 className='validate-choice button-choice' 
                 onClick={() => handleCreate('POST', 'postes', posteCreateValue)}>
-            <i className="fa-solid fa-check"></i></div>
+            <i className="fa-solid fa-check"></i></div>}
             <input
+            className={selectedEdit ? 'grey-input' : ''}
+                value={posteCreateValue}
                 placeholder='Ajouter un Poste'
                 onChange={(e) => setPosteCreateValue(e.target.value)}/>
         </li>
         {/* LISTE DES POSTES */}
         {postesList.map((postList, index) => (
         <li key={index} className='ajout-element'>
-            <div className='validate-choice button-choice'><i className="fa-solid fa-plus"></i></div>
+            {selectedEdit.poste === postList.id 
+
+            ? (<>
+            {/* MODIFICATION DU POSTE */}
+            <div className='validate-choice button-choice'
+                onClick={() => handleCreate('PUT', 'postes', selectedEditValue, selectedEdit.poste)}>
+            <i className="fa-solid fa-check"></i>
+            </div>
+            <input 
+                value={selectedEditValue}
+                onChange={(e) => setSelectedEditValue(e.target.value)}
+                autoFocus/>
+            <div className='delete-choice button-choice'
+                onClick={() => {setSelectedEdit(''); setSelectedEditValue('')}}>
+            <i className="fa-solid fa-ban"></i>
+            </div>
+            </>)
+
+            : (<>
+            {/* AFFICHAGE DU POSTE */}
             <div className='element-list'>{postList.nom}</div>
-            <div className='edit-choice button-choice element-hidden'>
-                <i className="fa-solid fa-pen-to-square"></i></div>
+            <div className='edit-choice button-choice element-hidden' 
+                onClick={() => {
+                    setSelectedEdit({'poste': postList.id})
+                    setSelectedEditValue(postList.nom)}}>
+            <i className="fa-solid fa-pen-to-square"></i>
+            </div>
             <div className='delete-choice button-choice element-hidden'
                 onClick={() => handleDelete('postes', postList.id)}>
                 <i className="fa-solid fa-trash"></i></div>
-            
+                </>)}
         </li>
-        )
-        )}
+        ))}
         </ul>
     </div>
 </div>

@@ -1161,6 +1161,9 @@
             background-color: rgba($color-1, 0.2)
         }
     }
+    .grey-input {
+        background-color: lighten($color-3, 50%);
+    }
     .element-list {
         @include verticalCenter;
         justify-content: left;
