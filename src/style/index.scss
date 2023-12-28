@@ -1103,37 +1103,87 @@
     display: flex;
     flex-direction: column;
     gap: 20px;
-    .block-config {
+    .block-titre {
         @include boxtoplign;;
     }
-    .block-ajout {
+    .block-list {
         @include boxleftlign;
         padding: 10px;
     }
     h3 {
-        padding: 10px 0px;
-        text-align: left;
-        margin: 0px;
+        @include verticalCenter;
+        justify-content: space-between;
+        background-color: $color-4;
+        border-radius: 5px 5px 5px 0px;
+        padding: 10px;
+        margin: 0px; 
+        .list-visibility {
+            font-size: 30px;
+            right: 0px;
+            &:hover {
+                cursor: pointer;
+                opacity: 0.4;
+            }
+        }
     }
     ul {
-        list-style: none;
-        padding: 0px;
-        margin: 0px;
         display: flex;
+        list-style: none;
+        margin: 0px;
         flex-direction: column;
-        // gap: 10px;
+        padding: 0px;
+        ul {
+            padding-left: 15px;
+            border-left: 5px dotted $color-4;
+            // box-shadow: -10px 0px rgba($color-1, 60%);
+        }
     }
     li { 
         width: auto;
-        padding: 10px 5px;
+        padding: 5px 0px;
     }
 }
 // Gestion Block 
-.ajout-element {
-    @include verticalCenter;
+.element-list {
+    display: flex;
     justify-content: left;
+    align-items: center;
     gap: 10px;
+    padding: 10px;
+    flex-grow: 1;
+    font-size: 1em;
+    .element-cadre {
+        border: 1px solid $color-1;
+        border-radius: 5px;
+    }
+    input {
+        flex-grow: 1;
+        font-size: 1.2em;
+        padding: 10px;
+        &:focus{
+            background-color: rgba($color-1, 0.2)
+        }
+    }
+    .grey-input {
+        background-color: lighten($color-3, 50%);
+    }
+    // BOUTON DE CHOIX
+    .button-choice {
+        @include verticalCenter;
+        width: 40px;
+        height: 40px;
+        border-radius: 5px;
+        color: white;
+        font-size: 25px;
+        &:hover {
+            cursor: pointer;
+        }
+    }
+    // BOUTON CACHE
     &:hover {
+        .element-cadre{
+            background-color: rgba($color-1, 10%);
+        }
         .element-hidden {
             width: 40px;
             transition: .4s;
@@ -1153,38 +1203,6 @@
             }
         }
     }
-    input {
-        flex-grow: 1;
-        font-size: 1.2em;
-        padding: 10px;
-        &:focus{
-            background-color: rgba($color-1, 0.2)
-        }
-    }
-    .grey-input {
-        background-color: lighten($color-3, 50%);
-    }
-    .element-list {
-        @include verticalCenter;
-        justify-content: left;
-        padding: 10px;
-        flex-grow: 1;
-        border: 1px solid $color-1;
-        height: 40px;
-        border-radius: 5px;
-        font-size: 1.2em;
-    }
-    .button-choice {
-        @include verticalCenter;
-        width: 40px;
-        height: 40px;
-        border-radius: 5px;
-        color: white;
-        font-size: 25px;
-        &:hover {
-            cursor: pointer;
-        }
-    }
     .element-hidden {
         width: 10px;
         i {
@@ -1192,6 +1210,7 @@
             font-size: 0;
         }
     }
+    // COULEURS DES BOUTONS
     .edit-choice {
         border: 2px solid $color-4;
         background-color: rgba($color-4, 0.7);
@@ -1213,43 +1232,19 @@
             background-color: rgba($color-1, 1);
         }
     }
-}
-
-#config-list {
-    .list-service {
-        @include boxleftlign;
-    }
-    .nouveau-poste {
-        color: $color-4;
-    }
-    .list-poste {
-        @include verticalCenter;
-        justify-content: left;
-        width: auto;
-        height: 30px;
-    }
-    textarea{
-        width: 100%;
-    }
-    .delete-poste {
+    .sort-choice {
+        border: 2px solid $color-2;
+        background-color: rgba($color-2, 0.7);
         &:hover {
-            cursor: pointer;
-            background-color: rgba(255, 0, 0, 1);
+            background-color: rgba($color-2, 1);
         }
-        display: none;
-        background-color: rgba(255, 0, 0, 0.7);
-        border: 1px solid rgba(255, 0, 0, 1);
-        border-radius: 5px;
-        padding: 5px;
-        margin-left: 15px;
-        color: white;
-        width: auto;
-        i {margin-right: 5px;}
     }
-    .display {
-        display: block;
-    }
-    select{
-        width: auto;
-    }
+}
+#mef-logo {
+    width: 80px;
+    height: 80px;
+    object-fit: contain;
+    border-radius: 50%;
+    padding: 2px;
+    background-color: white;
 }

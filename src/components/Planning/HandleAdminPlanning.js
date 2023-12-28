@@ -11,6 +11,7 @@ function HandleAdminPlanning() {
     const [selectedEdit, setSelectedEdit] = useState('') // Choix de l'input édité
     const [selectedEditValue, setSelectedEditValue] = useState('') // Value de l'input édité
     const [feed, updateFeed] = useState(true) // MAJ DOM
+    const [listVisibility, setListVisibility] = useState([]) // Affichage du détail des listes
 
     // Fetch Config Planning
     useEffect(() => {
@@ -125,64 +126,103 @@ function HandleAdminPlanning() {
             .catch((err) => err) 
         }
 
+    // Fonction Afficher/Masquer les listes
+    const showListDetails = (listID) => {
+        setListVisibility([...listVisibility, listID ])
+    }
+    const hideListDetails = (listID) => {
+        for (let i in listVisibility){
+            if(listVisibility[i] === listID) {
+                listVisibility.splice(i,1)
+            }
+        }
+        setListVisibility([...listVisibility])
+    }
 return (
 <div id='config-planning'>
-    <div className='block-config'>
+    <div className='block-titre'>
         <h2>Association Service - Poste - Equipe</h2>
     </div>
-    <div id='config-list'>
+    <div className='block-list'>
     <ul>
     {configPlanning.map((service, index) => (
         <li 
         className='list-service' 
         key={service.id}>
-                <h3>{index+1}. {service.nom}</h3>
+                <h3>
+                    {index+1} ➖ {service.nom}
+                    <div className='list-visibility'>
+                        {!listVisibility.includes(service.id) &&
+                        <i className="fa-solid fa-arrow-down" onClick={() => showListDetails(service.id)}></i>
+                        }
+                        {listVisibility.includes(service.id) &&
+                        <i className="fa-solid fa-arrow-up" onClick={() => hideListDetails(service.id)}></i>
+                        }
+                    </div>
+                </h3>
+            {listVisibility.includes(service.id) && 
             <ul>
-                <li className='ajout-element'>
+                {/* ASSOCIER UN POSTE */}
+                <li className='element-list'>
                     <div 
-                    className='validate-choice button-choice'
-                    onClick={() => handlePosteService(service.id)}
+                        className='validate-choice button-choice'
+                        onClick={() => handlePosteService(service.id)}
                     ><i className="fa-solid fa-plus"></i></div>
-                    <label for='poste-select'></label>
                     <select id='poste-select' 
                         onChange={(e) => setSelectedPoste([...selectedPoste.filter(f => f.serviceId !== service.id), {'posteId':e.target.value, 'serviceId': service.id}])}>
-                        <option value=''>-- Sélectionner un poste --</option>
+                    <option selected value=''>-- Sélectionner un poste --</option>
                         {postesList
                         .filter(poste => !listPostesUtilise(service).includes(poste.id))
                         .map((poste) => (
-                        <option value={poste.id}>
-                            {poste.nom}
-                        </option>))}
+                    <option value={poste.id}>{poste.nom}</option>))}
                     </select>
                 </li>
-                {service.PosteService.map((poste, index) => (
-                    <li className='list-poste' 
+                
+                {/* LISTE DES POSTES ASSOCIES */}
+                {service.PosteService.map((poste, index) => (<>
+                <li className='element-list' 
                     key={poste.id}
                     onMouseEnter={() => setHoverPoste(poste.id)}
                     onMouseLeave={() => setHoverPoste('')}>
-                        {index+1}.  {poste.Postes.nom}
-                        <div 
-                            className={`delete-poste ${hoverPoste === poste.id ? 'display' : ''}`}
-                            onClick={() => handleDeletePosteService(service.id, poste.Postes.id)}>
-                        <i className="fa-solid fa-trash"></i>
-                        Supprimer le poste 
-                        </div>
+                    <div className='sort-choice button-choice element-hidden'>
+                        <i className='fa-solid fa-sort'></i></div>
+                    <div className='element-list element-cadre'>{index+1}.  {poste.Postes.nom}</div>
+                    <div className='delete-choice button-choice element-hidden'
+                        onClick={() => handleDeletePosteService(service.id, poste.Postes.id)}>
+                    <i className="fa-solid fa-trash"></i></div>
+                </li>
+                    {/* LISTE DES EQUIPES ASSOCIEES */}
+                    <li>
+                
+                    <ul>
+                        <li className='element-list'>
+                            <div className='sort-choice button-choice element-hidden'><i className='fa-solid fa-sort'></i></div>
+                            <div className='element-list element-cadre'>Equipe 1</div>
+                            <div className='delete-choice button-choice element-hidden'><i className="fa-solid fa-trash"></i></div>
                         </li>
-                    ))}
-            </ul>
+                        <li className='element-list'>
+                            <div className='sort-choice button-choice element-hidden'><i className='fa-solid fa-sort'></i></div>
+                            <div className='element-list element-cadre'>Equipe de Nuit</div>
+                            <div className='delete-choice button-choice element-hidden'><i className="fa-solid fa-trash"></i></div>
+                        </li>
+                    </ul>
+               
+                </li> 
+                    </>))}
+            </ul>}
         </li>
     ))}
     </ul>
     </div>
 
-    <div className='block-config'>
+    <div className='block-titre'>
     <h2>Créer Service - Poste - Equipe</h2>
     </div>
-    <div className='block-ajout'>
+    <div className='block-list'>
     <h3>Créer Service</h3>
         {/* AJOUTER UN SERVICE */}
         <ul>
-        <li className='ajout-element'>
+        <li className='element-list'>
         {selectedEdit !== '' ||
             <div 
                 className='validate-choice button-choice' 
@@ -196,11 +236,10 @@ return (
         </li>
         {/* LISTE DES SERVICES */}
         {configPlanning.map((service, index) => (
-        <li key={index} className='ajout-element'>
+        <li key={index} className='element-list'>
             {selectedEdit.service === service.id 
-
             ? (<>
-            {/* MODIFICATION DU SERVICE */}
+                {/* MODIFICATION DU SERVICE */}
             <div className='validate-choice button-choice'
                 onClick={() => handleCreate('PUT', 'services', selectedEditValue, selectedEdit.service)}>
             <i className="fa-solid fa-check"></i>
@@ -214,10 +253,11 @@ return (
             <i className="fa-solid fa-ban"></i>
             </div>
             </>)
-
             : (<>
-            {/* AFFICHAGE DU SERVICE */}
-            <div className='element-list'>{service.nom}</div>
+                {/* AFFICHAGE DU SERVICE */}
+            <div className='sort-choice button-choice element-hidden'>
+                <i className='fa-solid fa-sort'></i></div>
+            <div className='element-list element-cadre'>{service.nom}</div>
             <div className='edit-choice button-choice element-hidden' 
                 onClick={() => {
                     setSelectedEdit({'service': service.id})
@@ -232,11 +272,11 @@ return (
         ))}
         </ul>
     </div>
-    <div className='block-ajout'>
+    <div className='block-list'>
     <h3>Créer Poste</h3>
         {/* AJOUTER UN POSTE */}
         <ul>
-        <li className='ajout-element'>
+        <li className='element-list'>
         {selectedEdit !== '' ||
             <div 
                 className='validate-choice button-choice' 
@@ -250,7 +290,7 @@ return (
         </li>
         {/* LISTE DES POSTES */}
         {postesList.map((postList, index) => (
-        <li key={index} className='ajout-element'>
+        <li key={index} className='element-list'>
             {selectedEdit.poste === postList.id 
 
             ? (<>
@@ -271,7 +311,12 @@ return (
 
             : (<>
             {/* AFFICHAGE DU POSTE */}
-            <div className='element-list'>{postList.nom}</div>
+            <div className='sort-choice button-choice element-hidden'
+                draggable='true'
+                // onDrag={(e) => console.log(e.dataTransfer)}
+                >
+                <i className='fa-solid fa-sort'></i></div>
+            <div className='element-list element-cadre'>{postList.nom}</div>
             <div className='edit-choice button-choice element-hidden' 
                 onClick={() => {
                     setSelectedEdit({'poste': postList.id})

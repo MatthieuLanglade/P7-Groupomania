@@ -24,7 +24,6 @@ a:visited {
 
 body {
   background-color: rgb(242, 242, 242);
-  max-width: 1200px;
   margin: auto;
 }
 
@@ -1356,21 +1355,6 @@ textarea:is(:focus, :valid) {
   left: 10%;
 }
 
-.mois-planning #legende {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 20px;
-}
-.mois-planning #legende p {
-  text-align: left;
-  width: 90%;
-  margin: 0px;
-}
-.mois-planning #legende .legende {
-  width: 10%;
-  aspect-ratio: 1;
-}
 .mois-planning table {
   overflow: hidden;
   width: 100%;
@@ -1386,23 +1370,206 @@ textarea:is(:focus, :valid) {
 .mois-planning table tr:hover {
   background-color: rgba(0, 162, 156, 0.2);
 }
+.mois-planning table .leg-Sat {
+  background-color: #d2ecf8;
+}
+.mois-planning table .leg-Sun {
+  background-color: #bce2f4;
+}
+.mois-planning table .leg-Fer {
+  background-color: #65bde5;
+}
+.mois-planning table .leg-Gar {
+  background-color: #fec819;
+}
+.mois-planning table .leg-HrS {
+  background-color: #ffe698;
+}
+.mois-planning table .leg-CoM {
+  background-color: #00bcb5;
+}
 .mois-planning table td, .mois-planning table th {
   border: 1px solid black;
   min-width: 25px;
   min-height: 25px;
 }
-.mois-planning table td + .Sat, .mois-planning table th + .Sat {
-  background-color: #d2ecf8;
-}
-.mois-planning table td + .Sun, .mois-planning table th + .Sun {
-  background-color: #bce2f4;
-}
-.mois-planning table td:hover, .mois-planning table th:hover {
-  background-color: #00A29C;
-}
-.mois-planning table td, .mois-planning table th {
-  position: relative;
-}
 .mois-planning table .table-a-cocher {
   cursor: pointer;
+}
+.mois-planning table .table-a-cocher:hover {
+  background-color: #00A29C;
+}
+.mois-planning #legende {
+  display: flex;
+  gap: 20px;
+}
+.mois-planning #legende table {
+  text-align: left;
+  width: auto;
+}
+.mois-planning #legende td {
+  padding: 0px 10px;
+}
+.mois-planning #legende .legende {
+  width: 30px;
+  height: 30px;
+}
+
+#config-planning {
+  text-align: left;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+#config-planning .block-titre {
+  background-color: #FFFFFF;
+  border: 1px solid #e4e4e4;
+  border-top: 5px solid #00A29C;
+  box-shadow: 0 2px #e4e4e4;
+  text-align: center;
+  padding: 10px;
+}
+#config-planning .block-list {
+  background-color: #FFFFFF;
+  border: 1px solid #e4e4e4;
+  box-shadow: 0 2px #e4e4e4;
+  border-left: 3px solid #00A29C;
+  padding: 10px;
+}
+#config-planning h3 {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  justify-content: space-between;
+  background-color: #FDC101;
+  border-radius: 5px 5px 5px 0px;
+  padding: 10px;
+  margin: 0px;
+}
+#config-planning h3 .list-visibility {
+  font-size: 30px;
+  right: 0px;
+}
+#config-planning h3 .list-visibility:hover {
+  cursor: pointer;
+  opacity: 0.4;
+}
+#config-planning ul {
+  display: flex;
+  list-style: none;
+  margin: 0px;
+  flex-direction: column;
+  padding: 0px;
+}
+#config-planning ul ul {
+  padding-left: 15px;
+  border-left: 5px dotted #FDC101;
+}
+#config-planning li {
+  width: auto;
+  padding: 5px 0px;
+}
+
+.element-list {
+  display: flex;
+  justify-content: left;
+  align-items: center;
+  gap: 10px;
+  padding: 10px;
+  flex-grow: 1;
+  font-size: 1em;
+}
+.element-list .element-cadre {
+  border: 1px solid #00A29C;
+  border-radius: 5px;
+}
+.element-list input {
+  flex-grow: 1;
+  font-size: 1.2em;
+  padding: 10px;
+}
+.element-list input:focus {
+  background-color: rgba(0, 162, 156, 0.2);
+}
+.element-list .grey-input {
+  background-color: #d5d6df;
+}
+.element-list .button-choice {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 5px;
+  color: white;
+  font-size: 25px;
+}
+.element-list .button-choice:hover {
+  cursor: pointer;
+}
+.element-list:hover .element-cadre {
+  background-color: rgba(0, 162, 156, 0.1);
+}
+.element-list:hover .element-hidden {
+  width: 40px;
+  transition: 0.4s;
+}
+.element-list:hover .element-hidden i {
+  font-size: 25px;
+  transform: rotate(0deg);
+  transition: 0.4s;
+}
+.element-list:hover .element-hidden:hover {
+  border-radius: 50%;
+  transform: rotate(45deg) scale(1.4);
+  transition: 0.4s;
+}
+.element-list:hover .element-hidden:hover i {
+  transform: rotate(-45deg);
+  transition: 0.4s;
+}
+.element-list .element-hidden {
+  width: 10px;
+}
+.element-list .element-hidden i {
+  transform: rotate(-90deg);
+  font-size: 0;
+}
+.element-list .edit-choice {
+  border: 2px solid #FDC101;
+  background-color: rgba(253, 193, 1, 0.7);
+}
+.element-list .edit-choice:hover {
+  background-color: #fdc101;
+}
+.element-list .delete-choice {
+  border: 2px solid rgb(255, 0, 0);
+  background-color: rgba(255, 0, 0, 0.6);
+}
+.element-list .delete-choice:hover {
+  background-color: rgba(255, 0, 0, 0.8);
+}
+.element-list .validate-choice {
+  border: 2px solid #00A29C;
+  background-color: rgba(0, 162, 156, 0.7);
+}
+.element-list .validate-choice:hover {
+  background-color: #00a29c;
+}
+.element-list .sort-choice {
+  border: 2px solid #39AADE;
+  background-color: rgba(57, 170, 222, 0.7);
+}
+.element-list .sort-choice:hover {
+  background-color: #39aade;
+}
+
+#mef-logo {
+  width: 80px;
+  height: 80px;
+  -o-object-fit: contain;
+     object-fit: contain;
+  border-radius: 50%;
+  padding: 2px;
+  background-color: white;
 }/*# sourceMappingURL=index.css.map */
