@@ -1463,7 +1463,7 @@ textarea:is(:focus, :valid) {
 }
 #config-planning ul ul {
   padding-left: 15px;
-  border-left: 5px dotted #FDC101;
+  border-left: 10px dotted #FDC101;
 }
 #config-planning li {
   width: auto;
@@ -1565,11 +1565,11 @@ textarea:is(:focus, :valid) {
 }
 
 #mef-logo {
-  width: 80px;
-  height: 80px;
+  width: 108px;
+  height: 60px;
   -o-object-fit: contain;
      object-fit: contain;
-  border-radius: 50%;
+  border-radius: 10px;
   padding: 2px;
   background-color: white;
 }/*# sourceMappingURL=index.css.map */

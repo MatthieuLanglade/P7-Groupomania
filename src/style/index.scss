@@ -1134,7 +1134,7 @@
         padding: 0px;
         ul {
             padding-left: 15px;
-            border-left: 5px dotted $color-4;
+            border-left: 10px dotted $color-4;
             // box-shadow: -10px 0px rgba($color-1, 60%);
         }
     }
@@ -1241,10 +1241,10 @@
     }
 }
 #mef-logo {
-    width: 80px;
-    height: 80px;
+    width: 108px;
+    height: 60px;
     object-fit: contain;
-    border-radius: 50%;
+    border-radius: 10px;
     padding: 2px;
     background-color: white;
 }

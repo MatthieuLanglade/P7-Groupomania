@@ -8,6 +8,6 @@ function model(sequelize) {
     const options = {
         onDelete: 'CASCADE',
     };
-    return sequelize.define('PosteService', attributes, options);
+    return sequelize.define('ServicePostes', attributes, options);
 }
 

@@ -2,12 +2,14 @@ import React, { useEffect, useState } from 'react'
 
 function HandleAdminPlanning() {
     //States 
-    const [configPlanning, setConfigPlanning] = useState([]) // Données config
+    const [configPlanning, setConfigPlanning] = useState([]) // Données Services + Associations
     const [postesList, setPostesList] = useState([]) // Données Postes
+    const [equipesList, setEquipeList] = useState([]) // Données Equipes
     const [serviceCreateValue, setServiceCreateValue] = useState('') // Input Création Service
     const [posteCreateValue, setPosteCreateValue] = useState('') //  Input Création Poste 
-    const [hoverPoste, setHoverPoste] = useState('') // Hover pour suppression Association Poste-service
-    const [selectedPoste,setSelectedPoste] = useState([]) // Select Association Poste-Service
+    const [equipeCreateValue, setEquipeCreateValue] = useState('') //  Input Création Poste 
+    const [selectedPoste,setSelectedPoste] = useState([]) // Select Association Service-Poste
+    const [selectedEquipe,setSelectedEquipe] = useState([]) // Select Association Poste-Equipe
     const [selectedEdit, setSelectedEdit] = useState('') // Choix de l'input édité
     const [selectedEditValue, setSelectedEditValue] = useState('') // Value de l'input édité
     const [feed, updateFeed] = useState(true) // MAJ DOM
@@ -17,15 +19,19 @@ function HandleAdminPlanning() {
     useEffect(() => {
         fetchConfigPlanning()
         fetchPostes()
+        fetchEquipes()
+        // Récupération des Services Avec Associations
         async function fetchConfigPlanning() {
             try {
                 const resp = await fetch(`http://localhost:4000/api/configPlanning/services/`)
                 const respConfigPlanning = await resp.json() 
                 setConfigPlanning(respConfigPlanning.services)
+                console.log(configPlanning)
             } 
             catch (err) {console.log(err)}
             finally {updateFeed(false)}
         } 
+        // Récupération des Postes
         async function fetchPostes() {
             try {
                 const resp = await fetch(`http://localhost:4000/api/configPlanning/postes/`)
@@ -35,15 +41,33 @@ function HandleAdminPlanning() {
             catch (err) {console.log(err)}
             finally {updateFeed(false)}
         } 
+        // Récupération des Equipes
+        async function fetchEquipes() {
+            try {
+                const resp = await fetch(`http://localhost:4000/api/configPlanning/equipes/`)
+                const respEquipes = await resp.json() 
+                setEquipeList(respEquipes.equipes)
+            } 
+            catch (err) {console.log(err)}
+            finally {updateFeed(false)}
+        } 
     }, [feed])
 
     // Liste les Postes utilisés
     const listPostesUtilise = (service) => {
         const listePoste = []
-        for (let i in service.PosteService) {
-            listePoste.push(service.PosteService[i].Postes.id)
+        for (let i in service.ServicePostes) {
+            listePoste.push(service.ServicePostes[i].Postes.id)
         }
         return listePoste
+    }
+    // Liste les Equipes utilisées
+    const listEquipesUtilise = (poste) => {
+        const listeEquipe = []
+        for (let i in poste.PosteEquipes) {
+            listeEquipe.push(poste.PosteEquipes[i].Equipes.id)
+        }
+        return listeEquipe
     }
 
     // Vérifie si Valeur Numérique
@@ -51,8 +75,8 @@ function HandleAdminPlanning() {
         return !isNaN(parseFloat(value)) && isFinite(value);
     }
 
-    // Gérer Association Poste-Service
-    const handlePosteService = (idATester) => {
+    // Créer Association Poste-Service
+    const handleServicePoste = (idATester) => {
         // Récupèration PosteId
         const posteId = selectedPoste.filter(f => f.serviceId === idATester)[0].posteId
         // Vérification du format de posteId
@@ -71,9 +95,32 @@ function HandleAdminPlanning() {
             .catch((err) => err)
         } else {console.log("Poste Inconnue ou incorrect")}
     }
+    // Créer Association Poste-Service
+    const handlePosteEquipe = (idATester) => {
+        // Récupèration PosteId
+        console.log({idATester});
+        console.log({selectedEquipe});
+        const equipeId = selectedEquipe.filter(f => f.serviceposteId === idATester)[0].equipeId
+        // Vérification du format de equipeId
+        if(isNumeric(parseFloat(equipeId))) {
+        // Options Fetch
+        const requestOptions = {
+            method: 'POST',
+            body: '',
+            // headers: {
+            //     'Authorization': `token ${token}`
+            // }
+        }
+        console.log({equipeId});
+        fetch(`http://localhost:4000/api/configPlanning/servicepostes/${idATester}/equipes/${equipeId}`, requestOptions)
+            .then((res) => res.json())
+            .finally(() => updateFeed(true))
+            .catch((err) => err)
+        } else {console.log("Poste Inconnue ou incorrect")}
+    }
 
     // Gérer suppression d'association 
-    const handleDeletePosteService = (serviceId, posteId) => {
+    const handleDeleteServicePoste = (serviceId, posteId) => {
        // Options Fetch
        const requestOptions = {
         method: 'DELETE',
@@ -119,6 +166,7 @@ function HandleAdminPlanning() {
             .finally(() => {
                 setServiceCreateValue('')
                 setPosteCreateValue('')
+                setEquipeCreateValue('')
                 setSelectedEdit('')
                 setSelectedEditValue('')
                 updateFeed(true)
@@ -166,7 +214,7 @@ return (
                 <li className='element-list'>
                     <div 
                         className='validate-choice button-choice'
-                        onClick={() => handlePosteService(service.id)}
+                        onClick={() => handleServicePoste(service.id)}
                     ><i className="fa-solid fa-plus"></i></div>
                     <select id='poste-select' 
                         onChange={(e) => setSelectedPoste([...selectedPoste.filter(f => f.serviceId !== service.id), {'posteId':e.target.value, 'serviceId': service.id}])}>
@@ -174,37 +222,49 @@ return (
                         {postesList
                         .filter(poste => !listPostesUtilise(service).includes(poste.id))
                         .map((poste) => (
-                    <option value={poste.id}>{poste.nom}</option>))}
+                    <option key={poste.id} value={poste.id}>{poste.nom}</option>))}
                     </select>
                 </li>
-                
                 {/* LISTE DES POSTES ASSOCIES */}
-                {service.PosteService.map((poste, index) => (<>
+                {service.ServicePostes.map((poste, index) => (<>
                 <li className='element-list' 
-                    key={poste.id}
-                    onMouseEnter={() => setHoverPoste(poste.id)}
-                    onMouseLeave={() => setHoverPoste('')}>
+                    key={poste.id}>
                     <div className='sort-choice button-choice element-hidden'>
                         <i className='fa-solid fa-sort'></i></div>
                     <div className='element-list element-cadre'>{index+1}.  {poste.Postes.nom}</div>
                     <div className='delete-choice button-choice element-hidden'
-                        onClick={() => handleDeletePosteService(service.id, poste.Postes.id)}>
+                        onClick={() => handleDeleteServicePoste(service.id, poste.Postes.id)}>
                     <i className="fa-solid fa-trash"></i></div>
                 </li>
-                    {/* LISTE DES EQUIPES ASSOCIEES */}
                     <li>
-                
                     <ul>
-                        <li className='element-list'>
-                            <div className='sort-choice button-choice element-hidden'><i className='fa-solid fa-sort'></i></div>
-                            <div className='element-list element-cadre'>Equipe 1</div>
-                            <div className='delete-choice button-choice element-hidden'><i className="fa-solid fa-trash"></i></div>
+                    {/* LISTE DES EQUIPES ASSOCIEES */}
+                    {poste.PosteEquipes.map((equipe) => (
+                        <li className='element-list' 
+                            key={equipe.id}>
+                        <div className='sort-choice button-choice element-hidden'>
+                            <i className='fa-solid fa-sort'></i></div>
+                        <div className='element-list element-cadre'>{equipe.Equipes.nom}</div>
+                        <div className='delete-choice button-choice element-hidden'
+                            onClick={() => handleDeleteServicePoste(service.id, poste.Postes.id)}>
+                        <i className="fa-solid fa-trash"></i></div>
                         </li>
-                        <li className='element-list'>
-                            <div className='sort-choice button-choice element-hidden'><i className='fa-solid fa-sort'></i></div>
-                            <div className='element-list element-cadre'>Equipe de Nuit</div>
-                            <div className='delete-choice button-choice element-hidden'><i className="fa-solid fa-trash"></i></div>
-                        </li>
+                    ))}
+                    {/* ASSOCIER UNE EQUIPE */}
+                    <li className='element-list'>
+                        <div 
+                            className='validate-choice button-choice'
+                            onClick={() => handlePosteEquipe(service.id)}
+                        ><i className="fa-solid fa-plus"></i></div>
+                        <select id='poste-select' 
+                            onChange={(e) => setSelectedEquipe([...selectedEquipe.filter(f => f.posteId !== poste.id), {'equipeId':e.target.value, 'serviceposteId': poste.id}])}>
+                        <option value='' selected>-- Sélectionner une équipe --</option>
+                            {equipesList
+                            .filter(equipe => !listEquipesUtilise(poste).includes(equipe.id))
+                            .map((equipe) => (
+                        <option key={equipe.id} value={equipe.id}>{equipe.nom}</option>))}
+                        </select>
+                    </li>
                     </ul>
                
                 </li> 
@@ -325,6 +385,64 @@ return (
             </div>
             <div className='delete-choice button-choice element-hidden'
                 onClick={() => handleDelete('postes', postList.id)}>
+                <i className="fa-solid fa-trash"></i></div>
+                </>)}
+        </li>
+        ))}
+        </ul>
+    </div>
+    <div className='block-list'>
+    <h3>Créer Equipe</h3>
+        {/* AJOUTER UNE EQUIPE */}
+        <ul>
+        <li className='element-list'>
+        {selectedEdit !== '' ||
+            <div 
+                className='validate-choice button-choice' 
+                onClick={() => handleCreate('POST', 'equipes', equipeCreateValue)}>
+            <i className="fa-solid fa-check"></i></div>}
+            <input
+            className={selectedEdit ? 'grey-input' : ''}
+                value={equipeCreateValue}
+                placeholder='Ajouter une Equipe'
+                onChange={(e) => setEquipeCreateValue(e.target.value)}/>
+        </li>
+        {/* LISTE DES EQUIPES */}
+        {equipesList.map((equipeList, index) => (
+        <li key={index} className='element-list'>
+            {selectedEdit.equipe === equipeList.id 
+
+            ? (<>
+            {/* MODIFICATION DE L'EQUIPE */}
+            <div className='validate-choice button-choice'
+                onClick={() => handleCreate('PUT', 'equipes', selectedEditValue, selectedEdit.equipe)}>
+            <i className="fa-solid fa-check"></i>
+            </div>
+            <input 
+                value={selectedEditValue}
+                onChange={(e) => setSelectedEditValue(e.target.value)}
+                autoFocus/>
+            <div className='delete-choice button-choice'
+                onClick={() => {setSelectedEdit(''); setSelectedEditValue('')}}>
+            <i className="fa-solid fa-ban"></i>
+            </div>
+            </>)
+
+            : (<>
+            {/* AFFICHAGE DE L'EQUIPE */}
+            <div className='sort-choice button-choice element-hidden'
+                draggable='true'
+                >
+                <i className='fa-solid fa-sort'></i></div>
+            <div className='element-list element-cadre'>{equipeList.nom}</div>
+            <div className='edit-choice button-choice element-hidden' 
+                onClick={() => {
+                    setSelectedEdit({'equipe': equipeList.id})
+                    setSelectedEditValue(equipeList.nom)}}>
+            <i className="fa-solid fa-pen-to-square"></i>
+            </div>
+            <div className='delete-choice button-choice element-hidden'
+                onClick={() => handleDelete('equipes', equipeList.id)}>
                 <i className="fa-solid fa-trash"></i></div>
                 </>)}
         </li>
