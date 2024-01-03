@@ -80,5 +80,9 @@ router.post(
     '/servicepostes/:ServicePosteId/equipes/:EquipeId',
     configPlanningCtrl.associateEquipe
 )
+router.delete(
+    '/servicepostes/:ServicePosteId/equipes/:EquipeId',
+    configPlanningCtrl.deleteAssociateEquipe
+)
 
 module.exports  = router;

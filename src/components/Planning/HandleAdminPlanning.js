@@ -75,7 +75,7 @@ function HandleAdminPlanning() {
         return !isNaN(parseFloat(value)) && isFinite(value);
     }
 
-    // Créer Association Poste-Service
+    // Créer Association Service-Poste
     const handleServicePoste = (idATester) => {
         // Récupèration PosteId
         const posteId = selectedPoste.filter(f => f.serviceId === idATester)[0].posteId
@@ -95,13 +95,14 @@ function HandleAdminPlanning() {
             .catch((err) => err)
         } else {console.log("Poste Inconnue ou incorrect")}
     }
-    // Créer Association Poste-Service
+    // Créer Association Poste-Equipe
     const handlePosteEquipe = (idATester) => {
         // Récupèration PosteId
         console.log({idATester});
         console.log({selectedEquipe});
         const equipeId = selectedEquipe.filter(f => f.serviceposteId === idATester)[0].equipeId
         // Vérification du format de equipeId
+        console.log({equipeId});
         if(isNumeric(parseFloat(equipeId))) {
         // Options Fetch
         const requestOptions = {
@@ -111,7 +112,6 @@ function HandleAdminPlanning() {
             //     'Authorization': `token ${token}`
             // }
         }
-        console.log({equipeId});
         fetch(`http://localhost:4000/api/configPlanning/servicepostes/${idATester}/equipes/${equipeId}`, requestOptions)
             .then((res) => res.json())
             .finally(() => updateFeed(true))
@@ -120,7 +120,7 @@ function HandleAdminPlanning() {
     }
 
     // Gérer suppression d'association 
-    const handleDeleteServicePoste = (serviceId, posteId) => {
+    const handleDeleteAssociation = (nomPremierElement, valeurPremierElement, nomSecondElement, valeurSecondeElement) => {
        // Options Fetch
        const requestOptions = {
         method: 'DELETE',
@@ -129,7 +129,7 @@ function HandleAdminPlanning() {
         //     'Authorization': `token ${token}`
         // }
     }
-    fetch(`http://localhost:4000/api/configPlanning/services/${serviceId}/postes/${posteId}`, requestOptions)
+    fetch(`http://localhost:4000/api/configPlanning/${nomPremierElement}/${valeurPremierElement}/${nomSecondElement}/${valeurSecondeElement}`, requestOptions)
         .then((res) => res.json())
         .finally(() => updateFeed(true))
         .catch((err) => err) 
@@ -233,7 +233,7 @@ return (
                         <i className='fa-solid fa-sort'></i></div>
                     <div className='element-list element-cadre'>{index+1}.  {poste.Postes.nom}</div>
                     <div className='delete-choice button-choice element-hidden'
-                        onClick={() => handleDeleteServicePoste(service.id, poste.Postes.id)}>
+                        onClick={() => handleDeleteAssociation('services',service.id,'postes', poste.Postes.id)}>
                     <i className="fa-solid fa-trash"></i></div>
                 </li>
                     <li>
@@ -246,7 +246,7 @@ return (
                             <i className='fa-solid fa-sort'></i></div>
                         <div className='element-list element-cadre'>{equipe.Equipes.nom}</div>
                         <div className='delete-choice button-choice element-hidden'
-                            onClick={() => handleDeleteServicePoste(service.id, poste.Postes.id)}>
+                            onClick={() => handleDeleteAssociation('servicepostes', poste.id ,'equipes', equipe.Equipes.id)}>
                         <i className="fa-solid fa-trash"></i></div>
                         </li>
                     ))}
@@ -254,10 +254,12 @@ return (
                     <li className='element-list'>
                         <div 
                             className='validate-choice button-choice'
-                            onClick={() => handlePosteEquipe(service.id)}
+                            onClick={() => {
+                                handlePosteEquipe(poste.id)
+                            }}
                         ><i className="fa-solid fa-plus"></i></div>
                         <select id='poste-select' 
-                            onChange={(e) => setSelectedEquipe([...selectedEquipe.filter(f => f.posteId !== poste.id), {'equipeId':e.target.value, 'serviceposteId': poste.id}])}>
+                            onChange={(e) => setSelectedEquipe([...selectedEquipe.filter(f => f.serviceposteId !== poste.id), {'equipeId':e.target.value, 'serviceposteId': poste.id}])}>
                         <option value='' selected>-- Sélectionner une équipe --</option>
                             {equipesList
                             .filter(equipe => !listEquipesUtilise(poste).includes(equipe.id))

@@ -64,7 +64,7 @@ _/!\ Le token d'identification est réglé pour durer 24h, votre session sera ac
 
 ## Versions 
 
-## v1.2.1 - Gestion Administration des agents
+### v1.2.1 - Gestion Administration des agents
 * Rajout d'une partie Administration pour le rôle admin.
 * En logique avec le planning, gestion/création des :
     - Services
@@ -72,10 +72,10 @@ _/!\ Le token d'identification est réglé pour durer 24h, votre session sera ac
     - Equipes
 * Association entre éléments
 
-## v1.2.0 - Outil Planning
+### v1.2.0 - Outil Planning
 * Fonction planning avec rôle (gestionnaire, demandeur)
 
-## v1.1.2 - Restructuration CSS / SCSS
+### v1.1.2 - Restructuration CSS / SCSS
 * Refactoring du CSS et organisation en 7-1
 * Modification légère sur la gestion Regex du signup
 * Modification Navigation, Organisation des pages et structure de permalink

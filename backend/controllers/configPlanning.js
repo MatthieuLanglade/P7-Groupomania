@@ -134,7 +134,6 @@ exports.deleteAssociatePoste = (req, res, next) => {
                     .catch(next)
             }
         })
-    
 }
 
     /* 3.6 Récupération liste des postes */
@@ -188,6 +187,18 @@ exports.updateEquipe = (req, res, next) => {
 }
     
     /* 4.5 Suppression d'Association Service-Equipe */
+exports.deleteAssociateEquipe = (req, res, next) => {
+    console.log(req.params)
+    db.PosteEquipes.findOne({where: {ServicePosteId: req.params.ServicePosteId, EquipeId: req.params.EquipeId}})
+        .then((posteEquipe) => {
+            if (!posteEquipe) {res.status(401).json({message: "Cette association n'existe pas"})}
+            else {
+                db.PosteEquipes.destroy({where: {id: posteEquipe.id}})
+                    .then (() => res.status(200).json({message: 'Association supprimée'}))
+                    .catch(next)
+            }
+        })
+}
 
     /* 4.6 Récupération liste des postes */
     exports.getAllEquipes = (req, res, next) => {
