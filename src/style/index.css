@@ -1012,6 +1012,73 @@ h2 {
   font-size: 1rem;
 }
 
+.tile-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: space-around;
+  text-align: center;
+  margin-bottom: 20px;
+}
+.tile-list__title {
+  width: 100%;
+  font-size: 20px;
+  padding: 10px;
+  margin: 0px;
+  background-color: #FFFFFF;
+  border: 1px solid #e4e4e4;
+  border-left: 3px solid #00A29C;
+  border-right: 3px solid #00A29C;
+  box-shadow: 0 2px #e4e4e4;
+}
+.tile-list__element {
+  background-color: #FFFFFF;
+  border: 1px solid #e4e4e4;
+  border-top: 2px solid #00A29C;
+  box-shadow: 0 2px #e4e4e4;
+  text-align: center;
+  width: calc(33% - 40px);
+}
+@media screen and (max-width: 1024px) {
+  .tile-list__element {
+    width: calc(50% - 20px);
+  }
+}
+@media screen and (max-width: 720px) {
+  .tile-list__element {
+    width: 100%;
+  }
+}
+.tile-list__element:hover {
+  cursor: pointer;
+  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+  background: radial-gradient(circle, #FFFFFF 0%, rgba(0, 162, 156, 0.2) 100%);
+  transition: all 0.3s;
+}
+.tile-list__element:hover .tile-list__element--img {
+  border-radius: 10% 25%;
+  transition: all 0.3s;
+}
+.tile-list__element--container {
+  padding: 5px;
+}
+.tile-list__element--img {
+  display: inline-block;
+  width: 60%;
+  aspect-ratio: 1/1;
+  box-shadow: 0 2px 1px 1px #e4e4e4;
+  border: 5px solid #FFFFFF;
+  text-align: center;
+  border-radius: 25% 10%;
+  background: linear-gradient(45deg, #FFFFFF 0%, rgba(0, 0, 0, 0.24) 100%);
+  -o-object-fit: cover;
+     object-fit: cover;
+}
+.tile-list__element h4 {
+  color: #4E5166;
+  font-size: 22px;
+}
+
 #trombinoscope .service {
   margin-bottom: 20px;
   text-align: center;
@@ -1392,6 +1459,9 @@ textarea:is(:focus, :valid) {
   border: 1px solid black;
   min-width: 25px;
   min-height: 25px;
+}
+.mois-planning table .nom-agent {
+  width: auto;
 }
 .mois-planning table .table-a-cocher {
   cursor: pointer;

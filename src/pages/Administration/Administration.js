@@ -1,5 +1,5 @@
 import { NavLink } from 'react-router-dom';
-import Events from '../../components/Events';
+import Events from '../../components/Social/Events';
 import Navigation from '../../components/Navigation';
 import UserSumUp from '../../components/User/UserSumUp';
 
@@ -13,17 +13,20 @@ const Administration = () => {
                 <div className="content-container">
                     <div id='trombinoscope'>
                     <h2>Paramètrage</h2>
-                        <div className='service'>
-                            <div className='users'>
-                                <NavLink to='/admin/planning' >
-                                <div className='user'>
-                                <img src="./images/logo/icon-left-font-monochrome-white.png" alt="" />
-                                <h4>
-                                     Gérer Planning
-                                </h4>
+                        <div className='tile-list'>
+                            <h3 className='tile-list__title'>Gestion du planning</h3>
+                            <NavLink to='/admin/planning' className='tile-list__element'>
+                                <div className='tile-list__element--container'>
+                                    <img className="tile-list__element--img" src="./images/logo/icon-left-font-monochrome-white.png" alt="" />
+                                <h4>Gérer Planning</h4>
                                 </div>
-                                </NavLink>
-                            </div>
+                            </NavLink>
+                            <NavLink to='/admin/agents' className='tile-list__element'>
+                                <div className='tile-list__element--container'>
+                                <img className='tile-list__element--img' src="./images/logo/icon-left-font-monochrome-white.png" alt="" />
+                                <h4>Gérer Agents</h4>
+                                </div>
+                            </NavLink>
                         </div>
                     </div>
                 </div>

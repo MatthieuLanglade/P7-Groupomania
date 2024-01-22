@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import Singup from './Signup';
+import Singup from '../User/Signup';
 
 const ProfileSumUp = ({profileId, feed, updateFeed}) => {
     // State

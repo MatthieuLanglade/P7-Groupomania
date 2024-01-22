@@ -1,5 +1,5 @@
 import { NavLink } from 'react-router-dom';
-import Events from '../../components/Events';
+import Events from '../../components/Social/Events';
 import Navigation from '../../components/Navigation';
 import UserSumUp from '../../components/User/UserSumUp';
 import { useState } from 'react';

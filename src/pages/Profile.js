@@ -2,9 +2,9 @@ import React from 'react';
 import { useEffect } from 'react';
 import { useState } from 'react';
 import Navigation from '../components/Navigation';
-import Posts from '../components/Posts';
+import Posts from '../components/Social/Posts';
 import DeleteUser from '../components/User/DeleteUser';
-import ProfileSumUp from '../components/User/ProfileSumUp';
+import ProfileSumUp from '../components/Social/ProfileSumUp';
 import UserSumUp from '../components/User/UserSumUp';
 import ShowTodoList from '../components/TodoList/ShowTodoList';
 

@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { NavLink } from 'react-router-dom';
-import {DateFormat} from '../utils/Formats'
+import {DateFormat} from '../../utils/Formats'
 
 const Posts = ({feed, updateFeed, activePostUpdate, setActivePostUpdate, serviceValue}) => {
     // Constante Params de page

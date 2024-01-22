@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import config from '../config.json'
+import config from '../../config.json'
 
 const Publish = ({feed, updateFeed}) => {
     //Auth

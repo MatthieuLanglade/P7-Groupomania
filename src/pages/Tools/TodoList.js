@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import Events from '../../components/Events';
+import Events from '../../components/Social/Events';
 import Navigation from '../../components/Navigation';
 import UserSumUp from '../../components/User/UserSumUp';
 import CreateTodo from '../../components/TodoList/CreateTodo';

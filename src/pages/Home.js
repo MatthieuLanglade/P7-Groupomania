@@ -1,7 +1,7 @@
-import Events from '../components/Events';
+import Events from '../components/Social/Events';
 import Navigation from '../components/Navigation';
-import Posts from '../components/Posts';
-import Publish from '../components/Publish';
+import Posts from '../components/Social/Posts';
+import Publish from '../components/Social/Publish';
 import UserSumUp from '../components/User/UserSumUp';
 
 const Home = ({feed, updateFeed, activePostUpdate, setActivePostUpdate}) => {

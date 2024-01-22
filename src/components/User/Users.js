@@ -54,19 +54,16 @@ const groupBy = (array, key) => {
             {
             userListFilter
                 .map((service, index) => (
-                <div key={index} className="service">
-                    <h3 >{service}</h3>
-                        <div className="users">
-                            {userListSorted[service].map((user) => (
-                                <NavLink key={user.id} to={"/profile/?id=" + user.id}>
-                                <div  className="user">
-                                    {user.profilPicture && <img src={user.profilPicture} alt="" />}
-                                    {!user.profilPicture && <img src="./images/logo/icon-left-font-monochrome-white.png" alt="" />}
-                                    <h4>{user.firstName} {user.lastName}</h4>
+                <div key={index} className="tile-list">
+                    <h3 className='tile-list__title'>{service}</h3>
+                    {userListSorted[service].map((user) => (
+                            <NavLink key={user.id} className="tile-list__element" to={"/profile/?id=" + user.id}>
+                                <div  className="tile-list__element--container">
+                                <img className='tile-list__element--img' src={user.profilPicture ? user.profilPicture : './images/logo/icon-left-font-monochrome-white.png'} alt="" />
+                                <h4>{user.firstName} {user.lastName}</h4>
                                 </div>
-                                </NavLink>
-                            ))}
-                        </div>
+                            </NavLink>
+                    ))}
                 </div>
                 ))
         }

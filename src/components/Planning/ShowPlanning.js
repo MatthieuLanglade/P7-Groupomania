@@ -43,7 +43,7 @@ function ShowPlanning() {
             } 
             catch (err) {console.log(err)}
             finally {updateFeed(false)}
-            console.log(servicesList)
+            console.log({servicesList})
         } 
     },[updateFeed])
     // Corespondance Dates 
@@ -183,14 +183,14 @@ return (
             <option key={index} value={mois} >{mois}</option>))}
         </select>
         {/* CHOIX SERVICE */}
-        <select id='services' onChange={(e) => setServiceValue(e.target.value)}>
+        <select id='services' onChange={(e) => {setEquipeValue('');setPosteValue('');setServiceValue(e.target.value)}}>
             <option selected value=''>-- Sélectionner un Service --</option>
             {servicesList.map((service) => (
             <option key={service.id} value={service.id}>{service.nom}</option>
             ))}
         </select>
         {/* CHOIX POSTE */}
-        <select id='postes' onChange={(e) => setPosteValue(e.target.value)}>
+        <select id='postes' onChange={(e) => {setEquipeValue('');setPosteValue(e.target.value)}}>
             <option selected value=''>-- Sélectionner un Poste --</option>
             {serviceValue 
             ? servicesList.filter(f => f.id == serviceValue)[0].ServicePostes.map((poste) =>

@@ -2,9 +2,11 @@ import React, { useEffect, useState } from 'react'
 
 function HandleAdminPlanning() {
     //States 
+        // Données
     const [configPlanning, setConfigPlanning] = useState([]) // Données Services + Associations
     const [postesList, setPostesList] = useState([]) // Données Postes
     const [equipesList, setEquipeList] = useState([]) // Données Equipes
+        // Gestion Sélection 
     const [serviceCreateValue, setServiceCreateValue] = useState('') // Input Création Service
     const [posteCreateValue, setPosteCreateValue] = useState('') //  Input Création Poste 
     const [equipeCreateValue, setEquipeCreateValue] = useState('') //  Input Création Poste 
@@ -12,8 +14,9 @@ function HandleAdminPlanning() {
     const [selectedEquipe,setSelectedEquipe] = useState([]) // Select Association Poste-Equipe
     const [selectedEdit, setSelectedEdit] = useState('') // Choix de l'input édité
     const [selectedEditValue, setSelectedEditValue] = useState('') // Value de l'input édité
-    const [feed, updateFeed] = useState(true) // MAJ DOM
     const [listVisibility, setListVisibility] = useState([]) // Affichage du détail des listes
+        // MAJ DOM
+    const [feed, updateFeed] = useState(true)
 
     // Fetch Config Planning
     useEffect(() => {
@@ -26,7 +29,6 @@ function HandleAdminPlanning() {
                 const resp = await fetch(`http://localhost:4000/api/configPlanning/services/`)
                 const respConfigPlanning = await resp.json() 
                 setConfigPlanning(respConfigPlanning.services)
-                console.log(configPlanning)
             } 
             catch (err) {console.log(err)}
             finally {updateFeed(false)}
@@ -98,11 +100,8 @@ function HandleAdminPlanning() {
     // Créer Association Poste-Equipe
     const handlePosteEquipe = (idATester) => {
         // Récupèration PosteId
-        console.log({idATester});
-        console.log({selectedEquipe});
         const equipeId = selectedEquipe.filter(f => f.serviceposteId === idATester)[0].equipeId
         // Vérification du format de equipeId
-        console.log({equipeId});
         if(isNumeric(parseFloat(equipeId))) {
         // Options Fetch
         const requestOptions = {
@@ -291,7 +290,7 @@ return (
                 onClick={() => handleCreate('POST', 'services', serviceCreateValue)}>
             <i className="fa-solid fa-check"></i></div>}
             <input
-            className={selectedEdit ? 'grey-input' : ''}
+                className={selectedEdit ? 'grey-input' : ''}
                 value={serviceCreateValue}
                 placeholder='Ajouter un Service'
                 onChange={(e) => setServiceCreateValue(e.target.value)}/>

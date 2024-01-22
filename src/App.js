@@ -13,6 +13,7 @@ import Affichage from './pages/Affichage/Affichage'
 import Planning from './pages/Tools/Planning';
 import Administration from './pages/Administration/Administration';
 import AdminPlanning from './pages/Administration/AdminPlanning';
+import AdminAgent from './pages/Administration/AdminAgent';
 
 const App = () => {
   const [feed, updateFeed] = useState(true)   
@@ -58,6 +59,7 @@ const App = () => {
           {/*  Administration */}
           <Route path='/admin' element={<Administration />} />
           <Route path='/admin/planning' element={<AdminPlanning />} />
+          <Route path='/admin/agents' element={<AdminAgent />} />
 
           <Route path='*' element={<Navigate to="/" replace/>} />
         </Route>
