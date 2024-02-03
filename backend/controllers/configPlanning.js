@@ -187,9 +187,9 @@ exports.updateEquipe = (req, res, next) => {
 }
     
     /* 4.5 Suppression d'Association Service-Equipe */
-exports.deleteAssociateEquipe = (req, res, next) => {
-    console.log(req.params)
-    db.PosteEquipes.findOne({where: {ServicePosteId: req.params.ServicePosteId, EquipeId: req.params.EquipeId}})
+exports.unassociateEquipe = (req, res, next) => {
+    db.PosteEquipes.findOne({where: 
+        {ServicePosteId: req.params.ServicePosteId, EquipeId: req.params.EquipeId}})
         .then((posteEquipe) => {
             if (!posteEquipe) {res.status(401).json({message: "Cette association n'existe pas"})}
             else {
@@ -205,3 +205,46 @@ exports.deleteAssociateEquipe = (req, res, next) => {
         db.Equipes.findAll({attributes: ['id','nom']})
         .then((equipes) => res.status(200).json({equipes}))
     }
+/* Fonction création d'association */
+async function associateElement(req, res, next, database) {
+    console.log(database);
+    database.create(req.params)
+    .then(() => res.status(200).json({message: 'Association effectuée'}))
+    .catch(next)
+}
+/* Fonction Suppression d'association */
+async function unassociateElement(req, res, next, database) {
+    database.findOne({where: {
+        [Object.keys(req.params)[0]] : Object.values(req.params)[0],
+        [Object.keys(req.params)[1]] : Object.values(req.params)[1]
+    }})
+    .then((association) => {
+        if(!association) {res.status(401).json({message: "Cette association n'existe pas"})}
+        else {
+            database.destroy({where: {id: association.id}})
+                .then (() => res.status(200).json({message: 'Association supprimée'}))
+                .catch(next)}
+            })
+}
+
+/* 5. USER-SERVICE-POSTE-EQUIPE */
+    /* 5.1 UserServices */
+        /* 5.1.1 Création */
+exports.associateUserService = (req, res, next) => {
+    associateElement(req, res, next, db.UserServices)}
+
+        /* 5.1.2 Suppression */
+exports.unassociateUserService = (req, res, next) => {
+    unassociateElement(req, res, next, db.UserServices)}
+
+    /* 5.1 UserServicePostes */
+        /* 5.2.1 Création */
+
+        /* 5.2.2 Suppression */
+        
+
+    /* 5.1 UserPosteEquipes */
+        /* 5.3.1 Création */
+
+        /* 5.3.2 Suppression */
+        

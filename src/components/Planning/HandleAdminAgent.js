@@ -9,6 +9,7 @@ function HandleAdminAgent() {
     const [listUsers, setListUsers] = useState([])
         // Gestion Sélection
     const [nameFilterValue, setNameFilterValue] = useState('')
+    const [serviceFilterList, setServiceFilterList] = useState(['aucun'])
         // MAJ DOM
     const [feed, updateFeed] = useState(true)
 
@@ -67,22 +68,50 @@ function HandleAdminAgent() {
     }
     return (
     <div id='config-planning'>
-        {/* {console.log({configPlanning}, listUsers)} */}
+        {console.log({configPlanning}, listUsers)}
         <div className='filtre block-titre'>
+            {/* GESTION DES FILTRES */}
             <h2>Filtrer la liste:</h2>
         </div>
         <div className='block-list'>
+            {/* FILTRE PAR SERVICE */}
             <h3>Choix du service</h3>
             <div className='element-list'>
-                <div className='element-choix element-cadre '>Tous les services</div>
-                <div className='element-choix element-cadre element-active'>Aucun filtre</div>
-                <div className='element-choix element-cadre'>Aucun service associé</div>
+                {/* TOUS LES SERVICES */}
+                <div 
+                    className={`element-choix element-cadre ${configPlanning.length === serviceFilterList.filter(e => e !== "aucun").length ? 'element-active' : ''}`}
+                    onClick={() => {
+                        const listService = []
+                        for (const service of configPlanning){listService.push(service.id)}
+                        setServiceFilterList(listService)
+                    }}
+                >Tous les services</div>
+                {/* AUCUN FILTRE */}
+                <div 
+                    className={`element-choix element-cadre ${serviceFilterList[0] ? '' : 'element-active'}`}
+                    onClick={() => setServiceFilterList([])}
+                >Aucun filtre</div>
+                {/* AUCUN SERVICE */}
+                <div 
+                    className={`element-choix element-cadre ${serviceFilterList.includes('aucun') ? 'element-active' : ''}`}
+                    onClick={() => serviceFilterList.includes('aucun') 
+                        ? setServiceFilterList([...serviceFilterList.filter(e => e !== 'aucun')])
+                        : setServiceFilterList([...serviceFilterList, 'aucun'])}
+                >Aucun service associé</div>
             </div>
+                {/* LISTES SERVICES */}
             <div className='element-list'>
                 {configPlanning.map((service) => (
-                    <div key={service.id} className='element-list element-cadre'>{service.nom}</div>
+                    <div 
+                        key={service.id} 
+                        className={`element-list element-cadre ${serviceFilterList.includes(service.id) ? 'element-active' : ''}`}
+                        onClick={() => serviceFilterList.includes(service.id) 
+                            ? setServiceFilterList([...serviceFilterList.filter(element => element !== service.id)]) 
+                            : setServiceFilterList([...serviceFilterList, service.id])}
+                        >{service.nom}</div>
                 ))}
             </div>
+            {/* FILTRE PAR NOM / PRENOM */}
             <h3>Choix par nom/prénom : </h3>
             <div className='element-list'>
                 <input 
@@ -90,9 +119,6 @@ function HandleAdminAgent() {
                     placeholder='Ecrire les premières lettres...'
                     value={nameFilterValue}
                 ></input>
-                {/* <div className='button-choice delete-choice'>
-                <i class="fa-solid fa-ban" aria-hidden="true"></i>
-                </div> */}
             </div>
         </div>
         <div className='filtre block-titre'>

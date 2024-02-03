@@ -82,7 +82,17 @@ router.post(
 )
 router.delete(
     '/servicepostes/:ServicePosteId/equipes/:EquipeId',
-    configPlanningCtrl.deleteAssociateEquipe
+    configPlanningCtrl.unassociateEquipe
+)
+/* Association User-Service-Poste-Equipe */
+    /* UserServices */
+router.post(
+    '/users/:UserId/services/:ServiceId',
+    configPlanningCtrl.associateUserService
+)
+router.delete(
+    '/users/:UserId/services/:ServiceId',
+    configPlanningCtrl.unassociateUserService
 )
 
 module.exports  = router;

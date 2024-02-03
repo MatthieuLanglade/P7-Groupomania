@@ -166,6 +166,8 @@ function ShowPlanning() {
 
 return (
 <div id='choice-planning'>
+<div className='block-titre'>
+    <h3>Sélection du Planning</h3>
     <div id='selection'>
         {/* CHOIX ANNEE */}
         <select id='annee' onChange={(e) => setAnneeValue(e.target.value)}>
@@ -216,8 +218,10 @@ return (
         <input class="tgl tgl-skewed" id="cb4" type="checkbox" hecked={showHeuresSup} onChange={() => setShowHeuresSup(!showHeuresSup)}/>
         <label class="tgl-btn" data-tg-off="Heures sup" data-tg-on="Heures sup" for="cb4"></label>
     </div>
+</div>
+<div className='block-list'>
+    <h3>Planning</h3>
     <div className='mois-planning'>
-        <h3>{moisValue} {anneeValue} - {serviceValue} - {posteValue} - {equipeValue}</h3>
         <table>
             <thead>
                 <tr>
@@ -270,6 +274,9 @@ return (
                 ))}
             </tbody>
         </table>
+    </div>
+</div>
+<div className='block-list'>
         <h3>Légendes</h3>
         <div id='legende'>
         <table>
@@ -303,15 +310,12 @@ return (
         </div>
 
         {/* <button>Valider planning</button> */}
-        
-        <h3>Statistiques</h3>
+</div>
+<div className='block-list'>
+    <h3>Statistiques</h3>
+    <div id='statistiques'>
         <table>
             <thead>
-                <tr>
-                    <th></th>
-                    <th colSpan='5'>{moisValue}</th>
-                    <th colSpan='5'>{anneeValue}</th>
-                </tr>
                 <tr>
                     <th >Nom</th>
                     <th>Nombre de gardes</th>
@@ -330,17 +334,13 @@ return (
                 {agents.map((agent) => (
                     <tr key={agent.id}>
                         <td>{agent.prénom +" "+ agent.nom}</td>
-                    {/* {jours
-                        .slice(0, nombreDeJour + 1)
-                        .map((jour) => (
-                        <td key={jour} className={`table-a-cocher ${numeroJour(jour)}`}>
-                        </td>
-                    )) } */}
+                        {/* AFFICHAGE STATISTIQUES */}
                     </tr>
                 ))}
             </tbody>
         </table>
     </div>
+</div>
 </div>
 )
 }

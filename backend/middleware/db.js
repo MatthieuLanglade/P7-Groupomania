@@ -26,8 +26,11 @@ async function initialize() {
     db.Services = require('../models/ConfigPlanning/services')(sequelize);
     db.Postes = require('../models/ConfigPlanning/postes')(sequelize);
     db.Equipes = require('../models/ConfigPlanning/equipes')(sequelize);
-    db.ServicePostes = require('../models/ConfigPlanning/ServicePostes')(sequelize);
-    db.PosteEquipes = require('../models/ConfigPlanning/PosteEquipes')(sequelize);
+    db.ServicePostes = require('../models/ConfigPlanning/servicePostes')(sequelize);
+    db.PosteEquipes = require('../models/ConfigPlanning/posteEquipes')(sequelize);
+    db.UserServices = require('../models/ConfigPlanning/userServices')(sequelize);
+    db.UserServicePostes = require('../models/ConfigPlanning/userServicePostes')(sequelize);
+    db.UserPosteEquipes = require('../models/ConfigPlanning/userPosteEquipes')(sequelize);
     
     // Création  des relations 
     /* 1. Posts */
@@ -106,11 +109,47 @@ async function initialize() {
     db.PosteEquipes.belongsTo(db.Equipes, {
         foreignKey: {name: 'EquipeId', allowNull: false},
         as: 'Equipes',
-        onDelete: 'CASCADE'}
-        )
+        onDelete: 'CASCADE'
+    })
     db.Equipes.hasMany(db.PosteEquipes, {as: 'PosteEquipes'})
 
-
+    /* 4. Config Users-Service-Postes-Equipes */
+        // UserServices -> Services
+    db.UserServices.belongsTo(db.Services, {
+        foreignKey : {name: 'ServiceId', allowNull: false},
+        as: 'Services',
+        onDelete: 'CASCADE'})
+    db.Services.hasMany(db.UserServices, {as: 'UserServices'})
+        // UserServices -> User
+    db.UserServices.belongsTo(db.User, {
+        foreignKey : {name: 'UserId', allowNull: false},
+        as: 'Users',
+        onDelete: 'CASCADE'})
+    db.User.hasMany(db.UserServices, {as: 'UserServices'})
+        // UserServicePostes -> ServicePostes
+    db.UserServicePostes.belongsTo(db.ServicePostes, {
+        foreignKey : {name: 'ServicePosteId', allowNull: false},
+        as: 'ServicePostes',
+        onDelete: 'CASCADE'})
+    db.ServicePostes.hasMany(db.UserServicePostes, {as: 'UserServicePostes'})
+        // UserServicePostes -> User
+    db.UserServicePostes.belongsTo(db.User, {
+        foreignKey : {name: 'UserId', allowNull: false},
+        as: 'Users',
+        onDelete: 'CASCADE'})
+    db.User.hasMany(db.UserServicePostes, {as: 'UserServicePostes'})
+        // UserPosteEquipes -> PosteEquipes
+    db.UserPosteEquipes.belongsTo(db.PosteEquipes, {
+        foreignKey : {name: 'PosteEquipeId', allowNull: false},
+        as: 'PosteEquipes',
+        onDelete: 'CASCADE'})
+    db.PosteEquipes.hasMany(db.UserPosteEquipes, {as: 'UserPosteEquipes'})
+        // UserPosteEquipes -> User
+    db.UserPosteEquipes.belongsTo(db.User, {
+        foreignKey : {name: 'UserId', allowNull: false},
+        as: 'Users',
+        onDelete: 'CASCADE'})
+    db.User.hasMany(db.UserPosteEquipes, {as: 'UserPosteEquipes'})
 
 
     // Sync les modèles avec la DB

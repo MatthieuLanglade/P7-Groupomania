@@ -978,16 +978,19 @@
     }
 // Test sur planning
 #choice-planning {
-    @include boxtoplign;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
 }
 #selection {
     display: flex;
+    padding: 10px;
     justify-content: space-between;
     gap: 10px;
     flex-direction: row;
 }
 #filtre-planning {
-    margin-top: 20px;
+    padding: 10px;
     display: flex;
     gap: 20px;
 }
@@ -1095,12 +1098,44 @@
       }
     }
   }
+// Couleurs légende
+table {
+    border: 1px solid black;
+    border-collapse: collapse;
+    .leg-Sat {
+        background-color: lighten($color-2, 35%);
+    }
+    .leg-Sun {
+        background-color: lighten($color-2, 30%);
+    }
+    .leg-Fer {
+        background-color: lighten($color-2, 10%);
+    }
+    .leg-Gar {
+        background-color: lighten($color-4, 5%);
+    }
+    .leg-HrS {
+        background-color: lighten($color-4, 30%);
+    }
+    .leg-CoM {
+        background-color: lighten($color-1, 5%);
+    }
+    .legende {
+        width: 30px;
+        height: 30px;
+    }
+    td, th {
+        border: 1px solid black;
+        min-width: 25px;
+        min-height: 25px;
+    }
+
+}
 .mois-planning {
+    padding: 10px;
     table{
         overflow: hidden;
         width: 100%;
-        border: 1px solid black;
-        border-collapse: collapse;
         thead {
             background-color: lighten($color-3, 50%);
         }
@@ -1109,30 +1144,6 @@
             &:hover {
                 background-color: rgba($color-1, 0.2);
             }
-        }
-        // Couleurs légende
-        .leg-Sat {
-            background-color: lighten($color-2, 35%);
-        }
-        .leg-Sun {
-            background-color: lighten($color-2, 30%);
-        }
-        .leg-Fer {
-            background-color: lighten($color-2, 10%);
-        }
-        .leg-Gar {
-            background-color: lighten($color-4, 5%);
-        }
-        .leg-HrS {
-            background-color: lighten($color-4, 30%);
-        }
-        .leg-CoM {
-            background-color: lighten($color-1, 5%);
-        }
-        td, th {
-            border: 1px solid black;
-            min-width: 25px;
-            min-height: 25px;
         }
         .nom-agent {
             width: auto;
@@ -1144,22 +1155,20 @@
             }
         }
     }
-    #legende {
-        display: flex;
-        gap: 20px;
-        table {
-            text-align: left;
-            width: auto;
-        }
+}
+#legende {
+    padding: 10px;
+    display: flex;
+    gap: 20px;
+    table {
         td {
             padding: 0px 10px;
         } 
-        .legende {
-            width: 30px;
-            height: 30px;
-        }
-    
     }
+
+}
+#statistiques {
+    padding: 10px;
 }
 
 // Gestion de la config Planning
@@ -1188,6 +1197,22 @@
 // Gestion Block 
 .block-titre {
     @include boxtoplign;;
+    h3 {
+        @include verticalCenter;
+        justify-content: space-between;
+        background-color: $color-4;
+        border-radius: 5px 5px 5px 0px;
+        padding: 10px;
+        margin: 0px; 
+        .list-visibility {
+            font-size: 30px;
+            right: 0px;
+            &:hover {
+                cursor: pointer;
+                opacity: 0.4;
+            }
+        }
+    }
 }
 .block-list {
     @include boxleftlign;
@@ -1214,6 +1239,8 @@
     border-radius: 5px;
     &:hover {
         background-color: rgba($color-1, 10%);
+        color: black;
+        cursor: pointer;
     }
 }
 .element-active {
@@ -1225,6 +1252,7 @@
     display: flex;
     justify-content: left;
     align-items: center;
+    flex-wrap: wrap;
     gap: 10px;
     padding: 10px;
     flex-grow: 1;
