@@ -57,7 +57,11 @@ exports.login = (req, res, next) => {
 
 /* Récupère tous les utilisateurs */
 exports.all = (req, res, next) => {
-    db.User.findAll()
+    db.User.findAll({include: {
+        model: db.UserServices,
+        as: 'UserServices',
+        attributes: ['id', 'ServiceId']
+    }})
         .then((user) => res.status(200).json(user))
         .catch(next)
 }

@@ -7,15 +7,36 @@ async function getTableById(params,Table){
     return result
 }
     /* 1.2 Récupérer TABLE par élément */
-async function getTableByElement(params, Table) {
-    const result = await Table.findOne({where: {PosteId: params.PosteId, ServiceId: params.ServiceId} })
-    return result
+async function getTableByElement(req, database) {
+    const filtre = {}
+    for (let i = 0; i < Object.keys(req.params).length; i++) {
+        filtre[Object.keys(req.params)[i]] = Object.values(req.params)[i]
+    } 
+    return await database.findOne({where: filtre})
+}
+    /* 1.3 Gestion des Associations */
+        /* 1.3.1 Création Association */
+async function associateElement(req, res, next, database) {
+    getTableByElement(req, database)
+    .then((association) => { if (association) {res.status(401).json({message: "Cette Association existe déjà"})}
+        else{
+        database.create(req.params)
+            .then(() => res.status(200).json({message: 'Association effectuée'}))
+            .catch(next)}})
+}
+        /* 1.3.2 Suppression Association */
+async function unassociateElement(req, res, next, database) {
+    getTableByElement(req, database)
+    .then((association) => {
+        if(!association) {res.status(401).json({message: "Cette association n'existe pas"})}
+        else {database.destroy({where: {id: association.id}})
+                .then (() => res.status(200).json({message: 'Association supprimée'}))
+                .catch(next)}})
 }
 
 /* 2. Services */
  /* 2.1 Création de service */
 exports.createServices = (req, res, next) => {
-    console.log(req.body);
     db.Services.create(req.body)
     .then(() => res.status(200).json({message: 'Service créé'}))
     .catch(next)}
@@ -114,35 +135,11 @@ exports.updatePoste = (req, res, next) => {
         }
     })
 }
-
- /* 3.4 Association Service-Poste */
- exports.associatePoste = (req, res, next) => {
-    db.ServicePostes.create(req.params)
-    .then(() => res.status(200).json({message: 'Association effectuée'}))
-    .catch(next)
-}
-
-/* 3.5 Suppression d'Association Service-Poste */
-exports.deleteAssociatePoste = (req, res, next) => {
-    console.log(req.params)
-    db.ServicePostes.findOne({where: {PosteId: req.params.PosteId, ServiceId: req.params.ServiceId}})
-        .then((servicePostes) => {
-            if (!servicePostes) {res.status(401).json({message: "Cette association n'existe pas"})}
-            else {
-                db.ServicePostes.destroy({where: {id: servicePostes.id}})
-                    .then (() => res.status(200).json({message: 'Association supprimée'}))
-                    .catch(next)
-            }
-        })
-}
-
-    /* 3.6 Récupération liste des postes */
-
+    /* 3.4 Récupération liste des postes */
 exports.getAllPostes = (req, res, next) => {
     db.Postes.findAll({attributes: ['id','nom']})
     .then((postes) => res.status(200).json({postes}))
 }
-
 
 /* 4. Equipe */
     /* 4.1 Création d'Equipe */
@@ -178,73 +175,22 @@ exports.updateEquipe = (req, res, next) => {
         }
     })
 }
-    
-    /* 4.4 Association Service-Equipe */
- exports.associateEquipe = (req, res, next) => {
-    db.PosteEquipes.create(req.params)
-    .then(() => res.status(200).json({message: 'Association effectuée'}))
-    .catch(next)
-}
-    
-    /* 4.5 Suppression d'Association Service-Equipe */
-exports.unassociateEquipe = (req, res, next) => {
-    db.PosteEquipes.findOne({where: 
-        {ServicePosteId: req.params.ServicePosteId, EquipeId: req.params.EquipeId}})
-        .then((posteEquipe) => {
-            if (!posteEquipe) {res.status(401).json({message: "Cette association n'existe pas"})}
-            else {
-                db.PosteEquipes.destroy({where: {id: posteEquipe.id}})
-                    .then (() => res.status(200).json({message: 'Association supprimée'}))
-                    .catch(next)
-            }
-        })
-}
-
-    /* 4.6 Récupération liste des postes */
+    /* 4.4 Récupération liste des postes */
     exports.getAllEquipes = (req, res, next) => {
         db.Equipes.findAll({attributes: ['id','nom']})
         .then((equipes) => res.status(200).json({equipes}))
     }
-/* Fonction création d'association */
-async function associateElement(req, res, next, database) {
-    console.log(database);
-    database.create(req.params)
-    .then(() => res.status(200).json({message: 'Association effectuée'}))
-    .catch(next)
-}
-/* Fonction Suppression d'association */
-async function unassociateElement(req, res, next, database) {
-    database.findOne({where: {
-        [Object.keys(req.params)[0]] : Object.values(req.params)[0],
-        [Object.keys(req.params)[1]] : Object.values(req.params)[1]
-    }})
-    .then((association) => {
-        if(!association) {res.status(401).json({message: "Cette association n'existe pas"})}
-        else {
-            database.destroy({where: {id: association.id}})
-                .then (() => res.status(200).json({message: 'Association supprimée'}))
-                .catch(next)}
-            })
-}
-
-/* 5. USER-SERVICE-POSTE-EQUIPE */
-    /* 5.1 UserServices */
-        /* 5.1.1 Création */
-exports.associateUserService = (req, res, next) => {
-    associateElement(req, res, next, db.UserServices)}
-
-        /* 5.1.2 Suppression */
-exports.unassociateUserService = (req, res, next) => {
-    unassociateElement(req, res, next, db.UserServices)}
-
-    /* 5.1 UserServicePostes */
-        /* 5.2.1 Création */
-
-        /* 5.2.2 Suppression */
-        
-
-    /* 5.1 UserPosteEquipes */
-        /* 5.3.1 Création */
-
-        /* 5.3.2 Suppression */
-        
+    
+    /* 5. Associations USER-SERVICE-POSTE-EQUIPE */
+    /* 5.1 Associations */
+ exports.associatePoste = (req, res, next) => {associateElement(req, res, next, db.ServicePostes)}
+exports.associateEquipe = (req, res, next) => {associateElement(req, res, next, db.PosteEquipes)}
+exports.associateUserService = (req, res, next) => {associateElement(req, res, next, db.UserServices)}
+exports.associateUserServicePoste = (req, res, next) => {associateElement(req, res, next, db.UserServicePostes)}
+exports.associateUserPosteEquipe = (req, res, next) => {associateElement(req, res, next, db.UserPosteEquipes)}
+    /* 5.2 Supprésion d'Association */
+exports.deleteAssociatePoste = (req, res, next) => {unassociateElement(req, res, next, db.ServicePostes)}
+exports.unassociateEquipe = (req, res, next) => {unassociateElement(req, res, next, db.PosteEquipes)}
+exports.unassociateUserService = (req, res, next) => {unassociateElement(req, res, next, db.UserServices)}
+exports.unassociateUserServicePoste = (req, res, next) => {unassociateElement(req, res, next, db.UserServicePostes)}
+exports.unassociateUserPosteEquipe = (req, res, next) => {unassociateElement(req, res, next, db.UserPosteEquipes)}

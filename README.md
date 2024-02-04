@@ -71,6 +71,7 @@ _/!\ Le token d'identification est réglé pour durer 24h, votre session sera ac
     - Postes
     - Equipes
 * Association entre éléments
+* Association des agents aux éléments
 
 ### v1.2.0 - Outil Planning
 * Fonction planning avec rôle (gestionnaire, demandeur)

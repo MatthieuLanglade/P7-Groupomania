@@ -1614,6 +1614,10 @@ table td, table th {
   color: white;
   background-color: rgba(57, 170, 222, 0.8);
 }
+.element-list .button-active {
+  background-color: #39aade;
+  color: white;
+}
 .element-list .button-choice {
   display: flex;
   justify-content: center;

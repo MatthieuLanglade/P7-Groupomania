@@ -40,39 +40,29 @@ function HandleAdminAgent() {
     }, [feed])
 
     // Ajout/Suppression d'un service sur un user
-    const handleServiceUser = (serviceId, userId, userServiceList) => {
-        // Création de la liste de serviceId
-        const body = []
-        if (userServiceList.includes(serviceId)) {
-            const index = userServiceList.indexOf(serviceId)
-            body = userServiceList.splice(index, 1)
-        } else {
-            body = [...userServiceList, serviceId]
-        }
-        console.log({body})
+    const handleAssociation = (userId, typeClassement, serviceId, typeRequete) => {
         // Options Fetch
-        // const requestOptions = {
-        //     method: 'PUT',
-        //     body: JSON.stringify(),
-        //     headers: {
-        //         'Content-Type' : 'application/json',
-        //         'Authorization': `token ${token}`
-        //     }
-        // }
-        // fetch(`http://localhost:4000/api/auth`, requestOptions)
-        //     .then((res) => res.json())
-        //     .finally(() => {
-        //         updateFeed(true)
-        //     })
-        //     .catch((err) => err) 
+        const requestOptions = {
+            method: typeRequete,
+            headers: {
+                'Content-Type' : 'application/json',
+                'Authorization': `token ${token}`
+            }
+        }
+        fetch(`http://localhost:4000/api/configPlanning/users/${userId}/${typeClassement}/${serviceId}`, requestOptions)
+            .then((res) => res.json())
+            .finally(() => {
+                updateFeed(true)
+            })
+            .catch((err) => err) 
     }
     return (
     <div id='config-planning'>
         {console.log({configPlanning}, listUsers)}
-        <div className='filtre block-titre'>
-            {/* GESTION DES FILTRES */}
+        <div className='block-titre'>
             <h2>Filtrer la liste:</h2>
         </div>
+        {/* GESTION DES FILTRES */}
         <div className='block-list'>
             {/* FILTRE PAR SERVICE */}
             <h3>Choix du service</h3>
@@ -121,9 +111,10 @@ function HandleAdminAgent() {
                 ></input>
             </div>
         </div>
-        <div className='filtre block-titre'>
+        <div className='block-titre'>
             <h2>Liste Agents:</h2>
         </div>
+        {/* AFFICHAGE DES AGENTS */}
         <div className='block-list'> 
             {listUsers
                 .filter(user => 
@@ -135,12 +126,19 @@ function HandleAdminAgent() {
                 <div className='element-list element-cadre main-element'>
                     {user.firstName} {user.lastName}
                 </div>
+                {/* GESTION DES SERVICES */}
                 {configPlanning.map((service) => (
                 <div 
                     key={service.id} 
-                    className='element-cadre element-choix button-text'
-                    onClick={() => handleServiceUser(service.id, user.id, ['1','2'])}
-                >{service.nom}</div>
+                    className={`element-cadre element-choix button-text ${
+                        user.UserServices.some(userServices => userServices.ServiceId === service.id) ? 'button-active' : ''
+                    }`}
+                    onClick={() => handleAssociation(
+                        user.id, 
+                        'services', service.id,  
+                        user.UserServices.some(userServices => userServices.ServiceId === service.id) ? 'DELETE' : 'POST')}
+                >{service.nom}
+                </div>
                 ))}
                 </div>
             ))}

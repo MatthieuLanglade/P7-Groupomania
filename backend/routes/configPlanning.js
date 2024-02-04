@@ -94,5 +94,23 @@ router.delete(
     '/users/:UserId/services/:ServiceId',
     configPlanningCtrl.unassociateUserService
 )
+    /* UserServicePostes */
+router.post(
+    '/users/:UserId/servicepostes/:ServicePosteId',
+    configPlanningCtrl.associateUserServicePoste
+)
+router.delete(
+    '/users/:UserId/servicepostes/:ServicePosteId',
+    configPlanningCtrl.unassociateUserServicePoste
+)
+    /* UserPosteEquipes */
+router.post(
+    '/users/:UserId/posteequipes/:PosteEquipeId',
+    configPlanningCtrl.associateUserPosteEquipe
+)
+router.delete(
+    '/users/:UserId/posteequipes/:PosteEquipeId',
+    configPlanningCtrl.unassociateUserPosteEquipe
+)
 
 module.exports  = router;

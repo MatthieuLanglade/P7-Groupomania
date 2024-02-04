@@ -1283,6 +1283,10 @@ table {
             background-color: rgba($color-2, 0.8);
         }
     }
+    .button-active {
+        background-color: rgba($color-2, 1);
+        color: white;
+    }
     // BOUTON DE CHOIX
     .button-choice {
         @include verticalCenter;
