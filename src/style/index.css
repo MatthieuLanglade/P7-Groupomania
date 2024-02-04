@@ -1571,7 +1571,6 @@ table td, table th {
   border-radius: 5px;
 }
 .element-cadre:hover {
-  background-color: rgba(0, 162, 156, 0.1);
   color: black;
   cursor: pointer;
 }
@@ -1611,8 +1610,6 @@ table td, table th {
 }
 .element-list .button-text:hover {
   cursor: pointer;
-  color: white;
-  background-color: rgba(57, 170, 222, 0.8);
 }
 .element-list .button-active {
   background-color: #39aade;
@@ -1693,4 +1690,13 @@ table td, table th {
   border-radius: 10px;
   padding: 2px;
   background-color: white;
+}
+
+.ico-list {
+  font-size: 22px;
+  color: #FDC101;
+}
+
+.element-highlight {
+  background-color: #FDC101;
 }/*# sourceMappingURL=index.css.map */

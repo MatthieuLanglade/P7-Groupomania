@@ -1238,7 +1238,7 @@ table {
     border: 1px solid $color-1;
     border-radius: 5px;
     &:hover {
-        background-color: rgba($color-1, 10%);
+        // background-color: rgba($color-1, 10%);
         color: black;
         cursor: pointer;
     }
@@ -1279,8 +1279,8 @@ table {
     .button-text {
         &:hover {
             cursor: pointer;
-            color: white;
-            background-color: rgba($color-2, 0.8);
+            // color: white;
+            // background-color: rgba($color-2, 0.8);
         }
     }
     .button-active {
@@ -1367,4 +1367,11 @@ table {
     border-radius: 10px;
     padding: 2px;
     background-color: white;
+}
+.ico-list {
+    font-size: 22px;
+    color: $color-4;
+}
+.element-highlight {
+    background-color: $color-4;
 }

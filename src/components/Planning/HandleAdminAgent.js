@@ -10,6 +10,10 @@ function HandleAdminAgent() {
         // Gestion Sélection
     const [nameFilterValue, setNameFilterValue] = useState('')
     const [serviceFilterList, setServiceFilterList] = useState(['aucun'])
+    const [serviceHover, setServiceHover] = useState({
+        'userId' : '',
+        'serviceId' : ''
+    })
         // MAJ DOM
     const [feed, updateFeed] = useState(true)
 
@@ -115,13 +119,17 @@ function HandleAdminAgent() {
             <h2>Liste Agents:</h2>
         </div>
         {/* AFFICHAGE DES AGENTS */}
-        <div className='block-list'> 
+        <div 
+            className='block-list'
+            onMouseLeave={() => setServiceHover({})}
+        > 
             {listUsers
                 .filter(user => 
                     user.firstName.toLowerCase().includes(nameFilterValue.toLowerCase()) 
                     || user.lastName.toLowerCase().includes(nameFilterValue.toLowerCase()) 
                     || nameFilterValue === '')
                 .map((user) => (
+                <>
                 <div key={user.id} className='element-list'>
                 <div className='element-list element-cadre main-element'>
                     {user.firstName} {user.lastName}
@@ -132,15 +140,36 @@ function HandleAdminAgent() {
                     key={service.id} 
                     className={`element-cadre element-choix button-text ${
                         user.UserServices.some(userServices => userServices.ServiceId === service.id) ? 'button-active' : ''
+                    } ${
+                        serviceHover.serviceId === service.id 
+                        & serviceHover.userId === user.id ? 'element-highlight' : ''
                     }`}
                     onClick={() => handleAssociation(
                         user.id, 
                         'services', service.id,  
                         user.UserServices.some(userServices => userServices.ServiceId === service.id) ? 'DELETE' : 'POST')}
+                    onMouseEnter={() => setServiceHover({
+                        'userId' : user.id,
+                        'serviceId' : service.id
+                    })}
                 >{service.nom}
                 </div>
                 ))}
                 </div>
+                
+                
+                {serviceHover.userId === user.id
+                && <div className='element-list'>
+                    <div className='ico-list'><i className="fa-solid fa-circle-arrow-right"></i></div>
+                {configPlanning
+                    .filter(service => service.id === serviceHover.serviceId)
+                    .map((serviceInfo) => (
+                        serviceInfo.ServicePostes.map((servicePoste) => (
+                            <div className='element-cadre element-choix'>{servicePoste.Postes.nom}</div>
+                        ))
+                    ))}    
+                </div>}
+                </>
             ))}
         </div>
     </div>
