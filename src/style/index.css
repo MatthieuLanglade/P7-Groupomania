@@ -1571,6 +1571,7 @@ table td, table th {
   border-radius: 5px;
 }
 .element-cadre:hover {
+  background-color: rgba(0, 162, 156, 0.1);
   color: black;
   cursor: pointer;
 }
@@ -1610,6 +1611,8 @@ table td, table th {
 }
 .element-list .button-text:hover {
   cursor: pointer;
+  color: white;
+  background-color: rgba(57, 170, 222, 0.8);
 }
 .element-list .button-active {
   background-color: #39aade;
@@ -1681,6 +1684,10 @@ table td, table th {
   background-color: #39aade;
 }
 
+.element-sublist {
+  justify-content: right;
+}
+
 #mef-logo {
   width: 108px;
   height: 60px;
@@ -1696,13 +1703,17 @@ table td, table th {
   color: #FDC101;
 }
 
+.orange-sublist {
+  background-color: rgba(253, 193, 1, 0.2);
+}
+
 .element-highlight::after {
   content: "";
   width: 20px;
   height: 20px;
   background-color: #FDC101;
   border: 1px solid black;
-  border-radius: 50% 0% 0% 0%;
+  border-radius: 50% 30% 0% 30%;
   transform: rotate(45deg);
   position: relative;
   top: 20px;

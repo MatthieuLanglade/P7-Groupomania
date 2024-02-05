@@ -155,17 +155,16 @@ function HandleAdminAgent() {
                 >{service.nom}
                 </div>
                 ))}
+                {/* GESTION DES POSTES */}
                 </div>
-                
-                
                 {serviceHover.userId === user.id
-                && <div className='element-list'>
+                && <div className='element-list element-sublist'>
                     <div className='ico-list'><i className="fa-solid fa-circle-arrow-right"></i></div>
                 {configPlanning
                     .filter(service => service.id === serviceHover.serviceId)
                     .map((serviceInfo) => (
                         serviceInfo.ServicePostes.map((servicePoste) => (
-                            <div className='element-cadre element-choix'>{servicePoste.Postes.nom}</div>
+                            <div className='element-cadre element-choix button-text'>{servicePoste.Postes.nom}</div>
                         ))
                     ))}    
                 </div>}
