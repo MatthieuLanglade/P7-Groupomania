@@ -1287,15 +1287,6 @@ table {
         background-color: rgba($color-2, 1);
         z-index: 1;
         color: white;
-        &::after {
-            content: "";
-            width: 20px;
-            height: 20px;
-            background-color: red;
-            transform: rotate(45deg);
-            position: relative;
-            top: 20px;
-        }
     }
     // BOUTON DE CHOIX
     .button-choice {
@@ -1383,5 +1374,16 @@ table {
     color: $color-4;
 }
 .element-highlight {
-    background-color: $color-4;
+    // background-color: $color-4;
+    &::after {
+        content: "";
+        width: 20px;
+        height: 20px;
+        background-color: $color-4;
+        border: 1px solid black;
+        border-radius: 50% 0% 0% 0%;
+        transform: rotate(45deg);
+        position: relative;
+        top: 20px;
+    }
 }

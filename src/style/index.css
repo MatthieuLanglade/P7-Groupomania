@@ -1616,15 +1616,6 @@ table td, table th {
   z-index: 1;
   color: white;
 }
-.element-list .button-active::after {
-  content: "";
-  width: 20px;
-  height: 20px;
-  background-color: red;
-  transform: rotate(45deg);
-  position: relative;
-  top: 20px;
-}
 .element-list .button-choice {
   display: flex;
   justify-content: center;
@@ -1705,6 +1696,14 @@ table td, table th {
   color: #FDC101;
 }
 
-.element-highlight {
+.element-highlight::after {
+  content: "";
+  width: 20px;
+  height: 20px;
   background-color: #FDC101;
+  border: 1px solid black;
+  border-radius: 50% 0% 0% 0%;
+  transform: rotate(45deg);
+  position: relative;
+  top: 20px;
 }/*# sourceMappingURL=index.css.map */
