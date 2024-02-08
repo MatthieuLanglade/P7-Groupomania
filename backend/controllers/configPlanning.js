@@ -93,7 +93,8 @@ exports.getAllServices = (req, res, next) => {
                         as: 'Equipes',
                         attributes: ['id', 'nom']
                     }
-                }]
+                }
+            ]
             }
         })
     .then((services) => res.status(200).json({services}))

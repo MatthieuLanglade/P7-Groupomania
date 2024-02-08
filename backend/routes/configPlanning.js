@@ -96,7 +96,7 @@ router.delete(
 )
     /* UserServicePostes */
 router.post(
-    '/users/:UserId/servicepostes/:ServicePosteId',
+    '/userservices/:UserServiceId/servicepostes/:ServicePosteId',
     configPlanningCtrl.associateUserServicePoste
 )
 router.delete(
@@ -105,7 +105,7 @@ router.delete(
 )
     /* UserPosteEquipes */
 router.post(
-    '/users/:UserId/posteequipes/:PosteEquipeId',
+    '/userservicepostes/:UserServicePosteId/posteequipes/:PosteEquipeId',
     configPlanningCtrl.associateUserPosteEquipe
 )
 router.delete(

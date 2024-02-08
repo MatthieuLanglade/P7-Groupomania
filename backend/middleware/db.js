@@ -132,24 +132,24 @@ async function initialize() {
         as: 'ServicePostes',
         onDelete: 'CASCADE'})
     db.ServicePostes.hasMany(db.UserServicePostes, {as: 'UserServicePostes'})
-        // UserServicePostes -> User
-    db.UserServicePostes.belongsTo(db.User, {
-        foreignKey : {name: 'UserId', allowNull: false},
-        as: 'Users',
+        // UserServicePostes -> UserServices
+    db.UserServicePostes.belongsTo(db.UserServices, {
+        foreignKey : {name: 'UserServiceId', allowNull: false},
+        as: 'UserServices',
         onDelete: 'CASCADE'})
-    db.User.hasMany(db.UserServicePostes, {as: 'UserServicePostes'})
+    db.UserServices.hasMany(db.UserServicePostes, {as: 'UserServicePostes'})
         // UserPosteEquipes -> PosteEquipes
     db.UserPosteEquipes.belongsTo(db.PosteEquipes, {
         foreignKey : {name: 'PosteEquipeId', allowNull: false},
         as: 'PosteEquipes',
         onDelete: 'CASCADE'})
     db.PosteEquipes.hasMany(db.UserPosteEquipes, {as: 'UserPosteEquipes'})
-        // UserPosteEquipes -> User
-    db.UserPosteEquipes.belongsTo(db.User, {
-        foreignKey : {name: 'UserId', allowNull: false},
-        as: 'Users',
+        // UserPosteEquipes -> UserService
+    db.UserPosteEquipes.belongsTo(db.UserServicePostes, {
+        foreignKey : {name: 'UserServicePosteId', allowNull: false},
+        as: 'UserServicePostes',
         onDelete: 'CASCADE'})
-    db.User.hasMany(db.UserPosteEquipes, {as: 'UserPosteEquipes'})
+    db.UserServicePostes.hasMany(db.UserPosteEquipes, {as: 'UserPosteEquipes'})
 
 
     // Sync les modèles avec la DB

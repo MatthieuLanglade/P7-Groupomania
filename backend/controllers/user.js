@@ -60,8 +60,19 @@ exports.all = (req, res, next) => {
     db.User.findAll({include: {
         model: db.UserServices,
         as: 'UserServices',
-        attributes: ['id', 'ServiceId']
-    }})
+        attributes: ['id', 'ServiceId'],
+        include: {
+            model: db.UserServicePostes,
+            as: 'UserServicePostes',
+            attributes: ['id', 'ServicePosteId'],
+            include: {
+                model: db.UserPosteEquipes,
+                as: 'UserPosteEquipes',
+                attributes: ['id', 'PosteEquipeId']
+                }
+            }
+        }
+    })
         .then((user) => res.status(200).json(user))
         .catch(next)
 }

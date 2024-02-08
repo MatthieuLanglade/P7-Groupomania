@@ -21,8 +21,8 @@ function HandleAdminAgent() {
     useEffect(() => {
         fectchUsers()
         fetchServices()
-        // Liste Users
-        async function fectchUsers() {
+        // Liste Services
+        async function fetchServices() {
             try {
             const resp = await fetch(`http://localhost:4000/api/configPlanning/services/`)
             const respConfigPlanning = await resp.json() 
@@ -31,8 +31,8 @@ function HandleAdminAgent() {
             catch (err) {console.log(err)}
             finally {updateFeed(false)}
         }
-        // Liste Services
-        async function fetchServices() {
+        // Liste Users
+        async function fectchUsers() {
             try {
             const resp = await fetch(`http://localhost:4000/api/auth/all/`)
             const respListUsers = await resp.json() 
@@ -123,7 +123,7 @@ function HandleAdminAgent() {
             className='block-list'
             onMouseLeave={() => setServiceHover({})}
         > 
-            {listUsers
+         .   {listUsers
                 .filter(user => 
                     user.firstName.toLowerCase().includes(nameFilterValue.toLowerCase()) 
                     || user.lastName.toLowerCase().includes(nameFilterValue.toLowerCase()) 
@@ -131,9 +131,9 @@ function HandleAdminAgent() {
                 .map((user) => (
                 <>
                 <div key={user.id} className='element-list'>
-                <div className='element-list element-cadre main-element'>
-                    {user.firstName} {user.lastName}
-                </div>
+                    <div className='element-list element-cadre main-element'>
+                        {user.firstName} {user.lastName}
+                    </div>
                 {/* GESTION DES SERVICES */}
                 {configPlanning.map((service) => (
                 <div 
@@ -155,8 +155,9 @@ function HandleAdminAgent() {
                 >{service.nom}
                 </div>
                 ))}
-                {/* GESTION DES POSTES */}
                 </div>
+
+                {/* GESTION DES POSTES */}
                 {serviceHover.userId === user.id
                 && <div className='element-list element-sublist'>
                     <div className='ico-list'><i className="fa-solid fa-circle-arrow-right"></i></div>
@@ -164,7 +165,25 @@ function HandleAdminAgent() {
                     .filter(service => service.id === serviceHover.serviceId)
                     .map((serviceInfo) => (
                         serviceInfo.ServicePostes.map((servicePoste) => (
-                            <div className='element-cadre element-choix button-text'>{servicePoste.Postes.nom}</div>
+                            <div 
+                                className={`element-cadre element-choix button-text ${
+                                    // user.UserServices
+                                        // .filter(userServices => userServices.ServiceId === serviceInfo.id).UserServicePostes
+                                        // .some(userservicepostes => userservicepostes.ServisPosteId === servicePoste.id) 
+                                        // ? 'button-active' : ''
+                                        ''
+                                }`}
+                                onClick={() => handleAssociation(
+                                    user.id, 
+                                    'servicepostes', servicePoste.id,  
+                                    user.UserServicePostes.some(userServicePostes => userServicePostes.ServicePosteId === servicePoste.id) ? 'DELETE' : 'POST')}
+                            >{servicePoste.Postes.nom}
+                                        'Service' {serviceInfo.id}
+                                        'Serviceposte' {servicePoste.id}
+                                        'user' {user.id}
+                                        'test' {user.UserServices.filter(userServices => userServices.ServiceId === serviceInfo.id).ServiceId}
+                                        {/* 'test' {user.UserServices[0].id} */}
+                                        </div>
                         ))
                     ))}    
                 </div>}
