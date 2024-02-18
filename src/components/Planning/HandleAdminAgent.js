@@ -12,7 +12,10 @@ function HandleAdminAgent() {
     const [serviceFilterList, setServiceFilterList] = useState(['aucun'])
     const [serviceHover, setServiceHover] = useState({
         'userId' : '',
-        'serviceId' : ''
+        'serviceId' : '',
+        'posteId' : '',
+        'UserService' : [],
+        'UserPoste' : []
     })
         // MAJ DOM
     const [feed, updateFeed] = useState(true)
@@ -44,8 +47,9 @@ function HandleAdminAgent() {
     }, [feed])
 
     // Ajout/Suppression d'un service sur un user
-    const handleAssociation = (userId, typeClassement, serviceId, typeRequete) => {
+    async function handleAssociation(premierType, userId, secondType, serviceId, typeRequete){
         // Options Fetch
+        const fetchAdress = `http://localhost:4000/api/configPlanning/${premierType}/${userId}/${secondType}/${serviceId}`
         const requestOptions = {
             method: typeRequete,
             headers: {
@@ -53,16 +57,28 @@ function HandleAdminAgent() {
                 'Authorization': `token ${token}`
             }
         }
-        fetch(`http://localhost:4000/api/configPlanning/users/${userId}/${typeClassement}/${serviceId}`, requestOptions)
+        fetch(fetchAdress, requestOptions)
             .then((res) => res.json())
             .finally(() => {
                 updateFeed(true)
             })
             .catch((err) => err) 
     }
+
+    // Tester si le service est Actif 
+    const filteredUserByService = (user, service) => {
+        return user.UserServices.filter((user) => user.ServiceId === service)
+    }
+    // Tester si le poste est Actif
+    const filteredUserByPoste = (user, service, poste) => {
+        let result = []
+        if (filteredUserByService(user, service.id).length > 0){
+             result = filteredUserByService(user, service.id)[0].UserServicePostes
+            .filter(UserServicePostes => UserServicePostes.ServicePosteId === poste.id)} 
+        return result}
     return (
     <div id='config-planning'>
-        {console.log({configPlanning}, listUsers)}
+        {/* {console.log({configPlanning}, listUsers)} */}
         <div className='block-titre'>
             <h2>Filtrer la liste:</h2>
         </div>
@@ -123,15 +139,15 @@ function HandleAdminAgent() {
             className='block-list'
             onMouseLeave={() => setServiceHover({})}
         > 
-         .   {listUsers
+           {listUsers
                 .filter(user => 
                     user.firstName.toLowerCase().includes(nameFilterValue.toLowerCase()) 
                     || user.lastName.toLowerCase().includes(nameFilterValue.toLowerCase()) 
                     || nameFilterValue === '')
                 .map((user) => (
                 <>
-                <div key={user.id} className='element-list'>
-                    <div className='element-list element-cadre main-element'>
+                <div key={user.id} className={`element-list `}>
+                    <div className={`element-list element-cadre main-element ${serviceHover.userId === user.id ? 'user-highlight' : ''}`}>
                         {user.firstName} {user.lastName}
                     </div>
                 {/* GESTION DES SERVICES */}
@@ -139,18 +155,19 @@ function HandleAdminAgent() {
                 <div 
                     key={service.id} 
                     className={`element-cadre element-choix button-text ${
-                        user.UserServices.some(userServices => userServices.ServiceId === service.id) ? 'button-active' : ''
+                        filteredUserByService(user, service.id).length > 0 ? 'button-active' : ''
                     } ${
                         serviceHover.serviceId === service.id 
                         & serviceHover.userId === user.id ? 'element-highlight' : ''
                     }`}
                     onClick={() => handleAssociation(
-                        user.id, 
+                        'users', user.id, 
                         'services', service.id,  
-                        user.UserServices.some(userServices => userServices.ServiceId === service.id) ? 'DELETE' : 'POST')}
+                        filteredUserByService(user, serviceHover.serviceId).length > 0 ? 'DELETE' : 'POST')}
                     onMouseEnter={() => setServiceHover({
                         'userId' : user.id,
-                        'serviceId' : service.id
+                        'serviceId' : service.id,
+                        'UserService' : filteredUserByService(user, service.id)
                     })}
                 >{service.nom}
                 </div>
@@ -158,31 +175,31 @@ function HandleAdminAgent() {
                 </div>
 
                 {/* GESTION DES POSTES */}
-                {serviceHover.userId === user.id
+                {serviceHover.userId === user.id && serviceHover.UserService.length > 0
                 && <div className='element-list element-sublist'>
                     <div className='ico-list'><i className="fa-solid fa-circle-arrow-right"></i></div>
                 {configPlanning
                     .filter(service => service.id === serviceHover.serviceId)
-                    .map((serviceInfo) => (
-                        serviceInfo.ServicePostes.map((servicePoste) => (
+                    .map((service) => (
+                        service.ServicePostes.map((servicePoste) => (
                             <div 
                                 className={`element-cadre element-choix button-text ${
-                                    // user.UserServices
-                                        // .filter(userServices => userServices.ServiceId === serviceInfo.id).UserServicePostes
-                                        // .some(userservicepostes => userservicepostes.ServisPosteId === servicePoste.id) 
-                                        // ? 'button-active' : ''
-                                        ''
+                                    filteredUserByPoste(user, service, servicePoste).length > 0 ? 'button-active' : ''
+                                } ${
+                                    serviceHover.posteId === servicePoste.id 
+                                    & serviceHover.userId === user.id ? 'element-highlight' : ''
                                 }`}
-                                onClick={() => handleAssociation(
-                                    user.id, 
+                                onClick={() => {
+                                    handleAssociation(
+                                    'userservices', serviceHover.UserService[0].id, 
                                     'servicepostes', servicePoste.id,  
-                                    user.UserServicePostes.some(userServicePostes => userServicePostes.ServicePosteId === servicePoste.id) ? 'DELETE' : 'POST')}
+                                    serviceHover.UserPoste.length > 0 ? 'DELETE' : 'POST')}}
+                                onMouseEnter={() => setServiceHover({
+                                    ...serviceHover,
+                                    'posteId' : servicePoste.id,
+                                    'UserPoste' : filteredUserByPoste(user, service, servicePoste)
+                                })}
                             >{servicePoste.Postes.nom}
-                                        'Service' {serviceInfo.id}
-                                        'Serviceposte' {servicePoste.id}
-                                        'user' {user.id}
-                                        'test' {user.UserServices.filter(userServices => userServices.ServiceId === serviceInfo.id).ServiceId}
-                                        {/* 'test' {user.UserServices[0].id} */}
                                         </div>
                         ))
                     ))}    

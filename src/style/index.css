@@ -1598,6 +1598,10 @@ table td, table th {
   gap: 10px;
   padding: 10px;
 }
+.element-list select {
+  width: auto;
+  flex-grow: 1;
+}
 .element-list input {
   flex-grow: 1;
   font-size: 1.2em;
@@ -1645,6 +1649,7 @@ table td, table th {
   width: 40px;
   height: 40px;
   border-radius: 5px;
+  color: white;
 }
 .element-list .button-choice:hover {
   cursor: pointer;
@@ -1705,8 +1710,17 @@ table td, table th {
 
 .element-sublist {
   justify-content: right;
+  animation: sublist-pop 1s;
 }
 
+@keyframes sublist-pop {
+  from {
+    max-height: 0px;
+  }
+  to {
+    max-height: 500px;
+  }
+}
 #mef-logo {
   width: 108px;
   height: 60px;
@@ -1720,6 +1734,10 @@ table td, table th {
 .ico-list {
   font-size: 30px;
   color: #FDC101;
+}
+
+.user-highlight {
+  background-color: rgba(57, 170, 222, 0.2);
 }
 
 .orange-sublist {

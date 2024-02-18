@@ -184,7 +184,7 @@ exports.updateEquipe = (req, res, next) => {
     
     /* 5. Associations USER-SERVICE-POSTE-EQUIPE */
     /* 5.1 Associations */
- exports.associatePoste = (req, res, next) => {associateElement(req, res, next, db.ServicePostes)}
+exports.associatePoste = (req, res, next) => {associateElement(req, res, next, db.ServicePostes)}
 exports.associateEquipe = (req, res, next) => {associateElement(req, res, next, db.PosteEquipes)}
 exports.associateUserService = (req, res, next) => {associateElement(req, res, next, db.UserServices)}
 exports.associateUserServicePoste = (req, res, next) => {associateElement(req, res, next, db.UserServicePostes)}
