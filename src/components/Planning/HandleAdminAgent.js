@@ -69,16 +69,25 @@ function HandleAdminAgent() {
     const filteredUserByService = (user, service) => {
         return user.UserServices.filter((user) => user.ServiceId === service)
     }
-    // Tester si le poste est Actif
+    // Tester si le Poste est Actif
     const filteredUserByPoste = (user, service, poste) => {
         let result = []
-        if (filteredUserByService(user, service.id).length > 0){
-             result = filteredUserByService(user, service.id)[0].UserServicePostes
-            .filter(UserServicePostes => UserServicePostes.ServicePosteId === poste.id)} 
+        if (filteredUserByService(user, service).length > 0){
+             result = filteredUserByService(user, service)[0].UserServicePostes
+            .filter(UserServicePostes => UserServicePostes.ServicePosteId === poste)} 
         return result}
+    // Tester si l'Equipe est Active
+    const filteredUserByEquipe = (user, service, poste, equipe) => {
+        let result = []
+        if (filteredUserByPoste(user, service, poste).length > 0){
+            result = filteredUserByPoste(user, service, poste)[0].UserPosteEquipes
+            .filter(UserPosteEquipes => UserPosteEquipes.PosteEquipeId === equipe)
+        }
+        return result
+    }
     return (
     <div id='config-planning'>
-        {/* {console.log({configPlanning}, listUsers)} */}
+        {console.log({configPlanning}, listUsers)}
         <div className='block-titre'>
             <h2>Filtrer la liste:</h2>
         </div>
@@ -167,7 +176,9 @@ function HandleAdminAgent() {
                     onMouseEnter={() => setServiceHover({
                         'userId' : user.id,
                         'serviceId' : service.id,
-                        'UserService' : filteredUserByService(user, service.id)
+                        'UserService' : filteredUserByService(user, service.id),
+                        'UserPoste' : [],
+                        'equipeId' : []
                     })}
                 >{service.nom}
                 </div>
@@ -182,28 +193,61 @@ function HandleAdminAgent() {
                     .filter(service => service.id === serviceHover.serviceId)
                     .map((service) => (
                         service.ServicePostes.map((servicePoste) => (
-                            <div 
-                                className={`element-cadre element-choix button-text ${
-                                    filteredUserByPoste(user, service, servicePoste).length > 0 ? 'button-active' : ''
-                                } ${
-                                    serviceHover.posteId === servicePoste.id 
-                                    & serviceHover.userId === user.id ? 'element-highlight' : ''
-                                }`}
-                                onClick={() => {
-                                    handleAssociation(
-                                    'userservices', serviceHover.UserService[0].id, 
-                                    'servicepostes', servicePoste.id,  
-                                    serviceHover.UserPoste.length > 0 ? 'DELETE' : 'POST')}}
-                                onMouseEnter={() => setServiceHover({
-                                    ...serviceHover,
-                                    'posteId' : servicePoste.id,
-                                    'UserPoste' : filteredUserByPoste(user, service, servicePoste)
-                                })}
-                            >{servicePoste.Postes.nom}
-                                        </div>
+                        <>
+                        <div 
+                            className={`element-cadre element-choix button-text ${
+                                filteredUserByPoste(user, service.id, servicePoste.id).length > 0 ? 'button-active' : ''
+                            } ${
+                                serviceHover.posteId === servicePoste.id 
+                                & serviceHover.userId === user.id ? 'element-highlight' : ''
+                            }`}
+                            onClick={() => {
+                                handleAssociation(
+                                'userservices', serviceHover.UserService[0].id, 
+                                'servicepostes', servicePoste.id,  
+                                serviceHover.UserPoste.length > 0 ? 'DELETE' : 'POST')}}
+                            onMouseEnter={() => setServiceHover({
+                                ...serviceHover,
+                                'posteId' : servicePoste.id,
+                                'UserPoste' : filteredUserByPoste(user, service.id, servicePoste.id)
+                            })}
+                        >{servicePoste.Postes.nom}
+                        </div>
+                        </>
                         ))
                     ))}    
                 </div>}
+                {/* GESTION DES EQUIPES */}
+                {serviceHover.userId === user.id && serviceHover.UserPoste.length > 0
+                && <div className='element-list element-sublist'>
+                    <div className='ico-list'><i className="fa-solid fa-circle-arrow-right"></i></div>
+                {configPlanning
+                    .filter(service => service.id === serviceHover.serviceId)
+                    .map(service => service.ServicePostes
+                        .filter(poste => poste.id === serviceHover.posteId)
+                        .map(poste => poste.PosteEquipes
+                            .map(equipe => (
+                            <div 
+                                key={equipe.Equipes.id}
+                                className={`element-cadre element-choix button-text ${
+                                    filteredUserByEquipe(user, service.id, poste.id, equipe.id).length > 0 ? 'button-active' : ''
+                                }`}
+                                onClick={() => {
+                                    handleAssociation(
+                                    'userservicepostes', serviceHover.UserPoste[0].id, 
+                                    'posteequipes', equipe.id,  
+                                    serviceHover.UserEquipe.length > 0 ? 'DELETE' : 'POST')}}
+                                onMouseEnter={() => setServiceHover({
+                                    ...serviceHover,
+                                    'equipeId' : equipe.id,
+                                    'UserEquipe' : filteredUserByEquipe(user, serviceHover.serviceId, serviceHover.posteId, equipe.id)
+                                })}
+                            >{equipe.Equipes.nom}</div>
+                            ))
+                        )
+                    )
+                }
+                </div>} 
                 </>
             ))}
         </div>

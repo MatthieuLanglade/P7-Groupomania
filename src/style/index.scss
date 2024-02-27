@@ -982,12 +982,20 @@
     flex-direction: column;
     gap: 20px;
 }
-#selection {
+.selection {
     display: flex;
     padding: 10px;
     justify-content: space-between;
     gap: 10px;
     flex-direction: row;
+    .validation-selection {
+        font-size: 35px;
+        color: $color-4;
+        &:hover {
+            cursor: pointer;
+            color: rgba($color-4, 0.7);
+        }
+    }
 }
 #filtre-planning {
     padding: 10px;
@@ -1279,20 +1287,6 @@ table {
     .grey-input {
         background-color: lighten($color-3, 50%);
     }
-    // Element sélectionné pour Sub-Element
-    .element-highlight {
-        &::after {
-            content: "";
-            position: absolute;
-            left: calc(50% - 10px);
-            top: 102%;
-            width: 0;
-            height: 0;
-            border-left: 10px solid transparent;
-            border-right: 10px solid transparent;
-            border-top: 20px solid $color-4;
-        }
-    }
     // BOUTON TEXTE
     .button-text {
         position: relative;
@@ -1310,6 +1304,20 @@ table {
             cursor: pointer;
             color: white;
             background-color: rgba($color-2, 0.6);
+        }
+        // Element sélectionné pour Sub-Element
+        &.element-highlight {
+            &::after {
+                content: "";
+                position: absolute;
+                left: calc(50% - 10px);
+                top: 102%;
+                width: 0;
+                height: 0;
+                border-left: 10px solid transparent;
+                border-right: 10px solid transparent;
+                border-top: 20px solid $color-4;
+            }
         }
     }
     // BOUTON DE CHOIX

@@ -109,7 +109,7 @@ router.post(
     configPlanningCtrl.associateUserPosteEquipe
 )
 router.delete(
-    '/users/:UserId/posteequipes/:PosteEquipeId',
+    '/userservicepostes/:UserServicePosteId/posteequipes/:PosteEquipeId',
     configPlanningCtrl.unassociateUserPosteEquipe
 )
 

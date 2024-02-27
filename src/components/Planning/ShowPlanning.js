@@ -7,7 +7,7 @@ function ShowPlanning() {
     const [moisValue, setMoisValue] = useState('')
     const [monthValue, setMonthValue] = useState('')
         // Choix du SELECT 
-    const [serviceValue, setServiceValue] = useState('')
+    const [serviceValue, setServiceValue] = useState(0)
     const [posteValue, setPosteValue] = useState('')
     const [equipeValue, setEquipeValue] = useState('')
         // Affichage
@@ -16,14 +16,14 @@ function ShowPlanning() {
     const [showHeuresSup, setShowHeuresSup] = useState(false)
         // Données 
     const [servicesList, setServicesList] = useState([]) // Données Services + Association
-    const [equipesList, setEquipeList] = useState([]) // Données Equipes
+    const [userList, setUserList] = useState([]) // Données Users
         // MAJ DOM
     const [feed, updateFeed] = useState(true)
 
     // UseEffect 
     useEffect(() => {
         fetchConfigPlanning()
-        fetchEquipes()
+        fetchUsers()
         // Récupération des Services Avec Associations
         async function fetchConfigPlanning() {
             try {
@@ -34,12 +34,12 @@ function ShowPlanning() {
             catch (err) {console.log(err)}
             finally {updateFeed(false)}
         } 
-        // Récupération des Equipes
-        async function fetchEquipes() {
+        // Récupération des Users
+        async function fetchUsers() {
             try {
-                const resp = await fetch(`http://localhost:4000/api/configPlanning/equipes/`)
-                const respEquipes = await resp.json() 
-                setEquipeList(respEquipes.equipes)
+                const resp = await fetch(`http://localhost:4000/api/auth/all/`)
+                const respUser = await resp.json() 
+                setUserList(respUser)
             } 
             catch (err) {console.log(err)}
             finally {updateFeed(false)}
@@ -166,24 +166,12 @@ function ShowPlanning() {
 
 return (
 <div id='choice-planning'>
+    {console.log('USERS', userList,'SERVICES', servicesList)}
+{/* CHOIX DE PLANNING */}
 <div className='block-titre'>
-    <h3>Sélection du Planning</h3>
-    <div id='selection'>
-        {/* CHOIX ANNEE */}
-        <select id='annee' onChange={(e) => setAnneeValue(e.target.value)}>
-            <option selected value=''>-- Sélectionner une Année --</option>
-            {annee.map((annee, index) => (
-            <option key={index} value={annee}>{annee}</option>
-            ))}
-        </select>
-        {/* CHOIX MOIS */}
-        <select id='mois'value={moisValue} onChange={(e) => (
-                setMoisValue(e.target.value),
-                setMonthValue(correspondance[e.target.value]))}>
-            <option selected value=''>-- Sélectionner un Mois --</option>
-            {Object.keys(correspondance).map((mois, index) => (
-            <option key={index} value={mois} >{mois}</option>))}
-        </select>
+    <h3>Sélection de l'équipe</h3>
+    {/* CHOIX DE SERVICE-POSTE-EQUIPE */}
+    <div className='selection'>
         {/* CHOIX SERVICE */}
         <select id='services' onChange={(e) => {setEquipeValue('');setPosteValue('');setServiceValue(e.target.value)}}>
             <option selected value=''>-- Sélectionner un Service --</option>
@@ -209,7 +197,30 @@ return (
                 <option key={equipe.id} value={equipe.id}>{equipe.Equipes.nom}</option>))
             : ''}
         </select>
+        {/* VALIDER LA SELECTION */}
+        <div className='validation-selection'><i className="fa-solid fa-square-check"></i></div>
     </div>
+    <h3>Sélection de la période</h3>
+    {/* CHOIX DE PERIODE */}
+    <div className='selection'>
+        {/* CHOIX ANNEE */}
+        <select id='annee' onChange={(e) => setAnneeValue(e.target.value)}>
+            <option selected value=''>-- Sélectionner une Année --</option>
+            {annee.map((annee, index) => (
+            <option key={index} value={annee}>{annee}</option>
+            ))}
+        </select>
+        {/* CHOIX MOIS */}
+        <select id='mois'value={moisValue} onChange={(e) => (
+                setMoisValue(e.target.value),
+                setMonthValue(correspondance[e.target.value]))}>
+            <option selected value=''>-- Sélectionner un Mois --</option>
+            {Object.keys(correspondance).map((mois, index) => (
+            <option key={index} value={mois} >{mois}</option>))}
+        </select>
+    </div>
+    <h3>Affiner Affichage</h3>
+    {/* FILTRES D'AFFICHAGE */}
     <div id='filtre-planning' className='gardes'>
         <input class="tgl tgl-skewed" id="cb3" type="checkbox" checked={showGardes} onChange={() => setShowGardes(!showGardes)}/>
         <label class="tgl-btn" data-tg-off="Gardes" data-tg-on="Gardes" for="cb3"></label>
@@ -219,6 +230,7 @@ return (
         <label class="tgl-btn" data-tg-off="Heures sup" data-tg-on="Heures sup" for="cb4"></label>
     </div>
 </div>
+{/* AFFICHAGE DU PLANNING */}
 <div className='block-list'>
     <h3>Planning</h3>
     <div className='mois-planning'>
@@ -235,7 +247,8 @@ return (
                 </tr>
             </thead>
             <tbody>
-                {agents.map((agent) => (
+                {agents
+                .map((agent) => (
                     <>
                     {/* Affichage des Gardes */
                     showGardes && 
@@ -276,6 +289,7 @@ return (
         </table>
     </div>
 </div>
+{/* AFFICHAGE LEGENDE */}
 <div className='block-list'>
         <h3>Légendes</h3>
         <div id='legende'>
@@ -311,6 +325,7 @@ return (
 
         {/* <button>Valider planning</button> */}
 </div>
+{/* AFFICHAGE STATISTIQUES */}
 <div className='block-list'>
     <h3>Statistiques</h3>
     <div id='statistiques'>

@@ -64,6 +64,16 @@ _/!\ Le token d'identification est réglé pour durer 24h, votre session sera ac
 
 ## Versions 
 
+### v1.2.2 - Associations User-Service-Poste-Equipe
+* Backend oppérationnel
+* Frontend oppérationnel 
+    * Affichage des associations
+    * Affichage en cascade
+    * Associer/Dissocier sur clic 
+    * Disscociation en cascade
+* Filtres d'affichage 
+* Integration des utilisateurs sur la page de planning
+
 ### v1.2.1 - Gestion Administration des agents
 * Rajout d'une partie Administration pour le rôle admin.
 * En logique avec le planning, gestion/création des :
