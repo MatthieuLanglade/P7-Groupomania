@@ -146,7 +146,7 @@ function HandleAdminAgent() {
         {/* AFFICHAGE DES AGENTS */}
         <div 
             className='block-list'
-            onMouseLeave={() => setServiceHover({})}
+            // onMouseLeave={() => setServiceHover({})}
         > 
            {listUsers
                 .filter(user => 
@@ -172,14 +172,17 @@ function HandleAdminAgent() {
                     onClick={() => handleAssociation(
                         'users', user.id, 
                         'services', service.id,  
-                        filteredUserByService(user, serviceHover.serviceId).length > 0 ? 'DELETE' : 'POST')}
-                    onMouseEnter={() => setServiceHover({
+                        filteredUserByService(user, service.serviceId).length > 0 ? 'DELETE' : 'POST')}
+                    onMouseEnter={() => filteredUserByService(user, service.id).length > 0 
+                        ? setServiceHover({
                         'userId' : user.id,
                         'serviceId' : service.id,
                         'UserService' : filteredUserByService(user, service.id),
                         'UserPoste' : [],
                         'equipeId' : []
-                    })}
+                        })
+                        : ''
+                    }
                 >{service.nom}
                 </div>
                 ))}
@@ -206,11 +209,14 @@ function HandleAdminAgent() {
                                 'userservices', serviceHover.UserService[0].id, 
                                 'servicepostes', servicePoste.id,  
                                 serviceHover.UserPoste.length > 0 ? 'DELETE' : 'POST')}}
-                            onMouseEnter={() => setServiceHover({
+                            onMouseEnter={() => filteredUserByPoste(user, service.id, servicePoste.id).length > 0 
+                                ? setServiceHover({
                                 ...serviceHover,
                                 'posteId' : servicePoste.id,
                                 'UserPoste' : filteredUserByPoste(user, service.id, servicePoste.id)
-                            })}
+                                })
+                                : ''
+                            }
                         >{servicePoste.Postes.nom}
                         </div>
                         </>

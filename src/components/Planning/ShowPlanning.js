@@ -16,14 +16,15 @@ function ShowPlanning() {
     const [showHeuresSup, setShowHeuresSup] = useState(false)
         // Données 
     const [servicesList, setServicesList] = useState([]) // Données Services + Association
-    const [userList, setUserList] = useState([]) // Données Users
+    const [agentsList, setAgentsList] = useState([]) // Données Users
+    const [workSchedule, setWorkSchedule] = useState([]) // Données WorkSchedule
         // MAJ DOM
     const [feed, updateFeed] = useState(true)
 
     // UseEffect 
     useEffect(() => {
         fetchConfigPlanning()
-        fetchUsers()
+        fetchWorkSchedule()
         // Récupération des Services Avec Associations
         async function fetchConfigPlanning() {
             try {
@@ -33,40 +34,72 @@ function ShowPlanning() {
             } 
             catch (err) {console.log(err)}
             finally {updateFeed(false)}
-        } 
-        // Récupération des Users
-        async function fetchUsers() {
-            try {
-                const resp = await fetch(`http://localhost:4000/api/auth/all/`)
-                const respUser = await resp.json() 
-                setUserList(respUser)
-            } 
-            catch (err) {console.log(err)}
-            finally {updateFeed(false)}
-            console.log({servicesList})
-        } 
-    },[updateFeed])
-    // Corespondance Dates 
-    const correspondance = {
-        "Janvier" : 0,
-        "Février" : 1,
-        "Mars" : 2,
-        "Avril" : 3,
-        "Mai" : 4,
-        "Juin" : 5,
-        "Juillet" : 6,
-        "Août" : 7,
-        "Septembre" : 8,
-        "Octobre" : 9,
-        "Novembre" : 10,
-        "Décembre" : 11
+        }
+        // Récupération du WorkSchedule
+        async function fetchWorkSchedule() {
+            if (equipeValue && anneeValue && monthValue) {
+                try {
+                    const resp =  await fetch(`http://localhost:4000/api/planning/${equipeValue}/${anneeValue}/${monthValue}`)
+                    const respWorkSchedule = await resp.json()
+                    setWorkSchedule(respWorkSchedule)
+                }
+                catch (err) {console.log(err)}
+                finally {updateFeed(false)}
+            }
+        }
+    },[feed, anneeValue, moisValue])
+    // Fetch Agents 
+    async function fetchAgents(posteEquipeId) {
+        try {
+            const resp = await fetch(`http://localhost:4000/api/planning/users/${posteEquipeId}`)
+            const respUser = await resp.json() 
+            setAgentsList(respUser) 
+        }
+        catch(err) {console.log(err)}
+        finally {updateFeed(true)}
+    }
+    // Gérer création de WorkSchedule
+    async function handleWorkScheduleCreate(userId, equipeId, jour, mois, annee) {
+        // Format Date
+        const dateTravail = new Date(annee, mois-1, jour)
+        // Options Fetch
+        const fetchAdress = `http://localhost:4000/api/planning`
+        const body = {
+            "UserId": userId,
+            "PosteEquipeId": equipeId,
+            "DateTravail": dateTravail
+        }
+        const requestOptions = {
+            method: 'POST',
+            body: JSON.stringify(body),
+            headers: {'Content-Type' : 'application/json'}
+        }
+        // Fetch
+        fetch(fetchAdress, requestOptions)
+            .then((res) => res.json())
+            .finally(() => {updateFeed(true)})
+            .catch((err) => err)
     }
 
     // Formules sur Date
-    const premierDuMois = new Date(anneeValue, monthValue, 1)
-    const dernierDuMois = new Date(anneeValue, monthValue + 1, 0)
+    // Corespondance Dates 
+    const correspondance = {
+        "Janvier" : 1,
+        "Février" : 2,
+        "Mars" : 3,
+        "Avril" : 4,
+        "Mai" : 5,
+        "Juin" : 6,
+        "Juillet" : 7,
+        "Août" : 8,
+        "Septembre" : 9,
+        "Octobre" : 10,
+        "Novembre" : 11,
+        "Décembre" : 12
+    }
+    // const premierDuMois = new Date(anneeValue, monthValue, 1)
+    const dernierDuMois = new Date(anneeValue, monthValue, 0)
     const nombreDeJour = dernierDuMois.getUTCDate()
-
     // Fonction Jours Feriés 
     function JoursFeries (an){
         // Possiblement à gérer dans les paramètres, activer/désactiver selon sa région
@@ -97,10 +130,9 @@ function ShowPlanning() {
         
         return new Array(JourAn, Paques, LundiPaques, FeteTravail, Victoire1945, Ascension, Pentecote, LundiPentecote, FeteNationale, Assomption, Toussaint, Armistice, Noel)
     }
-
     // Fonction de Renvoi de classe pour type de jour (Sat/Sun/Fer)
     const numeroJour = (jour) => {
-        const dateJour = new Date(anneeValue, monthValue, jour)
+        const dateJour = new Date(anneeValue, monthValue-1, jour)
         const dateDay = dateJour.getDay()
         // Verifie si férié
         const estFerie = JoursFeries(anneeValue).find(
@@ -118,55 +150,13 @@ function ShowPlanning() {
             }
         }
     }
-
+    // Constantes 
     const annee = [2019,2020,2021,2022,2023,2024,2025]
-    const testStockage = {
-        "Agent 1" : {
-            "Annee": 2023,
-            "Mois": 1,
-            "Jour": 1,
-            "Gardes":true,
-            "HS":0
-        }
-    }
-    const agents = [
-        {
-            id: 1,
-            nom: "Langlade",
-            prénom: "Matthieu"
-        },
-        {
-            id: 2, 
-            nom: "Hydro",
-            prénom: "Flaubert"
-        },
-        {
-            id: 3, 
-            nom: "Mosk",
-            prénom: "Franck"
-        },
-        {
-            id: 4, 
-            nom: "Mosk",
-            prénom: "Franck"
-        },
-        {
-            id: 5, 
-            nom: "Mosk",
-            prénom: "Franck"
-        },
-        {
-            id: 6, 
-            nom: "Mosk",
-            prénom: "Franck"
-        },
-    ]
-    const jours = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31]
-
+    const jours = [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30]
 
 return (
 <div id='choice-planning'>
-    {console.log('USERS', userList,'SERVICES', servicesList)}
+    {console.log(workSchedule)}
 {/* CHOIX DE PLANNING */}
 <div className='block-titre'>
     <h3>Sélection de l'équipe</h3>
@@ -174,14 +164,14 @@ return (
     <div className='selection'>
         {/* CHOIX SERVICE */}
         <select id='services' onChange={(e) => {setEquipeValue('');setPosteValue('');setServiceValue(e.target.value)}}>
-            <option selected value=''>-- Sélectionner un Service --</option>
+            <option value=''>-- Sélectionner un Service --</option>
             {servicesList.map((service) => (
             <option key={service.id} value={service.id}>{service.nom}</option>
             ))}
         </select>
         {/* CHOIX POSTE */}
         <select id='postes' onChange={(e) => {setEquipeValue('');setPosteValue(e.target.value)}}>
-            <option selected value=''>-- Sélectionner un Poste --</option>
+            <option value=''>-- Sélectionner un Poste --</option>
             {serviceValue 
             ? servicesList.filter(f => f.id == serviceValue)[0].ServicePostes.map((poste) =>
             <option key={poste.id} value={poste.id}>{poste.Postes.nom}</option>)
@@ -189,7 +179,7 @@ return (
         </select>
         {/* CHOIX EQUIPE */}
         <select id='equipe'onChange={(e) => setEquipeValue(e.target.value)}>
-            <option selected value=''>-- Sélectionner une Equipe --</option>
+            <option value=''>-- Sélectionner une Equipe --</option>
             {posteValue 
             ? servicesList
                 .filter(f => f.id == serviceValue)[0].ServicePostes
@@ -198,14 +188,17 @@ return (
             : ''}
         </select>
         {/* VALIDER LA SELECTION */}
-        <div className='validation-selection'><i className="fa-solid fa-square-check"></i></div>
+        <div 
+            className='validation-selection'
+            onClick={() => fetchAgents(equipeValue)}    
+        ><i className="fa-solid fa-square-check"></i></div>
     </div>
     <h3>Sélection de la période</h3>
     {/* CHOIX DE PERIODE */}
     <div className='selection'>
         {/* CHOIX ANNEE */}
         <select id='annee' onChange={(e) => setAnneeValue(e.target.value)}>
-            <option selected value=''>-- Sélectionner une Année --</option>
+            <option value=''>-- Sélectionner une Année --</option>
             {annee.map((annee, index) => (
             <option key={index} value={annee}>{annee}</option>
             ))}
@@ -214,7 +207,7 @@ return (
         <select id='mois'value={moisValue} onChange={(e) => (
                 setMoisValue(e.target.value),
                 setMonthValue(correspondance[e.target.value]))}>
-            <option selected value=''>-- Sélectionner un Mois --</option>
+            <option value=''>-- Sélectionner un Mois --</option>
             {Object.keys(correspondance).map((mois, index) => (
             <option key={index} value={mois} >{mois}</option>))}
         </select>
@@ -222,12 +215,12 @@ return (
     <h3>Affiner Affichage</h3>
     {/* FILTRES D'AFFICHAGE */}
     <div id='filtre-planning' className='gardes'>
-        <input class="tgl tgl-skewed" id="cb3" type="checkbox" checked={showGardes} onChange={() => setShowGardes(!showGardes)}/>
-        <label class="tgl-btn" data-tg-off="Gardes" data-tg-on="Gardes" for="cb3"></label>
-        <input class="tgl tgl-skewed" id="cb5" type="checkbox" checked={showCongesDemandes} onChange={() => setShowCongesDemandes(!showCongesDemandes)}/>
-        <label class="tgl-btn" data-tg-off="Congés demandés" data-tg-on="Congés demandés" for="cb5"></label>
-        <input class="tgl tgl-skewed" id="cb4" type="checkbox" hecked={showHeuresSup} onChange={() => setShowHeuresSup(!showHeuresSup)}/>
-        <label class="tgl-btn" data-tg-off="Heures sup" data-tg-on="Heures sup" for="cb4"></label>
+        <input className="tgl tgl-skewed" id="cb3" type="checkbox" checked={showGardes} onChange={() => setShowGardes(!showGardes)}/>
+        <label className="tgl-btn" data-tg-off="Gardes" data-tg-on="Gardes" htmlFor="cb3"></label>
+        <input className="tgl tgl-skewed" id="cb5" type="checkbox" checked={showCongesDemandes} onChange={() => setShowCongesDemandes(!showCongesDemandes)}/>
+        <label className="tgl-btn" data-tg-off="Congés demandés" data-tg-on="Congés demandés" htmlFor="cb5"></label>
+        <input className="tgl tgl-skewed" id="cb4" type="checkbox" checked={showHeuresSup} onChange={() => setShowHeuresSup(!showHeuresSup)}/>
+        <label className="tgl-btn" data-tg-off="Heures sup" data-tg-on="Heures sup" htmlFor="cb4"></label>
     </div>
 </div>
 {/* AFFICHAGE DU PLANNING */}
@@ -242,24 +235,42 @@ return (
                     {jours
                         .slice(0, nombreDeJour + 1)
                         .map((jour) => (
-                        <th key={jour} className={numeroJour(jour)}>{jour}</th>
+                        <th key={jour} className={numeroJour(jour)}>{jour+1}</th>
                     )) }
                 </tr>
             </thead>
             <tbody>
-                {agents
+                {agentsList
                 .map((agent) => (
                     <>
                     {/* Affichage des Gardes */
                     showGardes && 
                     <tr className='nom-agent' key={agent.id}>
-                        <td rowSpan={showGardes + showCongesDemandes + showHeuresSup}>{agent.prénom +" "+ agent.nom}</td> 
+                        <td rowSpan={showGardes + showCongesDemandes + showHeuresSup}>{agent.firstName +" "+ agent.lastName}</td> 
                         <td>Garde</td>
                         {jours
-                            .slice(0, nombreDeJour + 1)
-                            .map((jour) => (
-                                <td key={jour} className={`table-a-cocher ${numeroJour(jour)}`}>
-                            </td>))}
+                        .slice(0, nombreDeJour + 1)
+                        .map((jour) => (
+                            <td 
+                                key={jour} 
+                                className={
+                                    `table-a-cocher ${numeroJour(jour)} 
+                                    ${
+                                        workSchedule.length > 0 &&
+                                        workSchedule
+                                            .filter(wSch => {
+                                                const date = new Date(wSch.DateTravail) 
+                                                return date.getDate() === jour})
+                                            .filter(wSch => wSch.UserId === agent.id)
+                                            .length > 0 ? 'leg-Gar' : ''
+                                    }`}
+                                onClick={() => handleWorkScheduleCreate(agent.id, equipeValue, jour+1, monthValue, anneeValue)}
+                            >
+                                {
+                                }
+                            </td>
+                        ))
+                        }
                     </tr>}
 
                     {/* Affichage des Congés */
@@ -294,6 +305,7 @@ return (
         <h3>Légendes</h3>
         <div id='legende'>
         <table>
+            <tbody>
             <tr>
                 <td className='leg-Sat legende'></td>
                 <td>Samedi</td>
@@ -306,8 +318,10 @@ return (
                 <td className='leg-Fer legende'></td>
                 <td>Férié</td>
             </tr>
+            </tbody>
         </table>
         <table>
+            <tbody>
             <tr>
                 <td className='leg-Gar legende'></td>
                 <td>Garde validée</td>
@@ -320,6 +334,7 @@ return (
                 <td className='leg-CoM legende'></td>
                 <td>Congé maladie</td>
             </tr>
+            </tbody>
         </table>
         </div>
 
@@ -346,9 +361,9 @@ return (
                 </tr>
             </thead>
             <tbody>
-                {agents.map((agent) => (
+                {agentsList.map((agent) => (
                     <tr key={agent.id}>
-                        <td>{agent.prénom +" "+ agent.nom}</td>
+                        <td>{agent.firstName +" "+ agent.lastName}</td>
                         {/* AFFICHAGE STATISTIQUES */}
                     </tr>
                 ))}

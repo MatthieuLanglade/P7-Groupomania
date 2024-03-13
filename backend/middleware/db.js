@@ -31,6 +31,7 @@ async function initialize() {
     db.UserServices = require('../models/ConfigPlanning/userServices')(sequelize);
     db.UserServicePostes = require('../models/ConfigPlanning/userServicePostes')(sequelize);
     db.UserPosteEquipes = require('../models/ConfigPlanning/userPosteEquipes')(sequelize);
+    db.WorkSchedule = require('../models/ConfigPlanning/workShedule')(sequelize);
     
     // Création  des relations 
     /* 1. Posts */
@@ -151,7 +152,21 @@ async function initialize() {
         onDelete: 'CASCADE'})
     db.UserServicePostes.hasMany(db.UserPosteEquipes, {as: 'UserPosteEquipes'})
 
-
+    /* 5. WorkSchedule */
+        // WorkSchedule -> User
+    db.WorkSchedule.belongsTo(db.User, {
+        foreignKey: {name: 'UserId', allowNull: false},
+        as: 'User',
+        onDelete: 'CASCADE'
+    })
+    db.User.hasMany(db.WorkSchedule, {as: 'WorkSchedule'})
+        // WorkSchedule -> PosteEquipe
+    db.WorkSchedule.belongsTo(db.PosteEquipes, {
+        foreignKey: {name: 'PosteEquipeId', allowNull: false},
+        as: 'PosteEquipes',
+        onDelete: 'CASCADE'
+    })
+    db.PosteEquipes.hasMany(db.WorkSchedule, {as: 'WorkShedule'})
     // Sync les modèles avec la DB
     // await sequelize.sync({ force: true });
     await sequelize.sync({ alter: true });

@@ -1395,15 +1395,19 @@ table {
 }
 .element-sublist {
     justify-content: right;
-    animation: sublist-pop 1s;
+    animation: sublist-pop 0.5s ease forwards;
 }
 @keyframes sublist-pop {
-    from { 
-        // opacity: 0;
+    0% { 
+        transform: scaleY(0);
         max-height: 0px;
     }
-    to {
-        // opacity: 1;
+    50% {
+        transform: scaleY(0.1);
+        max-height: 10%;
+    }
+    100% {
+        transform: scaleY(1);
         max-height: 500px;
     }
 }

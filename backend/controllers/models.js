@@ -98,7 +98,7 @@ modelsCtrl.validateElement = (req, res, next) => {
 });
 validateRequest(req, next, schema);}
 
-/* 4. Gestion du Planning */ 
+/* 4. Configuration du Planning */ 
     /* Planning - Création des Services */
     modelsCtrl.servicesCreate = (req, res, next) => {
         const schema = Joi.object({
@@ -122,7 +122,16 @@ validateRequest(req, next, schema);}
 
     /* Planning - Gestion infos Agent */
 
-
+/* 5. Gestion du planning */
+    /* Création WorkSchedule */ 
+modelsCtrl.workScheduleCreate = (req, res, next) => {
+    const schema = Joi.object({
+        UserId: Joi.number().required(),
+        PosteEquipeId: Joi.number().required(),
+        DateTravail: Joi.date().required(),
+    });
+    validateRequest(req, next, schema);
+}
 /* Fonction: Validation du controlleur */
 function validateRequest(req, next, schema) {
     const options = { 

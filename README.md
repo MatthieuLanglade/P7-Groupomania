@@ -73,6 +73,7 @@ _/!\ Le token d'identification est réglé pour durer 24h, votre session sera ac
     * Disscociation en cascade
 * Filtres d'affichage 
 * Integration des utilisateurs sur la page de planning
+* Ajout des fonctions WorkSchedule pour stocker le planning + intégration sur le planning. 
 
 ### v1.2.1 - Gestion Administration des agents
 * Rajout d'une partie Administration pour le rôle admin.
